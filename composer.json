@@ -4,7 +4,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Dhruv125\\Ownwork\\": "src/"
+            "Dhruv125\\Ownwork\\": "src/",
+            "App\\": "app/"
         }
     },
     "scripts": {

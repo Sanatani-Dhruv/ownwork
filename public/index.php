@@ -1,14 +1,21 @@
 <?php 
 
-use App\Helper\Environment;
-
 require __DIR__ . '/../vendor/autoload.php';
+
+use App\Helper\Environment;
+use App\Router\Route;
 
 Environment::setenv();
 
 $host = getenv('DB_NAME');//returns: localhost
-echo $host;
+// echo "Hello World";
 
-// print_r($_SERVER);
+Route::get("/", "index.php");
+
 
 ?>
+<pre>
+<?php
+// print_r($_SERVER);
+?>
+</pre>

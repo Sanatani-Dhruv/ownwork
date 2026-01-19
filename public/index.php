@@ -7,7 +7,6 @@ try {
 	require __DIR__ . '/../vendor/autoload.php';
 
 	Environment::setenv();
-	$host = getenv('DB_NAME');//returns: localhost
 
 	// Bundler class bundles your application with routes and other neccesary things
 	$bundle = new Bundler();

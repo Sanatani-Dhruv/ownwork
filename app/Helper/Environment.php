@@ -14,8 +14,8 @@ class Environment {
     $lines = explode("\n",$env);
 
     foreach($lines as $line){
-      preg_match("/([^#]+)\=(.*)/",$line,$matches);
-      if(isset($matches[2])){ putenv(trim($line)); }
+      // echo preg_match("/([^#]+)\=(.*)/",$line,$matches);
+      if(preg_match("/([^#]+)\=(.*)/",$line,$matches)){ putenv(trim($line)); }
     } 
   }
 

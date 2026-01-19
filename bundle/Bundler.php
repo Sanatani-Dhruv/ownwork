@@ -3,6 +3,6 @@ namespace Bundle;
 
 class Bundler {
 	function __construct() {
-		require(__DIR__ . "/route.php");
+		require(__DIR__ . "/Routes.php");
 	}
 }

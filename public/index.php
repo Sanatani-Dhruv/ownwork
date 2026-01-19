@@ -12,6 +12,9 @@ try {
 	// echo "Hello World";
 
 	Route::get("/", "main.php");
+
+	Route::get("/welcome", "welcome.php");
+
 	Route::end();
 } catch (Exception $err) {
 	echo "<pre>$err</pre>";

@@ -16,7 +16,7 @@ class Route {
 
 	public static function get(string $uri, string $view_name) {
 		global $uris;
-		$uris[$view_name] = $uri;
+		$uris[$uri] = $view_name;
 		if ($_SERVER["REQUEST_URI"] == $uri){
 			$file_name = __DIR__ . "/../Views/" . "$view_name";
 			// echo $file_name;
@@ -52,15 +52,20 @@ class Route {
 
 	public static function end() {
 		// echo "hi";
-		echo "<pre>";
-		print_r($GLOBALS['uris']);
-		echo "</pre>";
-		echo (isset($GLOBALS['uris']))? "True\n" : "False\n";
+		// echo "<pre>";
+		// print_r($GLOBALS['uris']);
+		// echo "</pre>";
+		// echo (isset($GLOBALS['uris']))? "True\n" : "False\n";
+		$route_set = false;
 		for ($i = 0; $i < count($GLOBALS["uris"]); $i++) {
 			// echo "hi";
-			if ($_SERVER["REQUEST_URI"] == $GLOBALS['uris'][$i]) {
-				$route_set = false;
+			if (isset($GLOBALS["uris"][$_SERVER["REQUEST_URI"]])) {
+				$route_set = true;
 			}
+		}
+
+		if (!$route_set) {
+			echo "Error: 404 Not Found";
 		}
 	}
 }

@@ -32,20 +32,11 @@ class Route {
 				require($file_name);
 				fclose($file);
 			} else {
-?>
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"/>
-		<title>View Not Found</title>
-	</head>
-	<body style="background-color: lightgreen;">
-		<h2 style="color: crimson; ">
-			View with name <code>`<?=htmlspecialchars($view_name)?>`</code> not Found.
-		</h2>
-	</body>
-</html>
-<?php
+				if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {
+					require(__DIR__ . "/../Helper/Views/view-notfound-error.php");
+				} else {
+					echo "<h1>View with name <code>`$view_name`</code> not Found.<h1>";
+				}
 			}
 		}
 	} 
@@ -65,8 +56,8 @@ class Route {
 		}
 
 		if (!$route_set) {
-			if (file_exists(__DIR__ . "/../Helper/Views/error.php")) {
-				include(__DIR__ . "/../Helper/Views/error.php");
+			if (file_exists(__DIR__ . "/../Helper/Views/general-notfound-error.php")) {
+				include(__DIR__ . "/../Helper/Views/general-notfound-error.php");
 			} else {
 				http_response_code(404);
 				echo " <h2><code>Error: 404 Not Found</code></h2> ";

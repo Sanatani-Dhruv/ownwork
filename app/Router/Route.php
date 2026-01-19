@@ -65,7 +65,12 @@ class Route {
 		}
 
 		if (!$route_set) {
-			echo "Error: 404 Not Found";
+			if (file_exists(__DIR__ . "/../Helper/Views/error.php")) {
+				include(__DIR__ . "/../Helper/Views/error.php");
+			} else {
+				http_response_code(404);
+				echo " <h2><code>Error: 404 Not Found</code></h2> ";
+			}
 		}
 	}
 }

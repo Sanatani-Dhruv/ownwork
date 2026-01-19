@@ -9,7 +9,6 @@ try {
 	Environment::setenv();
 
 	$host = getenv('DB_NAME');//returns: localhost
-	// echo "Hello World";
 
 	Route::get("/", "main.php");
 

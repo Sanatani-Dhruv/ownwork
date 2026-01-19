@@ -47,8 +47,9 @@
 git clone https://github.com/Sanatani-Dhruv/ownwork.git
 ```
 
-2. Run composer setup command.
+2. cd to `ownwork` directory and Run `composer setup` command.
 ```bash
+cd ownwork/
 composer run setup
 ```
 

@@ -1,27 +1,16 @@
 <?php 
 
 use App\Helper\Environment;
-use App\Router\Route;
+use Bundle\Bundler;
 
 try {
 	require __DIR__ . '/../vendor/autoload.php';
 
 	Environment::setenv();
-
 	$host = getenv('DB_NAME');//returns: localhost
 
-	Route::get("/", "main.php");
-
-	Route::get("/welcome", "welcome.php");
-
-	Route::end();
+	// Bundler class bundles your application with routes and other neccesary things
+	$bundle = new Bundler();
 } catch (Exception $err) {
 	echo "<pre>$err</pre>";
 }
-
-?>
-<pre>
-<?php
-// print_r($_SERVER);
-?>
-</pre>

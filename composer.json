@@ -5,6 +5,7 @@
     "autoload": {
         "psr-4": {
             "Dhruv125\\Ownwork\\": "src/",
+            "Bundle\\": "bundle/",
             "App\\": "app/"
         }
     },

@@ -14,10 +14,12 @@ include(__DIR__ . "/styles/index.css");
   </head>
   <body>
     <h1>
-      404 Not Found
+      <code> 404 Not Found </code>
     </h1>
-    <h3>
-      <a href="/">Home Page</a>
-    </h3>
+    <h2>
+      <code>
+        <a href="/">Home Page</a>
+      </code>
+    </h2>
   </body>
 </html>

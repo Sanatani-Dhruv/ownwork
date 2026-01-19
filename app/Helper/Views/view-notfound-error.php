@@ -10,17 +10,21 @@
     <title>View Not Found</title>
     <style>
 <?php
-  include(__DIR__ . "/styles/index.css");
+include(__DIR__ . "/styles/index.css");
 ?>
     </style>
   </head>
   <body>
     <h1>
-      View with name <code>`<?=htmlspecialchars($view_name)?>`</code> not Found.
+      <code>
+        View with name `<?=htmlspecialchars($view_name)?>` not Found.
+      </code>
     </h1>
-    <h3>
-      <a href="/">Home Page</a>
-    </h3>
+    <h2>
+      <code>
+        <a href="/">Home Page</a>
+      </code>
+    </h2>
   </body>
 </html>
 

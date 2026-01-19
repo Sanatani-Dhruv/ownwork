@@ -21,7 +21,6 @@ class Route {
 			$file_exist_status = (file_exists($file_name)) ? 1 : 0;
 			if ($file_exist_status) {
 				require($file_name);
-				fclose($file);
 			} else {
 				if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {
 					require(__DIR__ . "/../Helper/Views/view-notfound-error.php");

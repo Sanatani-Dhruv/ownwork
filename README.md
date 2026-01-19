@@ -37,7 +37,6 @@
 │   └── styles
 │       └── index.css
 ├── README.md
-├── src
 └── vendor
 
 ```

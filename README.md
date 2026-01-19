@@ -1,6 +1,6 @@
 # OwnWork - Minimal framework for an MVC Project
 
-- Don't go into major dependencies rabbit hole!.
+- Don't go into major dependencies rabbit hole.
 - Build your MVC app with PHP.
 - Simple Routing.
 - Easier View Creation.

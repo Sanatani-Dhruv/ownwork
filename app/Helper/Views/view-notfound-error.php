@@ -17,7 +17,7 @@ include(__DIR__ . "/styles/index.css");
   <body>
     <h1>
       <code>
-        View with name `<?=htmlspecialchars($view_name)?>` not Found.
+        View with name `<?=htmlspecialchars($viewName_methodCall)?>` not Found.
       </code>
     </h1>
     <h2>

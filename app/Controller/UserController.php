@@ -11,4 +11,8 @@ class UserController {
 	public function showDetail() {
 		echo "Hi";
 	}
+
+	public function welcome() {
+		require(__DIR__ . "/../../app/Views/welcome.php");
+	}
 }

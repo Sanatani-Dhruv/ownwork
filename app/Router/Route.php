@@ -19,7 +19,7 @@ class Route {
 		// echo "<pre>";
 		// print_r($uris);
 		// echo "</pre>";
-		if ($_SERVER["REQUEST_URI"] == $uri && $_SERVER["REQUEST_METHOD"] == 'GET') {
+		if ($_SERVER["REQUEST_URI"] == $uri && strtoupper($_SERVER["REQUEST_METHOD"]) == 'GET') {
 			if (is_string($viewName_methodCall)) {
 				$file_name = __DIR__ . "/../Views/" . "$viewName_methodCall";
 				// echo $file_name;
@@ -47,7 +47,11 @@ class Route {
 					$arrayObject = new ($arrayClass);
 					// print_r($arrayObject);
 					// echo $arrayMethod;
-					$arrayObject->showDetail();
+					try {
+						$arrayObject->{$arrayMethod}();
+					} catch (Exception $err) {
+						echo $err;
+					}
 					// print_r($arrayObject->$arrayMethod);
 					$isAssociative = array_values($viewName_methodCall[2]) !== $viewName_methodCall[2];
 

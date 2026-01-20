@@ -16,9 +16,9 @@ class Route {
 	public static function get(string $uri, $viewName_methodCall) {
 		global $uris;
 		$uris[$uri] = $viewName_methodCall;
-		echo "<pre>";
+		// echo "<pre>";
 		// print_r($uris);
-		echo "</pre>";
+		// echo "</pre>";
 		if ($_SERVER["REQUEST_URI"] == $uri && $_SERVER["REQUEST_METHOD"] == 'GET') {
 			if (is_string($viewName_methodCall)) {
 				$file_name = __DIR__ . "/../Views/" . "$viewName_methodCall";
@@ -42,6 +42,13 @@ class Route {
 					// echo "First is string<br>";
 					// echo "Second is string<br>";
 					// echo "Third is Array<br>";
+					$arrayClass = $viewName_methodCall[0];
+					$arrayMethod = $viewName_methodCall[1];
+					$arrayObject = new ($arrayClass);
+					// print_r($arrayObject);
+					// echo $arrayMethod;
+					$arrayObject->showDetail();
+					// print_r($arrayObject->$arrayMethod);
 					$isAssociative = array_values($viewName_methodCall[2]) !== $viewName_methodCall[2];
 
 

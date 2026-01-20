@@ -7,9 +7,9 @@ use App\Controller\UserController;
 Route::get("/", "main.php");
 
 Route::get("/gameAlonegame", [
-	UserController::class, "userDetail", [
+	UserController::class, "showDetail()", [
 		"name" => "Hi",
-		"id" => 12
+		"id" => 11
 	]
 ]);
 

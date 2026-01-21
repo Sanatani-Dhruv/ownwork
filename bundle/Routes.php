@@ -4,20 +4,22 @@ namespace Bundle;
 use App\Router\Route;
 use App\Controller\UserController;
 
-Route::get("/", "main.php");
+$route = new Route();
 
-Route::get("/game/Alone/game", [
+$route->get("/", "main.php");
+
+$route->get("/game/Alone/game", [
 	UserController::class, "showDetail", [
 		"name" => "Hi",
 		"id" => 11
 	]
 ]);
 
-Route::get("/welcome", [
+$route->get("/welcome", [
 	UserController::class, "welcome", [
 		"name" => "Hi",
 		"id" => 11
 	]
 ]);
 
-Route::end();
+$route->end();

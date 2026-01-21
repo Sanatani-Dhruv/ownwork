@@ -3,6 +3,7 @@
 $uri = "/name/{user}/about";
 $actual_uri = "/name/deadster/about";
 echo "\nURL: $uri\n";
+echo "Actual URL: $actual_uri\n";
 
 $num_of_curly_start = substr_count($uri, '{');
 $num_of_curly_end = substr_count($uri, '}');
@@ -11,12 +12,10 @@ echo "\nNumber of }: " . $num_of_curly_end;
 
 
 echo "\n";
-echo "\n";
 // echo preg_replace('/\/home\/\{[a-z 0-9A-z]{0,60}\}\/about/', 'ho', $actual_uri);
-preg_match('/\/name\/\{[a-z 0-9A-z]{0,60}\}\/about/', $actual_uri, $output_array);
-print_r($output_array);
-echo "\n";
-
+// preg_match('/\/name\/\{[a-z 0-9A-z]{0,60}\}\/about/', $actual_uri, $output_array);
+// print_r($output_array);
+// echo "\n";
 
 if ($num_of_curly_start == $num_of_curly_end && $num_of_curly_start != 0) {
 	$cursor = 0;
@@ -27,10 +26,10 @@ if ($num_of_curly_start == $num_of_curly_end && $num_of_curly_start != 0) {
 		echo "Start of Word: $pos_of_start \n";
 		$pos_of_end = strpos($uri, '}', $pos_of_start);
 		echo "End of Word: $pos_of_end ";
-		preg_match('/\/name\/\{[a-z 0-9A-z]{0,60}\}\/about/', $actual_uri, $output_array);
+		// preg_match('/\/name\/\{[a-z 0-9A-z]{0,60}\}\/about/', $actual_uri, $output_array);
 		echo "\n";
-		echo "\n";
-		print_r($output_array);
+		// echo "\n";
+		// print_r($output_array);
 		$var = substr($uri, $pos_of_start, $pos_of_end - $pos_of_start + 1);
 		echo "\nExtracted: $var";
 		$cursor += $pos_of_end - $cursor;

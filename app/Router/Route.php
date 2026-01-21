@@ -1,25 +1,22 @@
 <?php
 namespace App\Router;
 
-require __DIR__ . "/../../vendor/autoload.php";
-
 class Route {
 	public $uri;
 	public $method;
 	public $file;
 	static $uris;
 
-	function __construct($uris = array()) {
-		$this->uris = $uris;
+	function __construct() {
+		if (!isset($_SERVER["PATH_INFO"])) {
+			$_SERVER["PATH_INFO"] = "/";
+		}
 	}
 
-	public static function get(string $uri, $viewName_methodCall) {
+	public function get(string $uri, $viewName_methodCall) {
 		global $uris;
 		$uris[$uri] = $viewName_methodCall;
-		// echo "<pre>";
-		// print_r($uris);
-		// echo "</pre>";
-		if ($_SERVER["REQUEST_URI"] == $uri && strtoupper($_SERVER["REQUEST_METHOD"]) == 'GET') {
+		if ($_SERVER["PATH_INFO"] == $uri && strtoupper($_SERVER["REQUEST_METHOD"]) == 'GET') {
 			// If String is passed, it should be viewname, so view will be rendered
 			if (is_string($viewName_methodCall)) {
 				$file_name = __DIR__ . "/../Views/" . "$viewName_methodCall";
@@ -50,6 +47,7 @@ class Route {
 					// print_r($arrayObject);
 					// echo $arrayMethod;
 					try {
+						extract($viewName_methodCall[2]);
 						$arrayObject->{$arrayMethod}();
 					} catch (Exception $err) {
 						echo $err;
@@ -102,7 +100,7 @@ class Route {
 	public static function end() {
 		$route_set = false;
 		for ($i = 0; $i < count($GLOBALS["uris"]); $i++) {
-			if (isset($GLOBALS["uris"][$_SERVER["REQUEST_URI"]])) {
+			if (isset($GLOBALS["uris"][$_SERVER["PATH_INFO"]])) {
 				$route_set = true;
 			}
 		}

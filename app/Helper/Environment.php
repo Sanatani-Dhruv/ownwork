@@ -15,7 +15,12 @@ class Environment {
 
     foreach($lines as $line){
       // echo preg_match("/([^#]+)\=(.*)/",$line,$matches);
-      if(preg_match("/([^#]+)\=(.*)/",$line,$matches)){ putenv(trim($line)); }
+      if(preg_match("/([^#]+)\=(.*)/", $line, $matches)) {
+        // echo $line;
+        $remove[] = '"';
+        $remove[] = "'";
+        putenv(trim($line));
+      }
     } 
   }
 

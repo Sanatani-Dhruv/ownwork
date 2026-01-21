@@ -1,16 +1,14 @@
 <?php 
 
-use App\Helper\Environment;
 use Bundle\Bundler;
 
 try {
-	require __DIR__ . '/../vendor/autoload.php';
+	require __DIR__ . "/../bundle/Bundler.php";
 
-	Environment::setenv();
 
 	// Bundler class bundles your application with routes and other neccesary things
-	// $bundle = new Bundler();
-	Bundler::bundle();
+	$app = new Bundler();
+	$app->bundle(); // Starting our app
 } catch (Exception $err) {
 	echo "<pre>$err</pre>";
 }

@@ -2,10 +2,12 @@
 namespace App\Controller;
 
 use App\Router\Route;
+use App\Viewer\View;
 
 class UserController {
+	private $view;
 	function __construct() {
-		//
+		$this->view = new View();
 	}
 
 	public function showDetail() {
@@ -27,6 +29,6 @@ Message from <?=UserController::class?> method showDetail()
 	}
 
 	public function welcome() {
-		require(__DIR__ . "/../../app/Views/welcome.php");
+		View::instantView('welcome.php');
 	}
 }

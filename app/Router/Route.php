@@ -19,7 +19,7 @@ class Route {
 		if ($_SERVER["PATH_INFO"] == $uri && strtoupper($_SERVER["REQUEST_METHOD"]) == 'GET') {
 			// If String is passed, it should be viewname, so view will be rendered
 			if (is_string($viewName_methodCall)) {
-				$file_name = __DIR__ . "/../Views/" . "$viewName_methodCall";
+				$file_name = __DIR__ . "/../Viewer/Pages/" . "$viewName_methodCall";
 				// echo $file_name;
 				$file_exist_status = (file_exists($file_name)) ? 1 : 0;
 				if ($file_exist_status) {

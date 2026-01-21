@@ -38,6 +38,14 @@ if ($num_of_curly_start == $num_of_curly_end && $num_of_curly_start != 0) {
 } else {
 	echo "Route not properly defined, Matching { not found";
 }
-echo "<pre>";
-print_r($_SERVER);
-echo "</pre>";
+// echo "<pre>";
+// print_r($_SERVER);
+// echo "</pre>";
+
+try {
+	throw new Exception("Error Occured!", 120);
+} 
+catch (Exception $err) {
+	echo "\n\n";
+	echo $err;
+}

@@ -7,10 +7,10 @@ class Bundler {
 	function __construct() {
 		// require(__DIR__ . "/Routes.php");
 		require __DIR__ . '/../vendor/autoload.php';
+		Environment::setenv();
 	}
 
 	public function bundle() {
 		require(__DIR__ . "/Routes.php");
-		Environment::setenv();
 	}
 }

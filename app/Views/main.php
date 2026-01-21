@@ -11,5 +11,6 @@
 		<p>
 			<?=htmlspecialchars("This is PHP Message")?>
 		</p>
+		<p><a href="/welcome">Welcome Page</a></p>
 	</body>
 </html>

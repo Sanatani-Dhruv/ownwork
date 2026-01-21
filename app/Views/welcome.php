@@ -6,5 +6,6 @@
 	</head>
 	<body>
 		<h2>Welcome Page</h2>
+		<p><a href="/">Home Page</a></p>
 	</body>
 </html>

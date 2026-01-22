@@ -8,7 +8,7 @@ class View {
 	private $viewLocation;
 
 	function __construct() {
-		$this->viewLocation = __DIR__ . "/../Viewer/Pages/";
+		$this->viewLocation = __DIR__ . "/../../resources/views/";
 	}
 
 	public function view($viewName) {
@@ -26,7 +26,7 @@ class View {
 
 
 	public static function instantView($viewName) {
-		$viewLocation = __DIR__ . "/../Viewer/Pages/";
+		$viewLocation = __DIR__ . "/../../resources/views/";
 		if (file_exists($viewLocation . $viewName)) {
 			require($viewLocation . $viewName);
 		} else {

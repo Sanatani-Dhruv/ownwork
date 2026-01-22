@@ -29,6 +29,10 @@ Message from <?=UserController::class?> method showDetail()
 	}
 
 	public function welcome() {
-		View::instantView('welcome.php');
+		$name = "Dhruv";
+		View::instantView('welcome.php', [
+			'name' => $name
+		]);
+		// $this->view->view('welcome.php');
 	}
 }

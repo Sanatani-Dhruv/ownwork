@@ -17,7 +17,7 @@ $route->get("/game/Alone/game", [
 
 $route->get("/welcome", [
 	UserController::class, "welcome", [
-		"name" => "Hi",
+		"name" => "Dhruv",
 		"id" => 11
 	]
 ]);

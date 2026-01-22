@@ -5,7 +5,7 @@
 		<title><?=htmlspecialchars(getenv("APP_NAME") . " App")?></title>
 	</head>
 	<body>
-		<h2>Welcome Page</h2>
+	<h2>Welcome <?=(isset($name) ? ($name): '')?>!</h2>
 		<p><a href="/">Home Page</a></p>
 	</body>
 </html>

@@ -8,26 +8,21 @@ class View {
 	private $viewLocation;
 
 	function __construct() {
-		$this->viewLocation = __DIR__ . "/../../resources/views/";
+		//
 	}
 
-	public function view($viewName) {
-		if (file_exists($this->viewLocation . $viewName)) {
-			require($this->viewLocation . $viewName);
-		} else {
-			if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {
-				$viewName_methodCall = $viewName;
-				require(__DIR__ . "/../Helper/Views/view-notfound-error.php");
-			} else {
-				echo "<pre>View Not Found</pre>";
-			}
-		}
+	public function view($viewName, array $keyValue = []) {
+		$this::instantView($viewName, $keyValue);
 	}
 
 
-	public static function instantView($viewName) {
+	public static function instantView($viewName, array $keyValue = []) {
 		$viewLocation = __DIR__ . "/../../resources/views/";
+
 		if (file_exists($viewLocation . $viewName)) {
+			if (count($keyValue)) {
+				extract($keyValue);
+			}
 			require($viewLocation . $viewName);
 		} else {
 			if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {

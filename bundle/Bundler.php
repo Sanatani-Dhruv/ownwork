@@ -11,6 +11,10 @@ class Bundler {
 	}
 
 	public function bundle() {
-		require(__DIR__ . "/Routes.php");
+		try {
+			require(__DIR__ . "/Routes.php");
+		} catch (Exception $err) {
+			echo $err;
+		}
 	}
 }

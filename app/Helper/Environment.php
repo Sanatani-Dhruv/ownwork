@@ -8,6 +8,9 @@ class Environment {
   # Path Compared to this directory
 
   public static function setenv() {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
 
     $filepath = __DIR__ . '/../../.env';
     $env = file_get_contents($filepath);

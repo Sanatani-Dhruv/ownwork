@@ -1,8 +1,8 @@
 # OwnWork - Minimal framework for an MVC Project
+---
 
-
-![Last Commit](https://flat.badgen.net/github/last-commit/Sanatani-Dhruv/ownwork)
 ![Commits](https://flat.badgen.net/github/commits/Sanatani-Dhruv/ownwork)
+![Last Commit](https://flat.badgen.net/github/last-commit/Sanatani-Dhruv/ownwork)
 
 - Don't go into major dependencies rabbit hole.
 - Build your MVC app with PHP.

@@ -21,3 +21,5 @@ $route->get("/welcome", [
 		"id" => 11
 	]
 ]);
+
+$route->end();

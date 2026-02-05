@@ -20,7 +20,6 @@ class Route {
 	public function get(string $uri, $viewName_methodCall) {
 		global $uris;
 		$uris[$uri] = $viewName_methodCall;
-<<<<<<< HEAD
 		$this->viewName_methodCall = $viewName_methodCall;
 	} 
 
@@ -74,7 +73,6 @@ class Route {
 	} else {
 
 	}
-=======
 		if ($_SERVER["PATH_INFO"] == $uri && strtoupper($_SERVER["REQUEST_METHOD"]) == 'GET') {
 			// If String is passed, it should be viewname, so view will be rendered
 			if (is_string($viewName_methodCall)) {
@@ -157,7 +155,6 @@ class Route {
 
 
 	public static function end() {
->>>>>>> parent of 644502f (Now end method of route is called by deconstructor of Route, means end)
 		$route_set = false;
 		for ($i = 0; $i < count($GLOBALS["uris"]); $i++) {
 			if (isset($GLOBALS["uris"][$_SERVER["PATH_INFO"]])) {

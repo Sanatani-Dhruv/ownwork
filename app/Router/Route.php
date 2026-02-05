@@ -34,10 +34,10 @@ class Route {
 
 
 	public function end() {
-		echo "<pre>";
+		// echo "<pre>";
 		// print_r($_SERVER);
 		// print_r(self::$requests);
-		echo "</pre>";
+		// echo "</pre>";
 
 		foreach(self::$requests as $request_uri => $action) {
 			// echo $request_uri . "<br>";
@@ -74,12 +74,12 @@ class Route {
 	public function __destruct() {
 		if (!self::$hasMatch) {
 			// echo "No Match Found";
-			http_response_code(404);
 			if (file_exists(__DIR__ . "/../Helper/Views/general-notfound-error.php")) {
 				include(__DIR__ . "/../Helper/Views/general-notfound-error.php");
 			} else {
 				echo "404 Not Found";
 			}
+			http_response_code(404);
 		}
 	}
 }

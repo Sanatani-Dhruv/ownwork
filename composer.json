@@ -14,7 +14,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "start": [
-            "cd public/ && php -S localhost:8000 && cd ../"
+            "php --server=localhost:8000 --docroot=public"
         ]
     },
     "authors": [

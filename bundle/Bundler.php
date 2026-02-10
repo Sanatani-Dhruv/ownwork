@@ -7,6 +7,7 @@ class Bundler {
 	function __construct() {
 		// require(__DIR__ . "/Routes.php");
 		require __DIR__ . '/../vendor/autoload.php';
+		require __DIR__ . '/HelperFunction.php';
 		Environment::setenv();
 	}
 

@@ -51,7 +51,7 @@ class Route {
 					// print_r($actionObject);
 					// echo "</pre>";
 
-					// Handle $action array's second element - Method Name
+					// Handle $action array's second & third element - Method Name & Method Args
 					$actionMethod = $action[1];
 					$actionArgsArray = $action[2];
 					// extract($actionArgsArray);

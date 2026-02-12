@@ -39,7 +39,7 @@ class Route {
 
 		foreach(self::$requests as $request_uri => $action) {
 			// echo $request_uri . "<br>";
-			$forThisRequest = ($request_uri == $_SERVER['REQUEST_URI']) ? true : false;
+			$forThisRequest = ($request_uri == $_SERVER['PATH_INFO']) ? true : false;
 			if ($forThisRequest) {
 				if (is_array($action)) {
 					// print_r($action);
@@ -76,7 +76,7 @@ class Route {
 		}
 
 		foreach (self::$requests as $request_uri => $action) {
-			if ($request_uri == $_SERVER['REQUEST_URI']) {
+			if ($request_uri == $_SERVER['PATH_INFO']) {
 				self::$hasMatch = true;
 			}
 		}

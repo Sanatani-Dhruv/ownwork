@@ -10,7 +10,7 @@ class UserController {
 		$this->view = new View();
 	}
 
-	public function showDetail() {
+	public function showDetail($name, $id) {
 ?>
 <!DOCTYPE html>
 <html lang="en">

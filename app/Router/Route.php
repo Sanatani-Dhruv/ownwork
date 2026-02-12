@@ -16,7 +16,6 @@ class Route {
 		if (!isset($_SERVER["PATH_INFO"])) {
 			$_SERVER["PATH_INFO"] = "/";
 		}
-
 		$this->displayedView = 0;
 	}
 
@@ -32,7 +31,6 @@ class Route {
 		}
 	}
 
-
 	public function end() {
 		// echo "<pre>";
 		// print_r($_SERVER);
@@ -41,12 +39,25 @@ class Route {
 
 		foreach(self::$requests as $request_uri => $action) {
 			// echo $request_uri . "<br>";
-
 			$forThisRequest = ($request_uri == $_SERVER['REQUEST_URI']) ? true : false;
-
 			if ($forThisRequest) {
 				if (is_array($action)) {
-					print_r($action);
+					// print_r($action);
+
+					// Handle $action array's first element - Class Name
+					$actionClass = $action[0];
+					$actionObject = new $action[0];
+					// echo "<pre>";
+					// print_r($actionObject);
+					// echo "</pre>";
+
+					// Handle $action array's second element - Method Name
+					$actionMethod = $action[1];
+					$actionArgsArray = $action[2];
+					// extract($actionArgsArray);
+					// echo $actionMethod;
+					$actionObject->{$actionMethod}(...$actionArgsArray);
+
 				} elseif (is_string($action)) {
 					// echo $action;
 					if (file_exists(self::$viewDirectory . $action)) {

@@ -5,5 +5,5 @@ function out($data) {
 }
 
 function view($string) {
-  return __DIR__ . "/../resources/views/$string";
+  require __DIR__ . "/../resources/views/$string";
 }

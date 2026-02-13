@@ -1,6 +1,11 @@
 #!/usr/bin/env php
 <?php
 
+require __DIR__ . "/app/Helper/ConsoleHelper.php";
+use App\Helper\ConsoleHelper;
+
+$printer = new ConsoleHelper();
+
 function help() {
 	echo 'Usage: php worker [OPTION]...
 Executing Commands for easy components management - OwnWork
@@ -16,21 +21,21 @@ make - Making Components, it arguments:
 // print_r($argv);
 // echo "\n";
 $dirArray = [
-	'controllerDir' => __DIR__ . "/../app/Controller/",
-	'viewDir' => __DIR__ . "/../resources/views/",
-	'modelDir' => __DIR__ . "/../app/Model/"
+	'controller' => __DIR__ . "/app/Controller/",
+	'view' => __DIR__ . "/resources/views/",
+	'model' => __DIR__ . "/app/Model/"
 ];
 
 $baseDirArray = [
-	'controllerDir' => "app/Controller/",
-	'viewDir' => "resources/views/",
-	'modelDir' => "app/Model/"
+	'controller' => "app/Controller/",
+	'view' => "resources/views/",
+	'model' => "app/Model/"
 ];
 
 $baseFileArray = [
-	'controllerDir' => __DIR__ . "/../app/Helper/Controller.php",
-	'viewDir' => __DIR__ . "/../app/Helper/View.php",
-	'modelDir' => __DIR__ . "/../app/Helper/Model.php"
+	'controller' => __DIR__ . "/app/Helper/Controller.php",
+	'view' => __DIR__ . "/app/Helper/View.php",
+	'model' => __DIR__ . "/app/Helper/Model.php"
 ];
 
 $firstarg = (isset($argv[1])) ? $argv[1] : false;
@@ -43,14 +48,14 @@ foreach ($dirArray as $key => $value) {
 
 if ($firstarg && $argv[1] == 'make') {
 	if (isset($argv[2])) {
-		switch (strtolower($argv[2])) {
+		$dirName = strtolower($argv[2]);
+		switch ($dirName) {
 		case 'controller':
-			$dirName = 'controllerDir';
 			$value = (isset($argv[3])) ? $argv[3] : trim(readline('Enter Controller Name: '));
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nController with name `$value.php` created at: \n\n";
-			echo "-> " . $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'model':
 			$dirName = 'modelDir';
@@ -58,7 +63,7 @@ if ($firstarg && $argv[1] == 'make') {
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nModel with name $value.php created at: \n";
-			echo $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'view':
 			$dirName = 'viewDir';
@@ -66,7 +71,7 @@ if ($firstarg && $argv[1] == 'make') {
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nView with name $value.php created at: \n";
-			echo $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		default:
 			echo "No Such Component Exists\n\n";

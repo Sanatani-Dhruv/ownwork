@@ -58,7 +58,8 @@ class Route {
 				$routeParamsNames = [];
 				if (preg_match_all('/{(\w+)(:[^}]+)?}/', $request_uri, $matches)) {
 					$routeParamsNames = $matches[1];
-					print_r($routeParamsNames);
+					// For debugging parameter names
+					// print_r($routeParamsNames);
 					$routeParams = array_combine($routeParamsNames, $routeParamsValues);
 				}
 

@@ -9,15 +9,18 @@ use App\Helper\ConsoleHelper;
 $printer = new ConsoleHelper();
 
 function help() {
-	echo 'Usage: php worker [OPTION]...
-Executing Commands for easy components management - OwnWork
-
-OPTIONS:
-make - Making Components, it arguments:
-    > controller - Make Controller File
-    > model - Make Model File
-    > view - Make View File
-';
+	global $printer;
+	$printer->print("Usage: ", 'red', '', true, false);
+	$printer->print("php ", 'green', '', true, false);
+	$printer->print('worker ', 'cyan', '', true, false);
+	$printer->print("[OPTION]...", 'green', '', true, true);
+	$printer->print("Executing Commands for easy components management - OwnWork\n", 'green', '', false);
+	$printer->print("OPTIONS:\n", 'red', '', true);
+	$printer->print("make", 'green', '', true, false);
+	echo " - Making Components, it's arguments:\n";
+	$printer->print("    > controller - Make Controller File", 'green', '', true);
+	$printer->print("    > model - Make Model File", 'green', '', true);
+	$printer->print("    > view - Make View File", 'green', '', true);
 }
 
 // print_r($argv);
@@ -66,12 +69,12 @@ if ($firstArg && $firstArg == "make") {
 			compCreate($array_list, $dirName);
 			break;
 		default:
-			echo "No Such Component Exists\n\n";
+			$printer->print("No Such Component Exists!\n", 'red', '', true);
 			help();
 			break;
 		}
 	} else {
-		echo "Provide Name of Component to make!\n\n";
+		$printer->print("Provide Name of Component to make!\n", 'red', '', true);
 		help();
 	}
 } else {
@@ -80,6 +83,7 @@ if ($firstArg && $firstArg == "make") {
 
 function compCreate($arrList, $component, $compName = null) {
 	global $argv;
+	global $printer;
 	$compName = (isset($argv[3])) ? $argv[3] : trim(readline("Enter " . $component ." name: "));
 	if (!file_exists($arrList[0][$component] . $compName . ".php")) {
 		touch($arrList[0][$component] . $compName . ".php");
@@ -88,8 +92,12 @@ function compCreate($arrList, $component, $compName = null) {
 		echo "\n" . ucfirst($component) . " with name `$compName.php` created at: \n\n";
 		echo "-> " . $arrList[1][$component] . $compName . ".php\n";
 	} else {
-		echo "Component with name $compName Already exists at:\n\n";
-		echo "-> " . $arrList[1][$component] . $compName . ".php\n";
+		$printer->print("Component with name ", 'blue', '', true, false);
+		$printer->print($compName, 'red', '', true, false);
+		$printer->print(" Already exists at:\n", 'blue', '', true);
+		// echo "-> ";
+		$printer->print("-> ", 'yellow', '', true, false);
+		$printer->print($arrList[1][$component] . $compName . ".php", 'red', '', true);
 	}
 }
 
@@ -98,6 +106,6 @@ if (!$firstArg) {
 }
 
 if ($firstArg && !$validFirstArg) {
-	echo "No Registered Command as \"$argv[1]\"!\n\n";
+	$printer->print("No Registered Command as \"$argv[1]\"!\n", 'red', '', true);
 	help();
 }

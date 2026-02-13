@@ -6,9 +6,10 @@ use App\Viewer\View;
 
 class DEFAULT_NAME {
 	function __construct() {
-      // Construnctor
+		// Constructor
 	}
 
 	public function index() {
+		// Base Method
 	}
 }

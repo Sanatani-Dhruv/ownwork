@@ -16,9 +16,9 @@ make - Making Components, it arguments:
 // print_r($argv);
 // echo "\n";
 $dirArray = [
-	'controllerDir' => __DIR__ . "/../app/Controller/",
-	'viewDir' => __DIR__ . "/../resources/views/",
-	'modelDir' => __DIR__ . "/../app/Model/"
+	'controllerDir' => __DIR__ . "/app/Controller/",
+	'viewDir' => __DIR__ . "/resources/views/",
+	'modelDir' => __DIR__ . "/app/Model/"
 ];
 
 $baseDirArray = [
@@ -28,9 +28,9 @@ $baseDirArray = [
 ];
 
 $baseFileArray = [
-	'controllerDir' => __DIR__ . "/../app/Helper/Controller.php",
-	'viewDir' => __DIR__ . "/../app/Helper/View.php",
-	'modelDir' => __DIR__ . "/../app/Helper/Model.php"
+	'controllerDir' => __DIR__ . "/app/Helper/Controller.php",
+	'viewDir' => __DIR__ . "/app/Helper/View.php",
+	'modelDir' => __DIR__ . "/app/Helper/Model.php"
 ];
 
 $firstarg = (isset($argv[1])) ? $argv[1] : false;
@@ -50,7 +50,7 @@ if ($firstarg && $argv[1] == 'make') {
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nController with name `$value.php` created at: \n\n";
-			echo "-> " . $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'model':
 			$dirName = 'modelDir';
@@ -58,7 +58,7 @@ if ($firstarg && $argv[1] == 'make') {
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nModel with name $value.php created at: \n";
-			echo $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'view':
 			$dirName = 'viewDir';
@@ -66,7 +66,7 @@ if ($firstarg && $argv[1] == 'make') {
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
 			echo "\nView with name $value.php created at: \n";
-			echo $baseDirArray[$dirName] . $value . ".php";
+			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		default:
 			echo "No Such Component Exists\n\n";

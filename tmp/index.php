@@ -33,9 +33,9 @@ $baseDirArray = [
 ];
 
 $baseFileArray = [
-	'controller' => __DIR__ . "/app/Helper/Controller.php",
-	'view' => __DIR__ . "/app/Helper/View.php",
-	'model' => __DIR__ . "/app/Helper/Model.php"
+	'controller' => __DIR__ . "/../app/Helper/Controller.php",
+	'view' => __DIR__ . "/../app/Helper/View.php",
+	'model' => __DIR__ . "/../app/Helper/Model.php"
 ];
 
 $firstarg = (isset($argv[1])) ? $argv[1] : false;
@@ -58,7 +58,6 @@ if ($firstarg && $argv[1] == 'make') {
 			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'model':
-			$dirName = 'modelDir';
 			$value = (isset($argv[3])) ? $argv[3] : trim(readline('Enter Model Name: '));
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));
@@ -66,7 +65,6 @@ if ($firstarg && $argv[1] == 'make') {
 			echo "-> " . $baseDirArray[$dirName] . $value . ".php\n";
 			break;
 		case 'view':
-			$dirName = 'viewDir';
 			$value = (isset($argv[3])) ? $argv[3] : trim(readline('Enter View Name: '));
 			touch($dirArray[$dirName] . $value . ".php");
 			file_put_contents($dirArray[$dirName]. $value . ".php", file_get_contents($baseFileArray[$dirName]));

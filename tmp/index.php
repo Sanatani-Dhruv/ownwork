@@ -21,9 +21,9 @@ make - Making Components, it arguments:
 // print_r($argv);
 // echo "\n";
 $dirArray = [
-	'controller' => __DIR__ . "/app/Controller/",
-	'view' => __DIR__ . "/resources/views/",
-	'model' => __DIR__ . "/app/Model/"
+	'controller' => __DIR__ . "/../app/Controller/",
+	'view' => __DIR__ . "/../resources/views/",
+	'model' => __DIR__ . "/../app/Model/"
 ];
 
 $baseDirArray = [

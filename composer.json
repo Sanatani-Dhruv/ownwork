@@ -13,7 +13,7 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "start": [
+        "run": [
             "@php --server=localhost:8000 --docroot=public"
         ]
     },

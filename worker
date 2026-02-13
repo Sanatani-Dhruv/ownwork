@@ -89,8 +89,11 @@ function compCreate($arrList, $component, $compName = null) {
 		touch($arrList[0][$component] . $compName . ".php");
 		$templateContent = str_replace('DEFAULT_NAME', $compName, file_get_contents($arrList[2][$component]));
 		file_put_contents($arrList[0][$component]. $compName . ".php", $templateContent);
-		echo "\n" . ucfirst($component) . " with name `$compName.php` created at: \n\n";
-		echo "-> " . $arrList[1][$component] . $compName . ".php\n";
+		$printer->print("\n" . ucfirst($component) . " with name `", 'blue', '', true, false);
+		$printer->print($compName, 'green', '', true, false);
+		$printer->print("` created at:\n", 'blue', '', true, false);
+		$printer->print("-> ", 'yellow', '', true, false);
+		$printer->print($arrList[1][$component] . $compName . ".php\n", 'blue', '', true, false);
 	} else {
 		$printer->print("Component with name ", 'blue', '', true, false);
 		$printer->print($compName, 'red', '', true, false);

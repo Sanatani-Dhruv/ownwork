@@ -38,7 +38,8 @@ $baseFileArray = [
 	'model' => __DIR__ . "/app/Helper/Model.php"
 ];
 
-$firstarg = (isset($argv[1])) ? $argv[1] : false;
+$firstArg = (isset($argv[1])) ? $argv[1] : false;
+$validFirstArg = false;
 
 foreach ($dirArray as $key => $value) {
 	if (!is_dir($value)) {
@@ -46,7 +47,8 @@ foreach ($dirArray as $key => $value) {
 	}
 }
 
-if ($firstarg && $argv[1] == 'make') {
+if ($firstArg && $firstArg == "make") {
+	$validFirstArg = true;
 	if (isset($argv[2])) {
 		$dirName = strtolower($argv[2]);
 		switch ($dirName) {
@@ -80,9 +82,15 @@ if ($firstarg && $argv[1] == 'make') {
 		echo "Provide Name of Component to make!\n\n";
 		help();
 	}
+} else {
+	//
 }
 
-if (!$firstarg) {
+if (!$firstArg) {
 	help();
 }
 
+if ($firstArg && !$validFirstArg) {
+	echo "No Registered Command as \"$argv[1]\"!\n\n";
+	help();
+}

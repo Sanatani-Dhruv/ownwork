@@ -11,7 +11,7 @@
 - Build a Large Web App with minimal but useful base.
 
 ### Dependencies
-1. php (version: 8.2 or greater).
+1. php (version: 8.0 or greater).
 2. composer (version: 2.9 or greater).
 
 ### Structure

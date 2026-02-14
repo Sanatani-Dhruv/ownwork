@@ -109,4 +109,4 @@ composer run dev --timeout=0
 
 ### License
 
-This Ownwork is Licensed under MIT License
+Ownwork Project is licensed under MIT License

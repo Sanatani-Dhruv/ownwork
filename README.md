@@ -81,7 +81,7 @@ DB_USER=root
 DB_PASS=
 ```
 
-> That's it, your ownwork application is ready to run it's Hello World Program.
+> That's it, your Ownwork application is ready to run it's Hello World Program.
 
 ### Usage
 
@@ -106,3 +106,7 @@ Just Run Command
 ```bash
 composer run dev --timeout=0
 ```
+
+### License
+
+This Ownwork is Licensed under MIT License

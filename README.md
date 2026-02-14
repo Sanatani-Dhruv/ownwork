@@ -19,35 +19,41 @@
 ```bash
 ownwork
    ├── app
-   │   ├── Controller
+   │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
    │   ├── Helper
-   │   │   ├── Environment.php
-   │   │   └── Views
+   │   │   ├── ConsoleHelper.php # Pretty Printing for Console
+   │   │   ├── Controller.php # Default Controller Template
+   │   │   ├── Environment.php # File Which Setups your Environment Settings
+   │   │   ├── Model.php # Default Model Template
+   │   │   ├── View.php # Default View Template
+   │   │   └── Views # Helper Views Directory like Error Pages
    │   │       ├── general-notfound-error.php
    │   │       ├── styles
    │   │       │   └── index.css
    │   │       └── view-notfound-error.php
+   │   ├── Model # Your Models directory
+   │   │   └── UserModel.php
    │   ├── Router
    │   │   └── Route.php
    │   └── Viewer
    │       └── View.php
    ├── bundle
-   │   ├── Bundler.php
-   │   ├── HelperFunction.php
+   │   ├── Bundler.php # This File Bundles your App
+   │   ├── HelperFunction.php # Global Helper Functions are defined here
    │   └── Routes.php
    ├── composer.json
    ├── composer.lock
-   ├── public
-   │   ├── index.php
+   ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
+   │   ├── index.php # Entry Level Files, Starting Point of App
    │   └── styles
    │       └── index.css
-   ├── README.md
    ├── resources
-   │   └── views
+   │   └── views # Your Views directory
    │       ├── main.php
    │       └── welcome.php
-   └── vendor
+   ├── vendor # Application Dependecies and autoloader directory
+   └── worker # Your Command Line Manager
 ```
 
 
@@ -98,5 +104,5 @@ php -S localhost:8000
 Just Run Command
 
 ```bash
-composer run start --timeout=0
+composer run dev --timeout=0
 ```

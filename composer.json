@@ -2,6 +2,10 @@
     "name": "dhruv125/ownwork",
     "description": "Creating own php framework to understand composer",
     "type": "project",
+    "require": {
+        "php": "^8.0"
+    },
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Bundle\\": "bundle/",
@@ -22,6 +26,5 @@
             "name": "Sanatani-Dhruv"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "minimum-stability": "stable"
 }

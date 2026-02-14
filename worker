@@ -38,9 +38,9 @@ $baseDirArray = [
 ];
 
 $baseFileArray = [
-	'controller' => __DIR__ . "/app/Helper/Controller.php",
-	'view' => __DIR__ . "/app/Helper/View.php",
-	'model' => __DIR__ . "/app/Helper/Model.php"
+	'controller' => __DIR__ . "/app/Helper/Template/Controller.php",
+	'view' => __DIR__ . "/app/Helper/Template/View.php",
+	'model' => __DIR__ . "/app/Helper/Template/Model.php"
 ];
 
 $array_list = [$dirArray, $baseDirArray, $baseFileArray];

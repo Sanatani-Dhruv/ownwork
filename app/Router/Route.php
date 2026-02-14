@@ -92,8 +92,8 @@ class Route {
 					if (file_exists(self::$viewDirectory . $action)) {
 						include(self::$viewDirectory . $action);
 					} else {
-						if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {
-							include(__DIR__ . "/../Helper/Views/view-notfound-error.php");
+						if (file_exists(__DIR__ . "/../Helper/AppViews/view-notfound-error.php")) {
+							include(__DIR__ . "/../Helper/AppViews/view-notfound-error.php");
 						} else {
 							echo "View Not Found";
 						}
@@ -108,8 +108,8 @@ class Route {
 	public function __destruct() {
 		if (!self::$hasMatch) {
 			// echo "No Match Found";
-			if (file_exists(__DIR__ . "/../Helper/Views/general-notfound-error.php")) {
-				include(__DIR__ . "/../Helper/Views/general-notfound-error.php");
+			if (file_exists(__DIR__ . "/../Helper/AppViews/general-notfound-error.php")) {
+				include(__DIR__ . "/../Helper/AppViews/general-notfound-error.php");
 			} else {
 				echo "404 Not Found";
 			}

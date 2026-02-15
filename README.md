@@ -104,7 +104,7 @@ php -S localhost:8000
 Just Run Command
 
 ```bash
-composer run dev --timeout=0
+composer run dev
 ```
 
 ### License

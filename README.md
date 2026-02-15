@@ -3,6 +3,13 @@
 
 ![Commits](https://flat.badgen.net/github/commits/Sanatani-Dhruv/ownwork)
 ![Last Commit](https://flat.badgen.net/github/last-commit/Sanatani-Dhruv/ownwork)
+![Latest Release - Github](https://flat.badgen.net/github/release/Sanatani-Dhruv/ownwork)
+![Packagist Name](https://flat.badgen.net/packagist/name/dhruv125/ownwork)
+![Latest Release - Packagist](https://flat.badgen.net/packagist/v/dhruv125/ownwork)
+![Language](https://flat.badgen.net/packagist/php/dhruv125/ownwork)
+![Downloads](https://flat.badgen.net/packagist/dt/dhruv125/ownwork)
+![Dependencies](https://flat.badgen.net/packagist/dependents/dhruv125/ownwork)
+![License](https://flat.badgen.net/github/license/Sanatani-Dhruv/ownwork)
 
 - Don't go into major dependencies rabbit hole.
 - Build your MVC app with PHP.

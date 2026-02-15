@@ -155,7 +155,7 @@ $route->end();
    - `$request_uri` : Incoming Url request from client ex. `/welcome`
    - `$viewName_methodCall` : It can accept two type of argument:
       - string: It will be treated as View name. We will Learn about Views later.
-      n array: It will be treated as Method call
+      - array: It will be treated as Method call:
          - 0th element would be Full class name (type: string)
          - 1st element would be method name(type: string)
          - 2nd element would be array of arguments going to be passed into method (type: depends on your defined method).

@@ -66,9 +66,7 @@ ownwork
 
 ### Installation
 
-#### Through Composer
-
-1. Make sure your composer is atleast 2.9 or greater.
+1. Make sure your composer version is atleast 2.9 or greater.
 
 ```bash
 composer --version
@@ -84,7 +82,7 @@ composer create-project dhruv125/ownwork
 # This is will create project in ProjectName Directory
 ```
 
-3. cd to Project Directory: `ownwork` and Run `composer run setup` command.
+3. cd to Project Directory `ownwork` and Run `composer run setup` command.
 
 ```bash
 cd ownwork/
@@ -102,7 +100,7 @@ DB_USER=root
 DB_PASS=
 ```
 
-> That's it, your Ownwork application is ready to run it's Hello World Program.
+> That's it, your OwnWork application is ready to run it's Hello World Program.
 
 ### Usage
 

@@ -66,19 +66,33 @@ ownwork
 
 ### Installation
 
-1. Clone this repo.
+#### Through Composer
+
+1. Make sure your composer is atleast 2.9 or greater.
 
 ```bash
-git clone https://github.com/Sanatani-Dhruv/ownwork.git
+composer --version
 ```
 
-2. cd to `ownwork` directory and Run `composer setup` command.
+2. Run the Composer Command to Create Project
+
+```bash
+composer create-project dhruv125/ownwork 
+
+# Or
+# composer create-project dhruv125/ownwork ProjectName
+# This is will create project in ProjectName Directory
+```
+
+3. cd to Project Directory: `ownwork` and Run `composer run setup` command.
+
 ```bash
 cd ownwork/
 composer run setup
 ```
 
-3. Edit .env file.
+4. Edit .env file.
+
 ```bash
 APP_NAME=Ownwork
 

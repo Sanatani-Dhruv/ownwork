@@ -22,30 +22,31 @@ ownwork
    │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
    │   ├── Helper
+   │   │   ├── AppViews # Views Required by OwnWork like Error Pages
+   │   │   │   ├── general-notfound-error.php
+   │   │   │   ├── styles
+   │   │   │   │   └── index.css
+   │   │   │   └── view-notfound-error.php
    │   │   ├── ConsoleHelper.php # Pretty Printing for Console
-   │   │   ├── Controller.php # Default Controller Template
    │   │   ├── Environment.php # File Which Setups your Environment Settings
-   │   │   ├── Model.php # Default Model Template
-   │   │   ├── View.php # Default View Template
-   │   │   └── Views # Helper Views Directory like Error Pages
-   │   │       ├── general-notfound-error.php
-   │   │       ├── styles
-   │   │       │   └── index.css
-   │   │       └── view-notfound-error.php
+   │   │   └── Template
+   │   │       ├── Controller.php # Default Controller Template
+   │   │       ├── Model.php # Default Model Template
+   │   │       └── View.php # Default View Template
    │   ├── Model # Your Models directory
    │   │   └── UserModel.php
    │   ├── Router
-   │   │   └── Route.php
+   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
    │   └── Viewer
-   │       └── View.php
+   │       └── View.php # This File handles calling views, should not be modified, unless you know what you do.
    ├── bundle
    │   ├── Bundler.php # This File Bundles your App
    │   ├── HelperFunction.php # Global Helper Functions are defined here
-   │   └── Routes.php
+   │   └── Routes.php # Your Routes are defined here
    ├── composer.json
    ├── composer.lock
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
-   │   ├── index.php # Entry Level Files, Starting Point of App
+   │   ├── index.php # Entry Level File, Starting Point of App
    │   └── styles
    │       └── index.css
    ├── resources
@@ -55,7 +56,6 @@ ownwork
    ├── vendor # Application Dependecies and autoloader directory
    └── worker # Your Command Line Manager
 ```
-
 
 ### Installation
 

@@ -6,8 +6,8 @@ use App\Viewer\View;
 class UserController {
 	private $view;
 	private $args; // This will store Dynamic variables Extracted from url
-	function __construct($dynaVar) {
-		$this->args = $dynaVar;
+	function __construct($dv) {
+		$this->args = $dv;
 		$this->view = new View();
 	}
 

@@ -5,10 +5,16 @@
 		<title><?=out(env("APP_NAME") . " App")?></title>
 	</head>
 	<body>
-		<h2>Welcome <?=(isset($name) ? ($name): '')?>!</h2>
-		<p><a href="/">Home Page</a></p>
-		<form action="/game/Alone/game" method="post">
-			<input type="submit" value="Try to View Post Request Page by Clicking this Btn">
+		<h2>Welcome to <?=env("APP_NAME")?>!</h2>
+		<p>
+			<a href="/">Home Page</a>
+		</p>
+		<form action="/user/Shyam/13" method="get">
+			<button>Try to View GET Page Which Uses Dyanamic Url</button>
+		</form>
+		<br>
+		<form action="/user/update/Shyam/13" method="post">
+			<button type="submit">Try to View POST Page Which Uses Dyanamic Url</button>
 		</form>
 	</body>
 </html>

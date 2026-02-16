@@ -1,6 +1,6 @@
 {
     "name": "dhruv125/ownwork",
-    "description": "Creating own php framework to understand composer",
+    "description": "OwnWork - Minimal PHP Framework for an MVC Project",
     "type": "project",
     "require": {
         "php": "^8.0"

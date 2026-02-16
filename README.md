@@ -128,7 +128,7 @@ composer run dev
 
 ### Documentation
 
-- Go through Documentation of OwnWork [Here!](https://github.com/Sanatani-Dhruv/ownwork-doc)
+- Go through Documentation of OwnWork <a href="https://github.com/Sanatani-Dhruv/ownwork-doc">Here!</a>
 
 ### License
 

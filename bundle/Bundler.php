@@ -1,7 +1,7 @@
 <?php
 namespace Bundle;
 
-use App\Helper\Environment;
+use Bundle\Environment\Environment;
 
 class Bundler {
 	function __construct() {
@@ -12,7 +12,10 @@ class Bundler {
 			echo "It looks like you didn't ran Startup Command; run <code>composer run setup</code> in ownwork directory!!";
 		}
 		require __DIR__ . '/HelperFunction.php';
-		Environment::setenv();
+		require __DIR__ .'/Environment/Environment.php';
+
+		$environment = new Environment();
+		$environment->setenv();
 	}
 
 	public function bundle() {

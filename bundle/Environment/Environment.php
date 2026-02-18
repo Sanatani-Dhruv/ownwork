@@ -10,9 +10,6 @@ class Environment {
   public static function setenv() {
     require __DIR__ . "/DotEnvironment.php";
     $dotEnvironment = new DotEnvironment(__DIR__ . "/../../.env");
-    echo "<pre>";
-    print_r($_ENV);
-    echo "</pre>";
 
     $dev_env = ($_ENV["DEV_ENV"] == 'true') ? true : false;
 

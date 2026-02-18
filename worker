@@ -92,11 +92,7 @@ if ($firstArg && strtolower($firstArg) == "serve") {
 	}
 	$printer->print("Starting OwnWork server at port:$port...", "blue", true, true);
 	$execServer = shell_exec("php --server=localhost:$port --docroot=public");
-	if (!$execServer) {
-	$printer->print("Failed starting server at port $port, retrying at port ". $port + 1, "red", true, true);
-	$port+= 1;
-	$execServer = shell_exec("php --server=localhost:$port --docroot=public");
-	}
+	$printer->print("Shutting Server", "red", true, true);
 }
 
 function compCreate($arrList, $component, $compName = null) {

@@ -104,19 +104,17 @@ DB_PASS=
 
 ### Usage
 
-1. Go to `/public` folder.
+1. Run The Server through `worker` script
 
 ```bash
-cd public/
+./worker serve
 ```
 
-2. Run PHP's development server in that directory.
-
+- Supposed Output:
 ```bash
-php -S localhost:8000
+Starting OwnWork server at port:8000...
+[Mon Jan 01 00:00:00 2026] PHP 8.2.XX Development Server (http://localhost:8000) started
 ```
-
-3. Now open your preferred Browser and go to URL `http://localhost:8000/`.
 
 > Or
 

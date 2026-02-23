@@ -107,7 +107,7 @@ DB_PASS=
 1. Run The Server through `worker` script
 
 ```bash
-./worker serve
+php worker serve
 ```
 
 - Supposed Output:

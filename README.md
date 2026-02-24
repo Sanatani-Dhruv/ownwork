@@ -28,39 +28,45 @@ ownwork
    ├── app
    │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
-   │   ├── Helper
+   │   ├── Helper # This file includes Helper and Support Files which handles important functions like Routing, Viewing
    │   │   ├── AppViews # Views Required by OwnWork like Error Pages
    │   │   │   ├── general-notfound-error.php
    │   │   │   ├── styles
    │   │   │   │   └── index.css
    │   │   │   └── view-notfound-error.php
    │   │   ├── ConsoleHelper.php # Pretty Printing for Console
-   │   │   ├── Environment.php # File Which Setups your Environment Settings
-   │   │   └── Template
-   │   │       ├── Controller.php # Default Controller Template
-   │   │       ├── Model.php # Default Model Template
-   │   │       └── View.php # Default View Template
-   │   ├── Model # Your Models directory
-   │   │   └── UserModel.php
-   │   ├── Router
-   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
-   │   └── Viewer
-   │       └── View.php # This File handles calling views, should not be modified, unless you know what you do.
-   ├── bundle
+   │   │   ├── Router
+   │   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
+   │   │   └── Viewer
+   │   │       └── View.php # This File handles calling views, should not be modified, unless you know what you do.
+   │   └── Model # Your Models directory
+   │       └── UserModel.php
+   ├── bundle # Files Which run by you in manual manner to handle certain things like env, helper function routes
    │   ├── Bundler.php # This File Bundles your App
+   │   ├── Environment # Directory Which Setups your Environment Settings
+   │   │   ├── DotEnvironment.php
+   │   │   └── Environment.php
    │   ├── HelperFunction.php # Global Helper Functions are defined here
    │   └── Routes.php # Your Routes are defined here
    ├── composer.json
    ├── composer.lock
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
+   │   ├── build
    │   ├── index.php # Entry Level File, Starting Point of App
    │   └── styles
    │       └── index.css
    ├── resources
+   │   ├── scripts
+   │   ├── styles
+   │   ├── template
+   │   │   ├── Controller.php # Default Controller Template
+   │   │   ├── Model.php # Default Model Template
+   │   │   └── View.php # Default View Template
    │   └── views # Your Views directory
    │       ├── main.php
    │       └── welcome.php
    ├── vendor # Application Dependecies and autoloader directory
+   │   └── autoload.php # Include this to autoload files
    └── worker # Your Command Line Manager
 ```
 

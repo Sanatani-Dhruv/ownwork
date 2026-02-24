@@ -128,6 +128,14 @@ composer run dev
 
 - Go through Documentation of OwnWork <a href="https://github.com/Sanatani-Dhruv/ownwork-doc" target="_blank">Here!</a>
 
+### Recommended Packages
+
+- Since our OwnWork is really minimal Framework, you may require other packages for functionality like Database interactions.
+- Recommendations are:
+   - `delight-im/db`: For database interaction - [Github Link](https://github.com/delight-im/PHP-DB)
+   - `phpunit/phpunit`: For testing - [Github Link](https://github.com/sebastianbergmann/phpunit)
+   - `illuminate/support`: For Illuminate Support like in Laravel
+
 ### License
 
 Ownwork Project is licensed under MIT License

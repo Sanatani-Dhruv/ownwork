@@ -1,7 +1,7 @@
 <?php
-namespace App\Viewer;
+namespace App\Helper\Viewer;
 
-use App\Router\Route;
+use App\Helper\Router\Route;
 
 class View {
 	private $uri;
@@ -17,7 +17,7 @@ class View {
 
 
 	public static function instantView($viewName, array $keyValue = []) {
-		$viewLocation = __DIR__ . "/../../resources/views/";
+		$viewLocation = __DIR__ . "/../../../resources/views/";
 
 		if (file_exists($viewLocation . $viewName)) {
 			if (count($keyValue)) {
@@ -25,9 +25,9 @@ class View {
 			}
 			require($viewLocation . $viewName);
 		} else {
-			if (file_exists(__DIR__ . "/../Helper/Views/view-notfound-error.php")) {
+			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
 				$viewName_methodCall = $viewName;
-				require(__DIR__ . "/../Helper/Views/view-notfound-error.php");
+				require(__DIR__ . "/../AppViews/view-notfound-error.php");
 			} else {
 				echo "<pre>View Not Found</pre>";
 			}

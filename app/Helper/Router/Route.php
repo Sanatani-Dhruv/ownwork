@@ -1,5 +1,5 @@
 <?php
-namespace App\Router;
+namespace App\Helper\Router;
 
 class Route {
 	public $request_uri;
@@ -8,7 +8,7 @@ class Route {
 	static $requests;
 	static $arguments;
 	static $hasMatch = false;
-	static $viewDirectory = __DIR__ . "/../../resources/views/";
+	static $viewDirectory = __DIR__ . "/../../../resources/views/";
 	private $viewName_methodCall;
 	private $displayedView;
 
@@ -109,8 +109,8 @@ class Route {
 							}
 							include(self::$viewDirectory . $action);
 						} else {
-							if (file_exists(__DIR__ . "/../Helper/AppViews/view-notfound-error.php")) {
-								include(__DIR__ . "/../Helper/AppViews/view-notfound-error.php");
+							if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+								include(__DIR__ . "/../AppViews/view-notfound-error.php");
 							} else {
 								echo "View Not Found";
 							}
@@ -126,8 +126,8 @@ class Route {
 	public function __destruct() {
 		if (!self::$hasMatch) {
 			// echo "No Match Found";
-			if (file_exists(__DIR__ . "/../Helper/AppViews/general-notfound-error.php")) {
-				include(__DIR__ . "/../Helper/AppViews/general-notfound-error.php");
+			if (file_exists(__DIR__ . "/../AppViews/general-notfound-error.php")) {
+				include(__DIR__ . "/../AppViews/general-notfound-error.php");
 			} else {
 				echo "404 Not Found";
 			}

@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Viewer\View;
+use App\Helper\Viewer\View;
 
 class UserController {
 	private $view;

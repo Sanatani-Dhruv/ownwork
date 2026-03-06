@@ -26,7 +26,6 @@ class View {
 			require($viewLocation . $viewName);
 		} else {
 			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-				$viewName_methodCall = $viewName;
 				require(__DIR__ . "/../AppViews/view-notfound-error.php");
 			} else {
 				echo "<pre>View Not Found</pre>";

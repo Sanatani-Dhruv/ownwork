@@ -28,8 +28,8 @@ class Bundler {
 	public function bundle() {
 		try {
 			require(__DIR__ . "/Routes.php");
-		} catch (\Exception $err) {
-			print_r($err);
+		} catch (Exception $err) {
+			echo $err;
 		}
 	}
 }

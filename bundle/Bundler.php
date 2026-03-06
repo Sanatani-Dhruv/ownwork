@@ -13,7 +13,7 @@ class Bundler {
 				require __DIR__ . "/../app/Helper/AppViews/no-setup-done-error.php";
 			else
 				echo "No Setup Command Ran!! Run <code>composer run setup</code>";
-			return;
+			die();
 		}
 
 		// Loading .env file from Root Directory

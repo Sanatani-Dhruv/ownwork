@@ -84,8 +84,14 @@ class Route {
 						// print_r($action);
 
 						// Handle $action array's first element - Class Name
-						$actionClass = $action[0];
-						$actionObject = new $action[0]($routeParams);
+						if (isset($action[0])) {
+							$actionClass = $action[0];
+							if (isset($routeParams)) {
+								$actionObject = new $action[0]($routeParams);
+							} else {
+								$actionObject = new $action[0]($routeParams = []);
+							}
+						}
 						// echo "<pre>";
 						// print_r($actionObject);
 						// echo "</pre>";

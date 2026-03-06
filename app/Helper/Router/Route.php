@@ -1,5 +1,6 @@
 <?php
 namespace App\Helper\Router;
+use App\Helper\Viewer\Parser;
 
 class Route {
 	public $request_uri;
@@ -108,19 +109,7 @@ class Route {
 						// echo $actionMethod;
 
 					} elseif (is_string($action)) {
-						// echo $action;
-						if (file_exists(self::$viewDirectory . $action)) {
-							if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
-								extract(self::$arguments[$request_uri]);
-							}
-							include(self::$viewDirectory . $action);
-						} else {
-							if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-								include(__DIR__ . "/../AppViews/view-notfound-error.php");
-							} else {
-								echo "View Not Found";
-							}
-						}
+						view($action, self::$arguments);
 					}
 				}
 				// echo "<br>";

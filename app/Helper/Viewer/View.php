@@ -2,6 +2,7 @@
 namespace App\Helper\Viewer;
 
 use App\Helper\Router\Route;
+use App\Helper\Viewer\Parser;
 
 class View {
 	private $uri;
@@ -20,10 +21,11 @@ class View {
 		$viewLocation = __DIR__ . "/../../../resources/views/";
 
 		if (file_exists($viewLocation . $viewName)) {
+			Parser::parse($viewLocation, $viewName);
 			if (count($keyValue)) {
 				extract($keyValue);
 			}
-			require($viewLocation . $viewName);
+			// require($viewLocation . $viewName);
 		} else {
 			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
 				require(__DIR__ . "/../AppViews/view-notfound-error.php");

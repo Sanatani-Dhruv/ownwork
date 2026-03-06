@@ -11,8 +11,8 @@ function env($data, bool $get = true, $specialChars = true) {
   return ($get) ? getenv($data) : putenv($data);
 }
 
-function view($string) {
-  require __DIR__ . "/../resources/views/$string";
+function view($string, $arr = []) {
+  \App\Helper\Viewer\View::instantView($string, $arr);
 }
 
 function url(string $action) {

@@ -1,6 +1,6 @@
 <?php
 
-// print_r($_SERVER);
+// Pre-defined Functions By OwnWork
 
 function out($data) {
   return htmlspecialchars($data);
@@ -23,5 +23,20 @@ function url(string $action) {
 
   if ($action == 'getFull') {
     return $_SERVER['REQUEST_URI'];
+  }
+}
+
+// Function for Getting Instance of Database class if exists - If Someone Uses recommended Package i provided in DB
+if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDatabase.php")) {
+  function get_db_instance() {
+    $dataSource = new \Delight\Db\PdoDataSource('mysql'); // see "Available drivers for database systems" below
+    $dataSource->setHostname(getenv('DB_HOST'));
+    $dataSource->setPort(3306);
+    $dataSource->setDatabaseName(getenv('DB_NAME'));
+    $dataSource->setCharset('utf8mb4');
+    $dataSource->setUsername(getenv('DB_USER'));
+    $dataSource->setPassword(getenv('DB_PASS'));
+    $DB = \Delight\Db\PdoDatabase::fromDataSource($dataSource);
+    return $DB;
   }
 }

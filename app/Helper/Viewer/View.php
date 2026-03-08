@@ -21,7 +21,7 @@ class View {
 		$viewLocation = __DIR__ . "/../../../resources/views/";
 
 		if (file_exists($viewLocation . $viewName)) {
-			Parser::parse($viewLocation, $viewName);
+			Parser::parse($viewName, $viewLocation);
 			if (count($keyValue)) {
 				extract($keyValue);
 			}

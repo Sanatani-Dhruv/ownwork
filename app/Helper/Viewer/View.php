@@ -19,9 +19,10 @@ class View {
 
 	public static function instantView($viewName, array $keyValue = []) {
 		$viewLocation = __DIR__ . "/../../../resources/views/";
+		$parser = new Parser($viewName);
 
 		if (file_exists($viewLocation . $viewName)) {
-			Parser::parse($viewName, $viewLocation);
+			require($parser->parse());
 			if (count($keyValue)) {
 				extract($keyValue);
 			}

@@ -9,8 +9,8 @@
 		<p>This is routing example that shows Route of this framework works</p>
 		<p>
 			{{ "This is PHP Message" }}
-
 		</p>
+
 		<p><a href="/welcome">Welcome Page</a></p>
 	</body>
 </html>

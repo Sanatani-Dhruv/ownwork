@@ -121,6 +121,8 @@ class Route {
 								echo "View Not Found";
 							}
 						}
+					} elseif (is_callable($action)) {
+						$action();
 					}
 				}
 				// echo "<br>";

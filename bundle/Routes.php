@@ -10,6 +10,10 @@ $route->get("/", "main.php");
 
 $route->get("/welcome", "welcome.php");
 
+$route->get("/call", function() {
+	echo "This Function Will Run When You Call";
+});
+
 $route->get("/user/{name}/{id}", [
 	UserController::class, "showDetail"
 ]);

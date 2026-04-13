@@ -1,6 +1,5 @@
 <?php
 namespace App\Helper\Router;
-
 class Route {
 	public $request_uri;
 	public $method;
@@ -37,6 +36,28 @@ class Route {
 			if ($isAssociative) {
 				self::$arguments[$request_uri] = $arguments;
 			}
+		}
+	}
+
+	public function redirect(string $oriUrl, string $redirect) {
+		// Remove whitespaces
+		$oriUrl = trim($oriUrl);
+		$redirect = trim($redirect);
+		$browUrl = trim($_SERVER["PATH_INFO"]);
+
+		// Get Length
+		$lenOri = strlen($oriUrl);
+		$lenBrow = strlen($browUrl);
+
+		$browUrl = ($lenBrow > 1 && "/" == $browUrl[$lenBrow - 1]) ? rtrim($browUrl, "/") : $browUrl;
+
+		// echo "Original: $oriUrl<br>";
+		// echo "Server: $browUrl<br>";
+		// echo "Redirect: $redirect<br>";
+		if ($oriUrl == $browUrl) {
+			self::$hasMatch = true;
+			header("Redirected: true");
+			header("Location: $redirect");
 		}
 	}
 
@@ -102,7 +123,7 @@ class Route {
 							$actionArgsArray = (isset($action[2])) ? $action[2] : [];
 							$actionObject->{$actionMethod}(...$actionArgsArray);
 						} else {
-							echo "";
+							// echo "";
 						}
 						// extract($actionArgsArray);
 						// echo $actionMethod;

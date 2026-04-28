@@ -54,10 +54,11 @@ ownwork
    │   ├── build
    │   ├── index.php # Entry Level File, Starting Point of App
    │   └── styles
-   │       └── index.css
+   │       └── tailwind.compiled.css # Compiled CSS File For Default Page
    ├── resources
-   │   ├── scripts
-   │   ├── styles
+   │   ├── js
+   │   ├── css
+   │   │   └── tailwind.css # Default Tailwind Source File
    │   ├── template
    │   │   ├── Controller.php # Default Controller Template
    │   │   ├── Model.php # Default Model Template

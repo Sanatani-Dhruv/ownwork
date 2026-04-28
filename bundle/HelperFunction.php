@@ -2,6 +2,11 @@
 
 // Pre-defined Functions By OwnWork
 
+function approot() {
+  $loc = __DIR__ . "/..";
+  return $loc;
+}
+
 function out($data) {
   return htmlspecialchars($data);
 }

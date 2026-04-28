@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.2"
+  },
+  "scripts": {
+    "dev": "npx concurrently --names=\"OwnWork,Tailwind\" --prefix-colors=\"blue,red\" \"php -S localhost:8000 --docroot='public/'\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --watch\"",
+    "build": "npx concurrently --names=\"Tailwind\" --prefix-colors=\"red\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --minify\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

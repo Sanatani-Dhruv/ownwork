@@ -3,9 +3,9 @@
 	<head>
 		<meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"/>
 		<title><?=htmlspecialchars(getenv("APP_NAME") . " App")?></title>
-		<?php if(file_exists(approot() . "/public/build/output.css")): ?>
+		<?php if(file_exists(approot() . "/public/styles/tailwind.compiled.css")): ?>
 			<style>
-				<?php include(approot() . "/public/build/output.css"); ?>
+				<?php include(approot() . "/public/styles/tailwind.compiled.css"); ?>
 			</style>
 		<?php endif; ?>
 	</head>

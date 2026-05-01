@@ -31,6 +31,22 @@ function url(string $action) {
   }
 }
 
+// Call Component
+function comp(string $name, array $args = [], string $dir = "") {
+  $dir = trim($dir);
+  if ($dir == "") {
+    $dir = approot() . "/resources/views/component/";
+  }
+  $fullPath = $dir . $name;
+  if (file_exists($fullPath)) {
+    extract($args);
+    require $fullPath;
+    return ;
+  } else {
+    throw new ErrorException("Component with name: '$name' not found at $fullPath");
+  }
+}
+
 // Function for Getting Instance of Database class if exists - If Someone Uses recommended Package i provided in DB
 if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDatabase.php")) {
   if (env("DB_DRIVER") == "sql") {

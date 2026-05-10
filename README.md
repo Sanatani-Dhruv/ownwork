@@ -50,6 +50,8 @@ ownwork
    │   └── Routes.php # Your Routes are defined here
    ├── composer.json
    ├── composer.lock
+   ├── package-lock.json
+   ├── package.json
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
    │   ├── build
    │   ├── index.php # Entry Level File, Starting Point of App

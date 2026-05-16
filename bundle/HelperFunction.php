@@ -3,7 +3,7 @@
 // Pre-defined Functions By OwnWork
 
 function approot() {
-  $loc = __DIR__ . "/..";
+  $loc = dirname(__DIR__ . "/HelperFunction.php",2);
   return $loc;
 }
 

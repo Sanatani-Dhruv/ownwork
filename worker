@@ -4,6 +4,8 @@
 global $argv;
 
 require __DIR__ . "/app/Helper/ConsoleHelper.php";
+require __DIR__ . "/bundle/HelperFunction.php";
+require __DIR__ . "/app/Helper/Templater/Template.php";
 use App\Helper\ConsoleHelper;
 
 $printer = new ConsoleHelper();
@@ -126,3 +128,13 @@ if ($firstArg && !$validFirstArg) {
 	$printer->print("No Registered Command as \"$argv[1]\"!\n", 'red', '', true);
 	help();
 }
+
+$parser = new Template();
+$arr = $parser->scanRes();
+$json = json_encode($arr);
+$mtime = json_encode($parser->giveMTimeArr());
+
+print_r($parser->scanStorage());
+
+file_put_contents(approot() . "/storage/views.json", $json);
+file_put_contents(approot() . "/storage/mtime.json", $mtime);

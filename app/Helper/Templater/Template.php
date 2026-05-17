@@ -1,22 +1,35 @@
 #!/usr/bin/env php
 <?php
 
-function approot() {
-	return dirname(__DIR__ . "/Template.php",4);
-}
-
 class Template {
 	private array $filePathArr;
 	private array $filemTimeArr;
+	private $storagePath;
+	private $viewStoragePath;
+	private $viewResPath;
 
-	function __construct() {
+	public function __construct() {
 		$this->filePathArr = array();
 		$this->filemTimeArr = array();
+		$this->storagePath = approot() . "/storage/";
+		$this->viewStoragePath = approot() . "/storage/views/";
+		$this->viewResPath = approot() . "/resources/views/";
+		$this->makeStorageDirs();
+	}
+
+	public function makeStorageDirs() {
+		if (!is_dir($this->viewStoragePath)) {
+			if (!is_dir($this->storagePath)) {
+				mkdir($this->storagePath);
+			}
+			mkdir($this->viewStoragePath);
+		}
+		return;
 	}
 
 	public function parse(string $filename): string {
 		if (!file_exists($filename))
-			throw new \ErrorException("File $filename not found");
+			throw new \ErrorException("File '$filename' not found");
 
 		$start = file_get_contents($filename);
 
@@ -65,7 +78,11 @@ class Template {
 		return $final;
 	}
 
-	public function checkMTime(string $filePath, string $json) {
+	public function checkMTime(string $filePath = "", string $json) {
+		if ($filePath == "") {
+			$filePath = $this->viewStoragePath;
+		}
+
 		if (!file_exists($filePath)) {
 			touch($filePath);
 		}
@@ -79,9 +96,13 @@ class Template {
 		}
 	}
 
-	public function scan(string $dirPath, string $storageDirPath) {
-		if (!is_dir($storageDirPath)) {
-			throw new \ErrorException("Given Path '$storageDirPath' is not a Directory");
+	public function scanRes($dirPath = null) {
+		if (!is_dir($this->viewResPath)) {
+			throw new \ErrorException("Given Path '$this->viewResPath' is not a Directory");
+		}
+
+		if (!$dirPath) {
+			$dirPath = $this->viewResPath;
 		}
 
 		if (is_dir($dirPath)) {
@@ -90,14 +111,17 @@ class Template {
 			foreach($dirList as $value) {
 				if ($value == "." || $value == "..")
 					continue;
-				// echo $dirPath . "/" .$value . "\n";
-				$this->scan($dirPath . "/" . $value, $storageDirPath);
+				// echo $dirPath . $value . "\n";
+				$this->scanRes($dirPath . basename($value));
 			}
 		} elseif(is_file($dirPath)) {
-			if (strstr($dirPath, ".temp.php") && !strstr($dirPath, "compiled.")) {
-				$fileName = rand(1000000,9999999) . ".compiled.php";
-				$this->filePathArr[$dirPath] = $fileName;
-				$this->filemTimeArr[$dirPath] = filemtime($dirPath);
+			$filePath = $dirPath;
+			if (strstr($filePath, ".temp.php")) {
+				$fileName = basename($filePath,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
+				$this->filePathArr[$filePath] = $fileName;
+				$this->filemTimeArr[$filePath] = filemtime($filePath);
+
+				// file_put_contents($this->viewStoragePath . $fileName, $this->parse($filePath));
 			}
 		}
 		if (count($this->filePathArr))
@@ -109,23 +133,72 @@ class Template {
 	public function giveMTimeArr() {
 		return $this->filemTimeArr;
 	}
+
+	public function scanStorage($dirPath = null) {
+		$scanFilesArr = array();
+		if (!$dirPath) {
+			$dirPath = $this->viewStoragePath;
+		}
+
+		if (!is_dir($dirPath)) {
+			throw new \ErrorException("Given Path '$dirPath' is not a Directory");
+		}
+
+		$scanDir = scandir($dirPath);
+		$i = 0;
+		$resArr = $this->scanRes();
+		$count = count($resArr);
+		foreach($scanDir as $path) {
+			if ($path === "." || $path === "..") {
+				continue;
+			}
+
+			if (strstr($path, "compiled.php")) {
+				foreach($resArr as $resName => $compiledName) {
+					if (strstr($path, "compiled.php") && strstr($path, filemtime($resName))) {
+						$i++;
+						echo "$path => $resName Matched\n";
+						break;
+					}
+				}
+			}
+		}
+
+		echo "Count: $count\ni: $i\n";
+		if ($count !== $i) {
+			$this->compileFiles();
+		}
+		return $scanFilesArr;
+	}
+
+	public function compileFiles(string $resDirName = null) {
+		if (!$resDirName) {
+			$basepath = $this->viewResPath;
+			$arr = scandir($this->viewResPath);
+		} else {
+			$arr = scandir($resDirName);
+			$basepath = $this->viewResPath . $resDirName;
+		}
+		foreach($arr as $path) {
+			if ($path === "." || $path === "..") {
+				continue;
+			}
+			$filePath = $basepath. $path;
+			echo "Name: $path\n";
+			echo "Full Path: $filePath\n";
+
+			if (is_dir($filePath)) {
+				echo "Going in Dir: $filePath\n\n";
+				$this->compileFiles($filePath . "/");
+			}
+
+			if (!is_dir($filePath)) {
+				if(strstr($path, ".temp.php")) {
+					$fileName = basename($path,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
+					echo "Res File: $basepath$path\n";
+					file_put_contents($this->viewStoragePath . $path, $this->parse($this->viewResPath . $path));
+				}
+			}
+		}
+	}
 }
-
-$viewStorage = approot() . "/storage/views/";
-$viewRes = approot() . "/resources/views/";
-$parser = new Template();
-$str = $parser->parse(approot() . "/resources/views/main.temp.php");
-$arr = $parser->scan($viewRes, $viewStorage);
-$json = json_encode($arr);
-print_r($mtime);
-// $parser->checkMTime(__DIR__ . "/index.temp.php", $json);
-$mtime = json_encode($parser->giveMTimeArr());
-file_put_contents("mtime.json", $mtime);
-
-// echo "Array: ";
-// print_r($arr);
-// $json = json_encode($arr);
-// echo "Json: $json";
-// file_put_contents("list.json", $json);
-
-// file_put_contents("index.temp.php", $str);

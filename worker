@@ -97,6 +97,27 @@ if ($firstArg && strtolower($firstArg) == "serve") {
 	$printer->print("Shutting Server", "red", true, true);
 }
 
+if ($firstArg && strtolower($firstArg) == "transpile") {
+	$validFirstArg = true;
+	$printer->print("Waiting For View Files to Change!", "green", true, true);
+	$parser = new Template();
+	$i = 0;
+	while (true) {
+		sleep(1);
+		$state = $parser->scanStorage();
+		$viewJson = json_encode($parser->giveCompiledViewArr());
+		$mtimeJson = json_encode($parser->giveMTimeArr());
+		if ($parser->scanStorage()) {
+			$i++;
+			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
+			$parser->clearViewCache();
+			$parser->compileFiles();
+			file_put_contents(approot() . "/storage/views.json", $viewJson);
+			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
+		}
+	}
+}
+
 function compCreate($arrList, $component, $compName = null) {
 	global $argv;
 	global $printer;
@@ -128,13 +149,3 @@ if ($firstArg && !$validFirstArg) {
 	$printer->print("No Registered Command as \"$argv[1]\"!\n", 'red', '', true);
 	help();
 }
-
-$parser = new Template();
-$arr = $parser->scanRes();
-$json = json_encode($arr);
-$mtime = json_encode($parser->giveMTimeArr());
-
-print_r($parser->scanStorage());
-
-file_put_contents(approot() . "/storage/views.json", $json);
-file_put_contents(approot() . "/storage/mtime.json", $mtime);

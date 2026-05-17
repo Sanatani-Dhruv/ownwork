@@ -78,23 +78,23 @@ class Template {
 		return $final;
 	}
 
-	public function checkMTime(string $filePath = "", string $json) {
-		if ($filePath == "") {
-			$filePath = $this->viewStoragePath;
-		}
-
-		if (!file_exists($filePath)) {
-			touch($filePath);
-		}
-		$array = json_decode($json);
-		echo "Main File: $filePath\n";
-		foreach ($array as $file => $time) {
-			echo "$file => $time\n";
-			if ($file === $filePath && filemtime($file) === $time) {
-				echo "True";
-			}
-		}
-	}
+	// public function checkMTime(string $filePath = "", string $json) {
+	// 	if ($filePath == "") {
+	// 		$filePath = $this->viewStoragePath;
+	// 	}
+    //
+	// 	if (!file_exists($filePath)) {
+	// 		touch($filePath);
+	// 	}
+	// 	$array = json_decode($json);
+	// 	// echo "Main File: $filePath\n";
+	// 	foreach ($array as $file => $time) {
+	// 		echo "$file => $time\n";
+	// 		if ($file === $filePath && filemtime($file) === $time) {
+	// 			echo "True";
+	// 		}
+	// 	}
+	// }
 
 	public function scanRes($dirPath = null) {
 		if (!is_dir($this->viewResPath)) {
@@ -124,10 +124,16 @@ class Template {
 				// file_put_contents($this->viewStoragePath . $fileName, $this->parse($filePath));
 			}
 		}
-		if (count($this->filePathArr))
+		if (count($this->filePathArr)) {
+			// echo "Total Files: " . count($this->filePathArr) . "\n";
 			return $this->filePathArr;
+		}
 		else
 			return null;
+	}
+
+	public function giveCompiledViewArr() {
+		return $this->filePathArr;
 	}
 
 	public function giveMTimeArr() {
@@ -145,9 +151,9 @@ class Template {
 		}
 
 		$scanDir = scandir($dirPath);
-		$i = 0;
+		$compiledViewCount = 0;
 		$resArr = $this->scanRes();
-		$count = count($resArr);
+		$resourceViewCount = count($resArr);
 		foreach($scanDir as $path) {
 			if ($path === "." || $path === "..") {
 				continue;
@@ -155,20 +161,39 @@ class Template {
 
 			if (strstr($path, "compiled.php")) {
 				foreach($resArr as $resName => $compiledName) {
-					if (strstr($path, "compiled.php") && strstr($path, filemtime($resName))) {
-						$i++;
-						echo "$path => $resName Matched\n";
+					if (!file_exists($resName)) {
+						// echo $resName;
+						$resourceViewCount--;
+						continue;
+						// $this->compileFiles();
+					}
+
+					if (file_exists($resName) && strstr($path, "compiled.php") && strstr($path, filemtime($resName))) {
+						$compiledViewCount++;
+						// echo "$path => $resName Matched\n";
 						break;
 					}
 				}
 			}
 		}
 
-		echo "Count: $count\ni: $i\n";
-		if ($count !== $i) {
-			$this->compileFiles();
+		// echo "Resource View: $resourceViewCount\nCompiled View: $compiledViewCount\n\n";
+		if ($resourceViewCount !== $compiledViewCount) {
 		}
-		return $scanFilesArr;
+		return $resourceViewCount !== $compiledViewCount;
+	}
+
+	public function clearViewCache() {
+		$list = scandir($this->viewStoragePath);
+		foreach($list as $file) {
+			if ($file === "." || $file === "..") continue;
+
+			$filePath = $this->viewStoragePath . $file;
+			if (is_file($filePath)) {
+				unlink($filePath);
+			}
+			// echo $filePath . "\n";
+		}
 	}
 
 	public function compileFiles(string $resDirName = null) {
@@ -176,28 +201,28 @@ class Template {
 			$basepath = $this->viewResPath;
 			$arr = scandir($this->viewResPath);
 		} else {
+			$basepath = $resDirName;
 			$arr = scandir($resDirName);
-			$basepath = $this->viewResPath . $resDirName;
 		}
 		foreach($arr as $path) {
 			if ($path === "." || $path === "..") {
 				continue;
 			}
-			$filePath = $basepath. $path;
-			echo "Name: $path\n";
-			echo "Full Path: $filePath\n";
+			$filePath = $basepath . $path;
+			// echo "Name: $path\n";
+			// echo "Compiling $filePath\n";
 
 			if (is_dir($filePath)) {
-				echo "Going in Dir: $filePath\n\n";
+				// echo "\t> Going in Dir: $filePath\n\n";
 				$this->compileFiles($filePath . "/");
+				// echo "\t> Exiting in Dir: $filePath\n\n";
 			}
 
-			if (!is_dir($filePath)) {
-				if(strstr($path, ".temp.php")) {
-					$fileName = basename($path,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
-					echo "Res File: $basepath$path\n";
-					file_put_contents($this->viewStoragePath . $path, $this->parse($this->viewResPath . $path));
-				}
+			if (!is_dir($filePath) && strstr($path, ".temp.php")) {
+				$fileName = basename($path,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
+				// echo "Res File: $filePath\n";
+				// echo "Compiled File: $this->viewStoragePath$fileName\n";
+				file_put_contents($this->viewStoragePath . $fileName, $this->parse($filePath));
 			}
 		}
 	}

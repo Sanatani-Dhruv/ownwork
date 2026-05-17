@@ -107,13 +107,13 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 		$state = $parser->scanStorage();
 		$viewJson = json_encode($parser->giveCompiledViewArr());
 		$mtimeJson = json_encode($parser->giveMTimeArr());
+		file_put_contents(approot() . "/storage/views.json", $viewJson);
+		file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
 		if ($parser->scanStorage()) {
 			$i++;
 			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
 			$parser->clearViewCache();
 			$parser->compileFiles();
-			file_put_contents(approot() . "/storage/views.json", $viewJson);
-			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
 		}
 	}
 }

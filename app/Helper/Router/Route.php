@@ -130,18 +130,12 @@ class Route {
 
 					} elseif (is_string($action)) {
 						// echo $action;
-						if (file_exists(self::$viewDirectory . $action)) {
-							if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
-								extract(self::$arguments[$request_uri]);
-							}
-							include(self::$viewDirectory . $action);
-						} else {
-							if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-								include(__DIR__ . "/../AppViews/view-notfound-error.php");
-							} else {
-								echo "View Not Found";
-							}
+						$arr = [];
+						if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
+							$arr = self::$arguments[$request_uri];
 						}
+						view($action, $arr);
+						exit();
 					} elseif (is_callable($action)) {
 						$action();
 					}

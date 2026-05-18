@@ -115,6 +115,8 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 		}
 
 		if ($parser->scanStorage()) {
+			file_put_contents(approot() . "/storage/views.json", $viewJson);
+			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
 			$i++;
 			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
 			$parser->clearViewCache();

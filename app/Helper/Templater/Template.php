@@ -99,7 +99,11 @@ class Template {
 
 	public function scanRes($dirPath = "") {
 		if (!is_dir($this->viewResPath)) {
-			throw new \ErrorException("Given Path '$this->viewResPath' is not a Directory");
+			try {
+				$this->makeStorageDirs();
+			} catch (\Exception $err) {
+				throw new \ErrorException("Given Path '$this->viewResPath' is not a Directory");
+			}
 		}
 
 		if (!$dirPath) {
@@ -148,7 +152,11 @@ class Template {
 		}
 
 		if (!is_dir($dirPath)) {
-			throw new \ErrorException("Given Path '$dirPath' is not a Directory");
+			try {
+				$this->makeStorageDirs();
+			} catch (\Exception $err) {
+				throw new \ErrorException("Given Path '$this->viewResPath' is not a Directory");
+			}
 		}
 
 		$scanDir = scandir($dirPath);

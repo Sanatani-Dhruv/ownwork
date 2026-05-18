@@ -5,7 +5,7 @@
 		<title>{{ getenv("APP_NAME") }} App </title>
 		@if(file_exists(approot() . "/public/styles/tailwind.compiled.css")):
 			<style>
-				@php include(approot() . "/public/styles/tailwind.compiled.css"); @endphp;
+				@includeRoot("public/styles/" . "tailwind.compiled.css")@
 			</style>
 		@endif;
 	</head>

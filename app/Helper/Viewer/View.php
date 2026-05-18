@@ -15,6 +15,37 @@ class View {
 		$this::instantView($viewName, $keyValue);
 	}
 
+	public static function includeTemp(string $tempName, bool $givePath = false) {
+		$approot = approot();
+		$compiledViewStorageDir = $approot . "/storage/views/";
+		$compiledViewDetailPath = $approot . "/storage/views.json";
+
+		if (!file_exists($compiledViewDetailPath)) {
+			throw new \ErrorException("views.json not found at " . dirname($compiledViewDetailPath));
+		}
+		$compiledViewDetails = json_decode(file_get_contents($compiledViewDetailPath), true);
+		try {
+			$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails[$approot . "/resources/views/" . $tempName];
+			if (file_exists($compiledViewPath)) {
+				if (!$givePath) {
+					require($compiledViewPath);
+				} else {
+					return $compiledViewPath;
+				}
+			}
+			else {
+				throw new \Exception("View Not Found");
+			}
+		} catch(\Exception $err) {
+			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+				require(__DIR__ . "/../AppViews/view-notfound-error.php");
+				return;
+			} else {
+				echo "<pre>View Not Found</pre>";
+				return;
+			}
+		}
+	}
 
 	public static function instantView($viewName, array $keyValue = []) {
 		$viewLocation = __DIR__ . "/../../../resources/views/";
@@ -24,36 +55,17 @@ class View {
 				extract($keyValue);
 			}
 			if (strstr($viewName, "temp.php")) {
-				$approot = approot();
-				$compiledViewStorageDir = $approot . "/storage/views/";
-				$compiledViewDetailPath = $approot . "/storage/views.json";
-
-				if (!file_exists($compiledViewDetailPath)) {
-					throw new \ErrorException("views.json not found at " . dirname($compiledViewDetailPath));
-				}
-				$compiledViewDetails = json_decode(file_get_contents($compiledViewDetailPath));
-				try {
-					$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails->{$approot . "/resources/views/" . $viewName};
-					if (file_exists($compiledViewPath))
-						require($compiledViewPath);
-					else {
-						throw new \Exception("View Not Found");
-					}
-				} catch(\Exception $err) {
-					if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-						require(__DIR__ . "/../AppViews/view-notfound-error.php");
-					} else {
-						echo "<pre>View Not Found</pre>";
-					}
-				}
+				self::includeTemp($viewName);
 			} else {
 				require($viewLocation . $viewName);
 			}
 		} else {
 			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
 				require(__DIR__ . "/../AppViews/view-notfound-error.php");
+				exit();
 			} else {
 				echo "<pre>View Not Found</pre>";
+				exit();
 			}
 		}
 	}

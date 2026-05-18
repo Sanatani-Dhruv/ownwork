@@ -16,10 +16,14 @@
 - Simple Routing.
 - Easier View Creation.
 - Build a Large Web App with minimal but useful base.
+- Amazing Blade like View templating Engine
 
 ### Dependencies
 1. php (version: 8.0 or greater).
 2. composer (version: 2.9 or greater).
+> Optional Dependencies
+3. nodejs (version: 20.0 or greater)
+4. npm (version: compatible with nodejs)
 
 ### Structure
 
@@ -53,7 +57,7 @@ ownwork
    ├── package-lock.json
    ├── package.json
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
-   │   ├── build
+   │   ├── build # Will contain build file of Tailwind CSS
    │   ├── index.php # Entry Level File, Starting Point of App
    │   └── styles
    │       └── tailwind.compiled.css # Compiled CSS File For Default Page
@@ -61,13 +65,16 @@ ownwork
    │   ├── js
    │   ├── css
    │   │   └── tailwind.css # Default Tailwind Source File
-   │   ├── template
+   │   ├── template # Default Templates for Component's like controller, view, model
    │   │   ├── Controller.php # Default Controller Template
    │   │   ├── Model.php # Default Model Template
    │   │   └── View.php # Default View Template
    │   └── views # Your Views directory
-   │       ├── main.php
-   │       └── welcome.php
+   │       └── main.temp.php
+   ├── storage
+   │   ├── mtime.json # Contains Modification times for every template view file.
+   │   ├── views # Compiled '.temp.php views'
+   │   └── views.json # Contains Mapping of template files to their compiled form
    ├── vendor # Application Dependecies and autoloader directory
    │   └── autoload.php # Include this to autoload files
    └── worker # Your Command Line Manager
@@ -76,6 +83,7 @@ ownwork
 ### Installation
 
 1. Make sure your composer version is atleast 2.9 or greater.
+> npm installation is appreciated for ease of workflow
 
 ```bash
 composer --version
@@ -125,16 +133,29 @@ Starting OwnWork server at port:8000...
 [Mon Jan 01 00:00:00 2026] PHP 8.2.XX Development Server (http://localhost:8000) started
 ```
 
+- Run the view template transpiler in another terminal
+
+```bash
+php worker transpile
+```
+
 > Or
 
-Just Run Command
+- Just Run Command
 
 ```bash
 composer run dev
 ```
 
+- Run the view template transpiler in another terminal
+
+```bash
+composer run transpile
+```
+
 ### Documentation
 
+> Abandoned Documentation for Now
 - Go through Documentation of OwnWork <a href="https://github.com/Sanatani-Dhruv/ownwork-doc" target="_blank">Here!</a>
 
 ### Recommended Packages

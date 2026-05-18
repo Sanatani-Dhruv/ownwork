@@ -31,10 +31,19 @@ class Template {
 		if (!file_exists($filename))
 			throw new \ErrorException("File '$filename' not found");
 
-		$start = file_get_contents($filename);
+		$final = file_get_contents($filename);
+
+		/* include and require blocks Block */
+		$final = str_replace([ "@includeTemp(", "@includeTemp (" ], "<?php view(", $final);
+		$final = str_replace([ "@include(", "@include (" ], "<?php include(approot().'/resources/views/'.", $final);
+		$final = str_replace([ "@includeRoot(", "@include (" ], "<?php include(approot(). '/'. ", $final);
+		$final = str_replace([ "@include_once(", "@include_once (" ], "<?php include_once(approot().'/resources/views/'.", $final);
+		$final = str_replace([ "@require(", "@require (" ], "<?php require_once(approot().'/resources/views/'.", $final);
+		$final = str_replace([ "@requireRoot(", "@require (" ], "<?php require_once(approot(). '/'. ", $final);
+		$final = str_replace([ "@require_once(", "@require_once (" ], "<?php require_once(approot().'/resources/views/'.", $final);
 
 		/* PHP Block */
-		$final = str_replace("@php", "<?php", $start);
+		$final = str_replace("@php", "<?php", $final);
 		$final = str_replace("@endphp", "?>", $final);
 
 		/* General Ending Sequences */
@@ -43,7 +52,7 @@ class Template {
 		$final = str_replace("):", "):?>", $final);
 
 		/* If Block */
-		$final = str_replace([ "@if(", "@if ("], "<?php if(", $final);
+		$final = str_replace([ "@if(", "@if (" ], "<?php if(", $final);
 		$final = str_replace("@endif;", "<?php endif;?>", $final);
 		$final = str_replace("@elseif(", "<?php elseif(", $final);
 
@@ -60,6 +69,11 @@ class Template {
 		$final = str_replace("}}", ")?>", $final);
 		$final = str_replace("{!{", "<?=(", $final);
 		$final = str_replace("}!}", ")?>", $final);
+
+		/* DeEcho Block */
+		$final = str_replace("{{--", "/* ", $final);
+		$final = str_replace("--}}", " */", $final);
+
 
 		/* While Block */
 		$final = str_replace([ "@while(", "@while (" ], "<?php while(", $final);
@@ -78,24 +92,6 @@ class Template {
 
 		return $final;
 	}
-
-	// public function checkMTime(string $filePath = "", string $json) {
-	// 	if ($filePath == "") {
-	// 		$filePath = $this->viewStoragePath;
-	// 	}
-    //
-	// 	if (!file_exists($filePath)) {
-	// 		touch($filePath);
-	// 	}
-	// 	$array = json_decode($json);
-	// 	// echo "Main File: $filePath\n";
-	// 	foreach ($array as $file => $time) {
-	// 		echo "$file => $time\n";
-	// 		if ($file === $filePath && filemtime($file) === $time) {
-	// 			echo "True";
-	// 		}
-	// 	}
-	// }
 
 	public function scanRes($dirPath = "") {
 		if (!is_dir($this->viewResPath)) {
@@ -187,8 +183,6 @@ class Template {
 		}
 
 		// echo "Resource View: $resourceViewCount\nCompiled View: $compiledViewCount\n\n";
-		if ($resourceViewCount !== $compiledViewCount) {
-		}
 		return $resourceViewCount !== $compiledViewCount;
 	}
 

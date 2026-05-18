@@ -22,6 +22,9 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "@php --server=localhost:8000 --docroot=public"
+        ],
+        "transpile": [
+            "@php worker transpile"
         ]
     },
     "authors": [

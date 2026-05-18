@@ -64,16 +64,15 @@ class Template {
 		$final = str_replace([ "@foreach(", "@foreach (" ], "<?php foreach(", $final);
 		$final = str_replace("@endforeach;", "<?php endforeach;?>", $final);
 
+		/* DeEcho Block */
+		$final = str_replace("{{--", "/* ", $final);
+		$final = str_replace("--}}", " */", $final);
+
 		/* Echo Block */
 		$final = str_replace("{{", "<?=htmlspecialchars(", $final);
 		$final = str_replace("}}", ")?>", $final);
 		$final = str_replace("{!{", "<?=(", $final);
 		$final = str_replace("}!}", ")?>", $final);
-
-		/* DeEcho Block */
-		$final = str_replace("{{--", "/* ", $final);
-		$final = str_replace("--}}", " */", $final);
-
 
 		/* While Block */
 		$final = str_replace([ "@while(", "@while (" ], "<?php while(", $final);

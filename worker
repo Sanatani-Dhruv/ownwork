@@ -101,14 +101,19 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 	$validFirstArg = true;
 	$printer->print("Waiting For View Files to Change!", "green", true, true);
 	$parser = new Template();
-	$i = 0;
+	$i = -1;
 	while (true) {
 		sleep(1);
 		$state = $parser->scanStorage();
 		$viewJson = json_encode($parser->giveCompiledViewArr());
 		$mtimeJson = json_encode($parser->giveMTimeArr());
-		file_put_contents(approot() . "/storage/views.json", $viewJson);
-		file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
+
+		if ($i === -1) {
+			file_put_contents(approot() . "/storage/views.json", $viewJson);
+			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
+			$i++;
+		}
+
 		if ($parser->scanStorage()) {
 			$i++;
 			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);

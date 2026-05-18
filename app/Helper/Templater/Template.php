@@ -37,21 +37,22 @@ class Template {
 		$final = str_replace("@php", "<?php", $start);
 		$final = str_replace("@endphp", "?>", $final);
 
+		/* General Ending Sequences */
 		$final = str_replace(")@", ");?>", $final);
-
-		/* If Block */
-		$final = str_replace("@if(", "<?php if(", $final);
 		$final = str_replace("):>", ") :", $final);
 		$final = str_replace("):", "):?>", $final);
+
+		/* If Block */
+		$final = str_replace([ "@if(", "@if ("], "<?php if(", $final);
 		$final = str_replace("@endif;", "<?php endif;?>", $final);
 		$final = str_replace("@elseif(", "<?php elseif(", $final);
 
 		/* For Block */
-		$final = str_replace("@for(", "<?php for(", $final);
+		$final = str_replace([ "@for(", "@for (" ], "<?php for(", $final);
 		$final = str_replace("@endfor;", "<?php endfor;?>", $final);
 
 		/* Foreach Block */
-		$final = str_replace("@foreach(", "<?php foreach(", $final);
+		$final = str_replace([ "@foreach(", "@foreach (" ], "<?php foreach(", $final);
 		$final = str_replace("@endforeach;", "<?php endforeach;?>", $final);
 
 		/* Echo Block */
@@ -61,7 +62,7 @@ class Template {
 		$final = str_replace("}!}", ")?>", $final);
 
 		/* While Block */
-		$final = str_replace("@while(", "<?php while(", $final);
+		$final = str_replace([ "@while(", "@while (" ], "<?php while(", $final);
 		$final = str_replace("@endwhile;", "<?php endwhile; ?>", $final);
 
 		/* Do While Block */
@@ -69,9 +70,9 @@ class Template {
 		$final = str_replace("@enddowhile(", "<?php }while(", $final);
 
 		/* Switch Block */
-		$final = str_replace("@switch(", "<?php switch(", $final);
-		$final = str_replace("@fcase(", "case (", $final);
-		$final = str_replace("@case(", "<?php break;case(", $final);
+		$final = str_replace([ "@switch(", "@switch (" ], "<?php switch(", $final);
+		$final = str_replace([ "@fcase(", "@fcase (" ], "case (", $final);
+		$final = str_replace([ "@case(", "@case (" ], "<?php break;case(", $final);
 		$final = str_replace("@default:", "<?php break;default:?>", $final);
 		$final = str_replace("@endswitch;", "<?php break;endswitch;?>", $final);
 
@@ -96,7 +97,7 @@ class Template {
 	// 	}
 	// }
 
-	public function scanRes($dirPath = null) {
+	public function scanRes($dirPath = "") {
 		if (!is_dir($this->viewResPath)) {
 			throw new \ErrorException("Given Path '$this->viewResPath' is not a Directory");
 		}
@@ -140,7 +141,7 @@ class Template {
 		return $this->filemTimeArr;
 	}
 
-	public function scanStorage($dirPath = null) {
+	public function scanStorage($dirPath = "") {
 		$scanFilesArr = array();
 		if (!$dirPath) {
 			$dirPath = $this->viewStoragePath;
@@ -196,7 +197,7 @@ class Template {
 		}
 	}
 
-	public function compileFiles(string $resDirName = null) {
+	public function compileFiles(string $resDirName = "") {
 		if (!$resDirName) {
 			$basepath = $this->viewResPath;
 			$arr = scandir($this->viewResPath);

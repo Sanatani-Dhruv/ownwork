@@ -50,6 +50,7 @@ class Template {
 
 		/* If Block */
 		$final = str_replace([ "@if(", "@if (" ], "<?php if(", $final);
+		$final = str_replace("@else:", "<?php else:?>", $final);
 		$final = str_replace("@endif;", "<?php endif;?>", $final);
 		$final = str_replace("@elseif(", "<?php elseif(", $final);
 

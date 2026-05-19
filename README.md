@@ -41,6 +41,8 @@ ownwork
    │   │   ├── ConsoleHelper.php # Pretty Printing for Console
    │   │   ├── Router
    │   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
+   │   │   ├── Templater
+   │   │   │   └── Template.php # Transpiler which transpiles .temp.php views to raw php files
    │   │   └── Viewer
    │   │       └── View.php # This File handles calling views, should not be modified, unless you know what you do.
    │   └── Model # Your Models directory
@@ -72,7 +74,6 @@ ownwork
    │   └── views # Your Views directory
    │       └── main.temp.php
    ├── storage
-   │   ├── mtime.json # Contains Modification times for every template view file.
    │   ├── views # Compiled '.temp.php views'
    │   └── views.json # Contains Mapping of template files to their compiled form
    ├── vendor # Application Dependecies and autoloader directory

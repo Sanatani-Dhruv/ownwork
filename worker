@@ -26,6 +26,12 @@ function help() {
 	$printer->print("\nserve", 'green', '', true, false);
 	echo " - Serve OwnWork Application, it's optional arguments:\n";
 	$printer->print("    > NUMBER - Provide a Port Number else, Server Will Start at default port: 8000", 'green', '', true);
+	$printer->print("\ntranspile", 'green', '', true, false);
+	echo " - Run the Temp View transpiler:\n";
+	echo " - Transpiled views will be stored in 'storage/views/' directory.\n";
+	echo " - View method will pick mapping for temp views from 'storage/views.json'.\n";
+	$printer->print("\nclear:viewcache", 'green', '', true, false);
+	echo " - Clear View Cache Stored in 'storage/views/' directory:\n";
 }
 
 // print_r($argv);
@@ -104,24 +110,38 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 	$i = -1;
 	while (true) {
 		sleep(1);
-		$state = $parser->scanStorage();
+		$parser->scanStorage();
 		$viewJson = json_encode($parser->giveCompiledViewArr());
-		$mtimeJson = json_encode($parser->giveMTimeArr());
 
 		if ($i === -1) {
+			$parser->scanRes();
+			$viewJson = json_encode($parser->giveCompiledViewArr());
 			file_put_contents(approot() . "/storage/views.json", $viewJson);
-			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
 			$i++;
 		}
 
 		if ($parser->scanStorage()) {
 			file_put_contents(approot() . "/storage/views.json", $viewJson);
-			file_put_contents(approot() . "/storage/mtime.json", $mtimeJson);
+			$parser->compileFiles();
 			$i++;
 			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
-			$parser->clearViewCache();
-			$parser->compileFiles();
 		}
+	}
+}
+
+if ($firstArg && strtolower($firstArg) == "clear:viewcache") {
+	$validFirstArg = true;
+	$dirPath = approot() . "/storage/views/";
+	if (is_dir($dirPath)) {
+		$dirList = scandir($dirPath);
+		foreach($dirList as $currDir) {
+			if ($currDir === '.' || $currDir === "..") continue;
+			$filePath = $dirPath . $currDir;
+			if (is_file($filePath)) {
+				unlink($filePath);
+			}
+		}
+		$printer->print("Successfully Cleared Template View Cache", 'green', '', true);
 	}
 }
 

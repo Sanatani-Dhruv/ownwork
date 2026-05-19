@@ -18,7 +18,7 @@ body {
 	margin: auto;
 	width: 100%;
 	height: 100dvh;
-	padding: 1rem;
+	padding: 2rem;
 }
 
 a {
@@ -27,7 +27,7 @@ a {
 }
 
 h1 {
-	max-width: 500px;
+	max-width: 900px;
 }
 
 a:hover {

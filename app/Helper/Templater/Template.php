@@ -2,14 +2,12 @@
 
 class Template {
 	private array $filePathArr;
-	private array $filemTimeArr;
 	private $storagePath;
 	private $viewStoragePath;
 	private $viewResPath;
 
 	public function __construct() {
 		$this->filePathArr = array();
-		$this->filemTimeArr = array();
 		$this->storagePath = approot() . "/storage/";
 		$this->viewStoragePath = approot() . "/storage/views/";
 		$this->viewResPath = approot() . "/resources/views/";
@@ -118,8 +116,6 @@ class Template {
 			if (strstr($filePath, ".temp.php")) {
 				$fileName = basename($filePath,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
 				$this->filePathArr[$filePath] = $fileName;
-				$this->filemTimeArr[$filePath] = filemtime($filePath);
-
 				// file_put_contents($this->viewStoragePath . $fileName, $this->parse($filePath));
 			}
 		}
@@ -133,10 +129,6 @@ class Template {
 
 	public function giveCompiledViewArr() {
 		return $this->filePathArr;
-	}
-
-	public function giveMTimeArr() {
-		return $this->filemTimeArr;
 	}
 
 	public function scanStorage($dirPath = "") {
@@ -164,13 +156,6 @@ class Template {
 
 			if (strstr($path, "compiled.php")) {
 				foreach($resArr as $resName => $compiledName) {
-					if (!file_exists($resName)) {
-						// echo $resName;
-						$resourceViewCount--;
-						continue;
-						// $this->compileFiles();
-					}
-
 					if (file_exists($resName) && strstr($path, "compiled.php") && strstr($path, filemtime($resName))) {
 						$compiledViewCount++;
 						// echo "$path => $resName Matched\n";
@@ -181,7 +166,17 @@ class Template {
 		}
 
 		// echo "Resource View: $resourceViewCount\nCompiled View: $compiledViewCount\n\n";
-		return $resourceViewCount !== $compiledViewCount;
+		$lessOrSameToCompiled = $resourceViewCount <= $compiledViewCount;
+		/* Somehow this solved the bug of temp.php files recompiling many times */
+		if ($lessOrSameToCompiled) {
+			$this->clearResViewArray();
+			// $this->scanRes();
+		}
+		return !$lessOrSameToCompiled;
+	}
+
+	public function clearResViewArray() {
+		$this->filePathArr = [];
 	}
 
 	public function clearViewCache() {

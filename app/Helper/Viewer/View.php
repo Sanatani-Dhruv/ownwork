@@ -38,6 +38,7 @@ class View {
 			}
 		} catch(\Exception $err) {
 			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+				$viewName = $tempName;
 				require(__DIR__ . "/../AppViews/view-notfound-error.php");
 				return;
 			} else {

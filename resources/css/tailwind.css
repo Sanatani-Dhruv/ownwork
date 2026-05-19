@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* If You Want to Enable Hover varient to work on touch devices like mobile, uncomment below line  */
+/* @custom-variant hover (&:hover); */

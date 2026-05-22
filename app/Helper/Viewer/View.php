@@ -15,7 +15,7 @@ class View {
 		$this::instantView($viewName, $keyValue);
 	}
 
-	public static function includeTemp(string $tempName, bool $givePath = false) {
+	public static function includeTemp(string $tempName, bool $givePath = false, array $pairs = []) {
 		$approot = approot();
 		$compiledViewStorageDir = $approot . "/storage/views/";
 		$compiledViewDetailPath = $approot . "/storage/views.json";
@@ -28,6 +28,7 @@ class View {
 			$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails[$approot . "/resources/views/" . $tempName];
 			if (file_exists($compiledViewPath)) {
 				if (!$givePath) {
+					extract($pairs);
 					require($compiledViewPath);
 				} else {
 					return $compiledViewPath;
@@ -56,7 +57,7 @@ class View {
 				extract($keyValue);
 			}
 			if (strstr($viewName, "temp.php")) {
-				self::includeTemp($viewName);
+				self::includeTemp($viewName, false, $keyValue);
 			} else {
 				require($viewLocation . $viewName);
 			}

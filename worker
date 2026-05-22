@@ -121,6 +121,7 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 		}
 
 		if ($parser->scanStorage()) {
+			$parser->clearViewCache();
 			file_put_contents(approot() . "/storage/views.json", $viewJson);
 			$parser->compileFiles();
 			$i++;

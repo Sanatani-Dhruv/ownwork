@@ -41,7 +41,7 @@ class Template {
 
 		/* PHP Block */
 		$final = str_replace("@php", "<?php", $final);
-		$final = str_replace("@endphp", "?>", $final);
+		$final = str_replace("@endphp;", "?>", $final);
 
 		/* General Ending Sequences */
 		$final = str_replace(")@", ");?>", $final);
@@ -50,6 +50,7 @@ class Template {
 
 		/* If Block */
 		$final = str_replace([ "@if(", "@if (" ], "<?php if(", $final);
+		$final = str_replace("@else:", "<?php else:?>", $final);
 		$final = str_replace("@endif;", "<?php endif;?>", $final);
 		$final = str_replace("@elseif(", "<?php elseif(", $final);
 
@@ -62,8 +63,8 @@ class Template {
 		$final = str_replace("@endforeach;", "<?php endforeach;?>", $final);
 
 		/* DeEcho Block */
-		$final = str_replace("{{--", "/* ", $final);
-		$final = str_replace("--}}", " */", $final);
+		$final = str_replace("{{--", "<?php /* ", $final);
+		$final = str_replace("--}}", " */?>", $final);
 
 		/* Echo Block */
 		$final = str_replace("{{", "<?=htmlspecialchars(", $final);
@@ -99,7 +100,7 @@ class Template {
 		}
 
 		if (!$dirPath) {
-			$dirPath = $this->viewResPath;
+			$dirPath = rtrim($this->viewResPath, "/");
 		}
 
 		if (is_dir($dirPath)) {
@@ -108,11 +109,12 @@ class Template {
 			foreach($dirList as $value) {
 				if ($value == "." || $value == "..")
 					continue;
-				// echo $dirPath . $value . "\n";
-				$this->scanRes($dirPath . basename($value));
+				// echo $dirPath . "/" . basename($value) . "\n";
+				$this->scanRes($dirPath . "/" . basename($value));
 			}
-		} elseif(is_file($dirPath)) {
+		} elseif(is_file($dirPath) || file_exists($dirPath)) {
 			$filePath = $dirPath;
+				// echo $filePath. "\n";
 			if (strstr($filePath, ".temp.php")) {
 				$fileName = basename($filePath,".temp.php") . "." . filemtime($filePath) . ".compiled.php";
 				$this->filePathArr[$filePath] = $fileName;
@@ -121,6 +123,7 @@ class Template {
 		}
 		if (count($this->filePathArr)) {
 			// echo "Total Files: " . count($this->filePathArr) . "\n";
+			// print_r($this->filePathArr);
 			return $this->filePathArr;
 		}
 		else
@@ -148,7 +151,7 @@ class Template {
 		$scanDir = scandir($dirPath);
 		$compiledViewCount = 0;
 		$resArr = $this->scanRes();
-		$resourceViewCount = count($resArr);
+		$resourceViewCount = (is_array($resArr)) ? count($resArr) : 0;
 		foreach($scanDir as $path) {
 			if ($path === "." || $path === "..") {
 				continue;

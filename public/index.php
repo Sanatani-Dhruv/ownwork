@@ -1,6 +1,5 @@
 <?php 
 use Bundle\Bundler;
-;
 
 try {
 	require __DIR__ . "/../bundle/Bundler.php";

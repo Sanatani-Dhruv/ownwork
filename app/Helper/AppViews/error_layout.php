@@ -27,7 +27,7 @@ if (file_exists(__DIR__ . "/styles/index.css")) {
     <?php if (isset($errMsg)): ?>
       <h1 class="text-2xl border-1 p-4 pt-2 pb-2 font-semibold rounded">
         Error Message:<br>
-        <div class="pl-4 pr-4 text-xl text-red-500/100"><?=out($errMsg)?></div>
+        <div class="pl-2 pr-2 text-xl text-red-500/100"><?=out($errMsg)?></div>
       </h1>
     <?php endif;?>
 
@@ -38,7 +38,7 @@ if (file_exists(__DIR__ . "/styles/index.css")) {
       <?php $i=0; ?>
         <div class="flex flex-col gap-8">
           <?php foreach($tracePathArr as $trace): ?>
-            <div class="p-4 border rounded">
+            <div class="p-4 border rounded text-md">
               <?php comp("stackTrace-block.php", [
                 "filePath" => $trace["file"]
               ], $syscompdir);

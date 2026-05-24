@@ -1,8 +1,5 @@
-<div class="p-2 rounded mb-4 bg-green-500/100">
-  FileName: <?php echo out($filePath);?>
-<pre class="text-xs">
-<?php
-  // echo out(file_get_contents($filePath));
-?>
+<div class="overflow-auto text-md p-2 rounded mb-4 bg-green-500/100">
+  FileName: <?=out($filePath);?>
+<pre class="">
 </pre>
 </div>

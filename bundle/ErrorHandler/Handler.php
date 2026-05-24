@@ -22,13 +22,11 @@ class globalErrorHandler {
 	}
 
 	private function printTracePath(&$Exception) {
+		$traceBlockArr = array();
 		foreach($Exception->getTrace() as $trace) {
-			$this->comp("stackTrace-block.php", [
-				"filePath" => $trace["file"]
-			]);
-
+			$traceContainer = "";
 			$fileContent = fopen($trace["file"], "r");
-			echo "<pre>";
+			$traceContainer .= "<pre style='overflow: auto'>";
 			$i = 0;
 
 			while ($line = fgets($fileContent)) {
@@ -36,38 +34,46 @@ class globalErrorHandler {
 				if (!trim($line) !== "") {
 					if (($trace["line"] >= $i - 4 && $trace["line"] < $i+5)) {
 						if ($trace['line'] === $i) {
-							echo "<div class='text-red-500/100'>";
-							echo "$i ";
-							echo out($line);
-							echo "</div>";
+							$traceContainer .= "<div class='text-red-500/100'>";
+							$traceContainer .= "$i ";
+							$traceContainer .= out($line);
+							$traceContainer .= "</div>";
 						} else {
-							echo "$i ";
-							echo out($line);
+							$traceContainer .= "<div class=''>";
+							$traceContainer .= "$i ";
+							$traceContainer .= out($line);
+							$traceContainer .= "</div>";
 						}
 					}
 				}
 			}
-			echo "</pre>";
+			$traceContainer .= "</pre>";
 			// print_r($trace);
-			echo "<br>";
+			$traceBlockArr[] = $traceContainer;
+			$traceContainer = "";
 			fclose($fileContent);
 		}
+		return $traceBlockArr;
 	}
 
 	public function HandleException ($Exception) {
 		try {
+			$traceBlockArr = null;
 			// echo "!!Working Exception!!";
-			$this->comp("error_layout.php", [
-				"errMsg" => $Exception->getMessage()
-			]);
 
 			if ($Exception->getTrace()) {
-				$this->printTracePath($Exception);
+				$traceBlockArr = $this->printTracePath($Exception);
 			}
 			// echo "<pre>";
 			// print_r(get_class_methods($Exception));
 			// echo "</pre>";
 
+			$this->comp("error_layout.php", [
+				"errMsg" => $Exception->getMessage(),
+				"traceBlocksArr" => $traceBlockArr,
+				"syscompdir" => $this->systemCompDir,
+				"tracePathArr" => $Exception->getTrace()
+			]);
 			exit();
 			// Handle exception here.
 		} catch (\Exception $err) {

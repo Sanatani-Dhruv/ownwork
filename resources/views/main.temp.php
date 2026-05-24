@@ -3,8 +3,7 @@
 	<head>
 		<meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"/>
 		<title>{{ getenv("APP_NAME") }} App </title>
-		@if(file_exists(approot() . "/public/styles/tailwind.compiled.css")):
-			 @php throw new Exception("Hi"); @endphp; --}} 
+		{{-- @if(file_exists(approot() . "/public/styles/tailwind.compiled.css")): --}}
 			<style>
 				@includeRoot("public/styles/" . "tailwind.compiled.css")@
 			</style>

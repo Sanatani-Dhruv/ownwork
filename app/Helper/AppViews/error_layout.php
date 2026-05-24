@@ -25,16 +25,16 @@ if (file_exists(__DIR__ . "/styles/index.css")) {
     </h1>
 
     <?php if (isset($errMsg)): ?>
-      <h1 class="text-2xl border-1 p-4 pt-2 pb-2 font-semibold rounded">
+      <h3 class="text-2xl border-1 p-4 pt-2 pb-2 font-semibold rounded">
         Error Message:<br>
         <div class="pl-2 pr-2 text-xl text-red-500/100"><?=out($errMsg)?></div>
-      </h1>
+      </h3>
     <?php endif;?>
 
       <br>
 
       <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
-      <h2 class="text-xl mb-2 font-medium">Stack Trace:</h2>
+      <h3 class="text-xl mb-2 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
         <div class="flex flex-col gap-8">
           <?php foreach($tracePathArr as $trace): ?>

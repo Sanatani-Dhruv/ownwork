@@ -41,7 +41,7 @@ function comp(string $name, array $args = [], string $dir = "") {
   if (file_exists($fullPath)) {
     extract($args);
     require $fullPath;
-    return ;
+    return;
   } else {
     throw new ErrorException("Component with name: '$name' not found at $fullPath");
   }

@@ -30,21 +30,26 @@ class View {
 				if (!$givePath) {
 					extract($pairs);
 					require($compiledViewPath);
+					return;
 				} else {
 					return $compiledViewPath;
 				}
 			}
 			else {
-				throw new \Exception("View Not Found");
+				throw new \Exception("view-not-found");
 			}
 		} catch(\Exception $err) {
-			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-				$viewName = $tempName;
-				require(__DIR__ . "/../AppViews/view-notfound-error.php");
-				return;
+			if ($err->getMessage() === "view-not-found") {
+				if ( file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+					$viewName = $tempName;
+					require(__DIR__ . "/../AppViews/view-notfound-error.php");
+					return;
+				} else {
+					echo "<pre>View Not Found</pre>";
+					return;
+				}
 			} else {
-				echo "<pre>View Not Found</pre>";
-				return;
+				throw new \ErrorException("HI");
 			}
 		}
 	}

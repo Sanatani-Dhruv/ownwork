@@ -6,6 +6,7 @@ use Bundle\Environment\Environment;
 class Bundler {
 	function __construct() {
 		// require(__DIR__ . "/Routes.php");
+		require_once(__DIR__ . "/ErrorHandler/Handler.php");
 		if (file_exists(__DIR__ . "/../.env") && file_exists(__DIR__ . "/../vendor/autoload.php")) {
 			require __DIR__ . '/../vendor/autoload.php';
 		} else {

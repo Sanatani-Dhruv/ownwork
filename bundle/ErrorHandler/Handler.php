@@ -26,7 +26,7 @@ class globalErrorHandler {
 		foreach($Exception->getTrace() as $trace) {
 			$traceContainer = "";
 			$fileContent = fopen($trace["file"], "r");
-			$traceContainer .= "<pre class='overflow-auto'>";
+			$traceContainer .= "<pre class='file_content overflow-auto'>";
 			$i = 0;
 
 			while ($line = fgets($fileContent)) {
@@ -39,7 +39,7 @@ class globalErrorHandler {
 							$traceContainer .= out($line);
 							$traceContainer .= "</div>";
 						} else {
-							$traceContainer .= "<div class=''>";
+							$traceContainer .= "<div>";
 							$traceContainer .= "$i ";
 							$traceContainer .= out($line);
 							$traceContainer .= "</div>";

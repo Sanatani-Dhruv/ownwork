@@ -13,8 +13,9 @@
   if(file_exists(approot() . "/public/build/output.css")):
     require(approot() . "/public/build/output.css");
 endif;
-if (file_exists(__DIR__ . "/styles/index.css")) {
-  // include(__DIR__ . "/styles/index.css");
+  include(__DIR__ . "/styles/error.css");
+if (file_exists(__DIR__ . "/styles/error.css")) {
+  include(__DIR__ . "/styles/error.css");
 }
 ?>
     </style>
@@ -33,7 +34,7 @@ if (file_exists(__DIR__ . "/styles/index.css")) {
 
       <br>
 
-      <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
+      <?php if (isset($TMPtraceBlocksArr,$tracePathArr)): ?>
       <h3 class="text-xl mb-2 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
         <div class="flex flex-col gap-8">
@@ -49,11 +50,29 @@ if (file_exists(__DIR__ . "/styles/index.css")) {
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
+        <div class="p-4 border rounded text-md">
+          <div class="file_name overflow-auto text-md p-2 rounded text-black mb-4 bg-green-500/100 flex">
+            <div class="w-full">
+              <strong>File name:</strong> <span class="font-medium text-white">/home/guest/ownwork/public/index.php</span>
+            </div>
+            <div class="collapse-svg-block pl-2 pr-2 font-black font-mono">^</div>
+          </div>
+          <pre class="file_content overflow-auto"><div>5 
+</div><div>6 require __DIR__ . "/../bundle/Bundler.php";
+</div><div>7 // Bundler class bundles your application with routes and other neccesary things
+</div><div>8 $app = new Bundler();
+</div><div class="text-red-500/100">9 $app-&gt;bundle(); // Starting our app
+        </div></pre>            </div>
 
-    <h2 class="w-max m-auto p-3">
-      <code>
-        <a href="/">Home Page</a>
-      </code>
-    </h2>
+        <h2 class="w-max m-auto p-3">
+          <code>
+            <a href="/">Home Page</a>
+          </code>
+        </h2>
+        <script>
+          <?php if(file_exists(__DIR__ . "/script/script.js")): ?>
+            <?php include(__DIR__ . "/script/script.js"); ?>
+          <?php endif; ?>
+        </script>
   </body>
 </html>

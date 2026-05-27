@@ -32,6 +32,7 @@ class View {
 					require($compiledViewPath);
 					return;
 				} else {
+					extract($pairs);
 					return $compiledViewPath;
 				}
 			}
@@ -59,8 +60,10 @@ class View {
 			}
 			if (strstr($viewName, "temp.php")) {
 				self::includeTemp($viewName, false, $keyValue);
+				return;
 			} else {
 				require($viewLocation . $viewName);
+				return;
 			}
 		} else {
 			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {

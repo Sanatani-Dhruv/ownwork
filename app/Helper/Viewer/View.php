@@ -36,20 +36,16 @@ class View {
 				}
 			}
 			else {
-				throw new \Exception("view-not-found");
+				throw new \Exception("View Not Found");
 			}
 		} catch(\Exception $err) {
-			if ($err->getMessage() === "view-not-found") {
-				if ( file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-					$viewName = $tempName;
-					require(__DIR__ . "/../AppViews/view-notfound-error.php");
-					return;
-				} else {
-					echo "<pre>View Not Found</pre>";
-					return;
-				}
+			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+				$viewName = $tempName;
+				require(__DIR__ . "/../AppViews/view-notfound-error.php");
+				return;
 			} else {
-				throw new \ErrorException("HI");
+				echo "<pre>View Not Found</pre>";
+				return;
 			}
 		}
 	}

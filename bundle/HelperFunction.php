@@ -16,8 +16,29 @@ function env($data, bool $get = true, bool $specialChars = true) {
   return ($get) ? getenv($data) : putenv($data);
 }
 
+function getTempTranspiled(string $string, bool $needPath = true, array $args = []) {
+  return \App\Helper\Viewer\View::includeTemp($string, $needPath, $args);
+}
+
 function view($string, array $args = []) {
   \App\Helper\Viewer\View::instantView($string, $args);
+}
+
+// Call Component
+function comp(string $name, array $args = [], string $dir = "") {
+  $dir = trim($dir);
+  if ($dir == "") {
+    $dir = approot() . "/resources/views/component/";
+  }
+  $fullPath = $dir . $name;
+
+  if (file_exists($fullPath)) {
+    extract($args);
+    require $fullPath;
+    return;
+  } else {
+    throw new ErrorException("Component with name: '$name' not found at $fullPath");
+  }
 }
 
 function url(string $action) {
@@ -28,22 +49,6 @@ function url(string $action) {
 
   if ($action == 'getFull') {
     return $_SERVER['REQUEST_URI'];
-  }
-}
-
-// Call Component
-function comp(string $name, array $args = [], string $dir = "") {
-  $dir = trim($dir);
-  if ($dir == "") {
-    $dir = approot() . "/resources/views/component/";
-  }
-  $fullPath = $dir . $name;
-  if (file_exists($fullPath)) {
-    extract($args);
-    require $fullPath;
-    return;
-  } else {
-    throw new ErrorException("Component with name: '$name' not found at $fullPath");
   }
 }
 
@@ -67,7 +72,6 @@ if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && f
       $dbDir = __DIR__ . "/../storage/db";
       $dbName = env("DB_NAME") . ".db";
       $dbFilePath = "$dbDir/$dbName";
-      echo $dbFilePath;
 
       // Creating sqlite file if not exists
       if (!is_dir($dbDir)) {

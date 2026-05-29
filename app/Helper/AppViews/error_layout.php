@@ -37,11 +37,11 @@ if (file_exists(__DIR__ . "/styles/error.css")) {
       <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
       <h3 class="text-xl mb-2 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
-        <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-4">
           <?php foreach($tracePathArr as $trace): ?>
-            <div class="stackTraceBlock p-4 border rounded text-md">
+            <div class="stackTraceBlock p-3 border border-gray-50/30 rounded text-md">
               <?php comp("stackTrace-block.php", [
-                "filePath" => $trace["file"]
+                "filePath" => ltrim($trace["file"], approot())
               ], $syscompdir);
             ?>
             <?=($traceBlocksArr[$i]);?>

@@ -74,7 +74,6 @@ class globalErrorHandler {
 				"syscompdir" => $this->systemCompDir,
 				"tracePathArr" => $Exception->getTrace()
 			]);
-			print_r($GLOBALS);
 			exit();
 			// Handle exception here.
 		} catch (\Exception $err) {

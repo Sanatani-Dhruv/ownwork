@@ -1,8 +1,3 @@
-<?php
-  // http_response_code(404);
-  // die();
-  // header("HTTP/1.0 404 Not Found");
-// $error = http_response_code(404)?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,11 +7,11 @@
 <?php
   if(file_exists(approot() . "/public/build/output.css")):
     require(approot() . "/public/build/output.css");
-endif;
+  endif;
   include(__DIR__ . "/styles/error.css");
-if (file_exists(__DIR__ . "/styles/error.css")) {
-  include(__DIR__ . "/styles/error.css");
-}
+  if (file_exists(__DIR__ . "/styles/error.css")) {
+    include(__DIR__ . "/styles/error.css");
+  }
 ?>
     </style>
   </head>
@@ -26,13 +21,23 @@ if (file_exists(__DIR__ . "/styles/error.css")) {
     </h1>
 
     <?php if (isset($errMsg)): ?>
-      <h3 class="text-2xl border-1 p-4 pt-2 pb-2 font-semibold rounded">
-        Error Message:<br>
+      <div class="border-1 p-4 pt-2 pb-2 rounded">
+        <h3 class="text-2xl font-semibold">
+          Error Message:
+        </h3>
         <div class="pl-2 pr-2 text-xl text-red-500/100"><?=out($errMsg)?></div>
-      </h3>
-    <?php endif;?>
+        <?php if(isset($errFile)):?>
+        <br>
+        <h3 class="text-xl font-semibold">
+          Error in File:<br>
+        </h3>
+        <div class="pl-2 pr-2 text-lg text-red-500/100"><?=out($errFile)?></div>
+        <?php endif;?>
+      </div>
+      <?php endif;?>
 
-      <br>
+      <h4 class="p-3 font-medium text-xl">Basic App Infos</h4>
+      <div class="pb-4 pt-4 text-xl text-white-500/100 text-center"><span class="italic">App Directory:</span> <?=approot()?></div>
 
       <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
       <h3 class="text-xl mb-2 font-medium">Stack Trace:</h3>
@@ -41,7 +46,8 @@ if (file_exists(__DIR__ . "/styles/error.css")) {
           <?php foreach($tracePathArr as $trace): ?>
             <div class="stackTraceBlock p-3 border border-gray-50/30 rounded text-md">
               <?php comp("stackTrace-block.php", [
-                "filePath" => ltrim($trace["file"], approot())
+                "filePath" => (str_contains($trace["file"], approot()) ? str_replace(approot() . "/", "" , $trace['file']) : $trace["file"]),
+                "i" => $i
               ], $syscompdir);
             ?>
             <?=($traceBlocksArr[$i]);?>
@@ -58,7 +64,7 @@ if (file_exists(__DIR__ . "/styles/error.css")) {
         <script>
           <?php if(file_exists(__DIR__ . "/script/script.js")): ?>
             <?php include(__DIR__ . "/script/script.js"); ?>
-          <?php endif; ?>
+            <?php endif; ?>
         </script>
   </body>
 </html>

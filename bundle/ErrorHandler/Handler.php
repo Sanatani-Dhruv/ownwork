@@ -20,29 +20,6 @@ class globalErrorHandler {
 		exit;
 		// Handle error here.
 	}
-	private function getTempFileName(string $compiledFile): string {
-		if (str_contains($compiledFile,"compiled.php")) {
-			$errFile = "";
-			$compiledFile = basename($compiledFile);
-			if (file_exists(approot() . "/storage/views.json")) {
-				$viewArr = json_decode(file_get_contents(approot() . "/storage/views.json"), true);
-				foreach($viewArr as $key => $value) {
-					if ($value == $compiledFile) {
-						$errFile = $key;
-					}
-				}
-				if ($errFile === "") {
-					return $compiledFile;
-				} else {
-					return $errFile;
-				}
-			} else {
-				return $compiledFile;
-			}
-		} else {
-			return $compiledFile;
-		}
-	}
 
 	private function printTracePath(&$Exception) {
 		$traceBlockArr = array();
@@ -57,10 +34,10 @@ class globalErrorHandler {
 				if (!trim($line) !== "") {
 					if (($trace["line"] >= $i - 4 && $trace["line"] < $i+5)) {
 						if ($trace['line'] === $i) {
-							$traceContainer .= "<div class='text-red-500/100'><strong><em>";
+							$traceContainer .= "<div class='text-red-500/100'>";
 							$traceContainer .= "$i ";
 							$traceContainer .= out($line);
-							$traceContainer .= "</strong></em></div>";
+							$traceContainer .= "</div>";
 						} else {
 							$traceContainer .= "<div>";
 							$traceContainer .= "$i ";
@@ -79,9 +56,8 @@ class globalErrorHandler {
 		return $traceBlockArr;
 	}
 
-	public function HandleException($Exception) {
+	public function HandleException ($Exception) {
 		try {
-			http_response_code(500);
 			$traceBlockArr = null;
 			// echo "!!Working Exception!!";
 
@@ -92,23 +68,13 @@ class globalErrorHandler {
 			// print_r(get_class_methods($Exception));
 			// echo "</pre>";
 
-			$errFile = $this->getTempFileName($Exception->getFile());
-
-			/* Remove System dir Prefix which is app directory */
-			$errFile = (str_contains($errFile, approot()) ? str_replace(approot() . "/", "", $errFile) : $errFile);
-
-			$errLine = $Exception->getLine();
-
 			$this->comp("error_layout.php", [
 				"errMsg" => $Exception->getMessage(),
-				"errFile" => $errFile,
-				"errLine" => $errLine,
 				"traceBlocksArr" => $traceBlockArr,
 				"syscompdir" => $this->systemCompDir,
 				"tracePathArr" => $Exception->getTrace()
 			]);
 			exit();
-
 			// Handle exception here.
 		} catch (\Exception $err) {
 			echo $err;

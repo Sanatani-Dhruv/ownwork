@@ -52,10 +52,6 @@ function url(string $action) {
   }
 }
 
-function jsonHeader() {
-  header("Content-Type: application/json; charset=UTF-8");
-}
-
 // Function for Getting Instance of Database class if exists - If Someone Uses recommended Package i provided in DB
 if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDatabase.php")) {
   if (env("DB_DRIVER") == "sql") {

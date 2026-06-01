@@ -3,8 +3,7 @@
     "description": "OwnWork - Minimal PHP Framework for an MVC Project",
     "type": "project",
     "require": {
-        "php": "^8.0",
-        "sunspikes/php-ratelimiter": "^2.0"
+        "php": "^8.0"
     },
     "license": "MIT",
     "autoload": {

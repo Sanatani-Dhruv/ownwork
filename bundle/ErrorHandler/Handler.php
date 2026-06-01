@@ -13,7 +13,7 @@ class globalErrorHandler {
 		\comp($compName, $parameters, $this->systemCompDir);
 	}
 
-	public function HandleError ($Code, $Message, $File = null, $Line = 0, $Context = []) {
+	public function HandleError($Code, $Message, $File = null, $Line = 0, $Context = []) {
 		// echo "Working Error";
 		print_r($Message);
 		$this->comp("error_layout.php");

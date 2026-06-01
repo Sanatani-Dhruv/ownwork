@@ -29,7 +29,9 @@ class Bundler {
 
 		// Global Helper Functions exist in below file
 		require __DIR__ . '/HelperFunction.php';
-		require(__DIR__ . "/../bundle/ErrorHandler/Handler.php");
+		//
+		// Error Handler Setup for Application
+		require(__DIR__ . "/ErrorHandler/Handler.php");
 	}
 
 	public function bundle() {

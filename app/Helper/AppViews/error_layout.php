@@ -16,7 +16,7 @@
     </style>
   </head>
   <body class="p-8 bg-gray-800/100 text-white">
-    <h1 class="text-3xl shadow-lg pt-2 pb-2 font-semibold text-center rounded m-4 ml-0 mr-0  bg-amber-600/100">
+    <h1 class="text-3xl shadow-lg pt-2 pb-2 font-semibold text-center rounded m-4 ml-0 mr-0 bg-amber-600/100">
       OwnWork Error Handler
     </h1>
 
@@ -61,9 +61,9 @@
             <span class="italic flex-1 whitespace-nowrap">
               App Directory:
             </span>
-            <span class="text-right whitespace-nowrap">
+            <code class="text-right whitespace-nowrap">
               <?=out(approot())?>
-            </span>
+            </code>
           </div>
             <hr class="w-full text-gray-500 border"><br>
           <div class="text-gray-500 text-xl"><code># [ENV_VARIABLES]</code></div>
@@ -73,9 +73,9 @@
               <span class="italic flex-1 whitespace-nowrap">
                 <?=out(trim($key))?>:
               </span>
-              <span class="text-right whitespace-nowrap">
+              <code class="text-right whitespace-nowrap">
                 <?=($value == "") ? "<span class='text-gray-500'>[EMPTY]</span>" : $value?>
-              </span>
+              </code>
             </div>
             <hr class="w-full text-gray-500 border"><br>
             <?php endforeach; ?>
@@ -83,7 +83,7 @@
         </div>
         <div class="m-auto w-max p-4">
           <a href="/">
-            <button class="cursor-pointer border p-3 bg-white text-black font-bold text-xl rounded hover:rounded-none transition">
+            <button class="cursor-pointer border pt-2 pb-2 p-3 bg-white text-black font-bold text-xl rounded hover:rounded-none transition">
               <code>
                 Home Page
               </code>

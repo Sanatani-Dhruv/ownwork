@@ -39,17 +39,21 @@ class Route {
 		}
 	}
 
-	public function redirect(string $oriUrl, string $redirect) {
+	public function redirect(string $oriUrl, string $redirect, bool $fullurl = false) {
 		// Remove whitespaces
 		$oriUrl = trim($oriUrl);
 		$redirect = trim($redirect);
-		$browUrl = trim($_SERVER["PATH_INFO"]);
+		if ($fullurl) {
+			$browUrl = trim($_SERVER["REQUEST_URI"]);
+		} else {
+			$browUrl = trim(parse_url($_REQUEST['REQUEST_URI'])['path']);
+		}
 
 		// Get Length
-		$lenOri = strlen($oriUrl);
-		$lenBrow = strlen($browUrl);
-
-		$browUrl = ($lenBrow > 1 && "/" == $browUrl[$lenBrow - 1]) ? rtrim($browUrl, "/") : $browUrl;
+		// $lenOri = strlen($oriUrl);
+		// $lenBrow = strlen($browUrl);
+        //
+		// $browUrl = ($lenBrow > 1 && "/" == $browUrl[$lenBrow - 1]) ? rtrim($browUrl, "/") : $browUrl;
 
 		// echo "Original: $oriUrl<br>";
 		// echo "Server: $browUrl<br>";
@@ -78,8 +82,9 @@ class Route {
 				// echo "\n\"$request_uri\" => \"$routeRegex\"\n\n";
 
 				$forThisRequest = false;
+				$requestPath = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-				if (preg_match($routeRegex, $_SERVER['PATH_INFO'], $matches)) {
+				if (preg_match($routeRegex, $requestPath, $matches)) {
 					// echo "<pre>";
 					// print_r($matches);
 					// echo "True for $matches[0]";
@@ -130,12 +135,23 @@ class Route {
 
 					} elseif (is_string($action)) {
 						// echo $action;
-						$arr = [];
-						if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
-							$arr = self::$arguments[$request_uri];
+						if (file_exists(self::$viewDirectory . $action)) {
+							if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
+								extract(self::$arguments[$request_uri]);
+							}
+							if (strstr($action, "temp.php")) {
+								view($action);
+							} else {
+								require(self::$viewDirectory . $action);
+							}
+						} else {
+							$viewName = $action;
+							if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
+								include(__DIR__ . "/../AppViews/view-notfound-error.php");
+							} else {
+								echo "View Not Found";
+							}
 						}
-						view($action, $arr);
-						exit();
 					} elseif (is_callable($action)) {
 						$action();
 					}

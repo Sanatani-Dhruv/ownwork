@@ -36,17 +36,15 @@
       </div>
       <?php endif;?>
 
-      <h4 class="p-3 font-medium text-xl">Basic App Infos</h4>
-      <div class="pb-4 pt-4 text-xl text-white-500/100 text-center"><span class="italic">App Directory:</span> <?=approot()?></div>
 
-      <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
-      <h3 class="text-xl mb-2 font-medium">Stack Trace:</h3>
+        <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
+      <h3 class="text-xl mt-4 mb-4 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
         <div class="flex flex-col gap-4">
           <?php foreach($tracePathArr as $trace): ?>
             <div class="stackTraceBlock p-3 border border-gray-50/30 rounded text-md">
               <?php comp("stackTrace-block.php", [
-                "filePath" => (str_contains($trace["file"], approot()) ? str_replace(approot() . "/", "" , $trace['file']) : $trace["file"]),
+                "filePath" => $trace,
                 "i" => $i
               ], $syscompdir);
             ?>
@@ -56,11 +54,42 @@
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
-        <h2 class="w-max m-auto p-3">
-          <code>
-            <a href="/">Home Page</a>
-          </code>
-        </h2>
+        <h4 class="pt-4 pb-4 font-medium text-2xl underline">Basic App Infos</h4>
+        <div class="border rounded pt-2 p-4 mt-4 md:ml-40 md:mr-40">
+          <div class="text-gray-500 text-xl"><code># [GENERAL INFORMATION]</code></div>
+          <div class="text-lg text-white-500/100 flex gap-4 items-end">
+            <span class="italic flex-1 whitespace-nowrap">
+              App Directory:
+            </span>
+            <span class="text-right whitespace-nowrap">
+              <?=out(approot())?>
+            </span>
+          </div>
+            <hr class="w-full text-gray-500 border"><br>
+          <div class="text-gray-500 text-xl"><code># [ENV_VARIABLES]</code></div>
+          <?php if(isset($envArr)): ?>
+            <?php foreach($envArr as $key => $value): ?>
+            <div class="text-lg text-white-500/100 flex gap-4 items-end">
+              <span class="italic flex-1 whitespace-nowrap">
+                <?=out(trim($key))?>:
+              </span>
+              <span class="text-right whitespace-nowrap">
+                <?=($value == "") ? "<span class='text-gray-500'>[EMPTY]</span>" : $value?>
+              </span>
+            </div>
+            <hr class="w-full text-gray-500 border"><br>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+        <div class="m-auto w-max p-4">
+          <a href="/">
+            <button class="cursor-pointer border p-3 bg-white text-black font-bold text-xl rounded hover:rounded-none transition">
+              <code>
+                Home Page
+              </code>
+            </button>
+          </a>
+        </div>
         <script>
           <?php if(file_exists(__DIR__ . "/script/script.js")): ?>
             <?php include(__DIR__ . "/script/script.js"); ?>

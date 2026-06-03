@@ -79,6 +79,14 @@ class globalErrorHandler {
 		return $traceBlockArr;
 	}
 
+	private function getEnvArrBlocks(array $envArr = []) {
+		if (!count($envArr)) {
+			$envArr = $_ENV;
+		}
+
+		return $envArr;
+	}
+
 	public function HandleException($Exception) {
 		try {
 			http_response_code(500);
@@ -94,8 +102,18 @@ class globalErrorHandler {
 
 			$errFile = $this->getTempFileName($Exception->getFile());
 
+			$envArrBlock = $this->getEnvArrBlocks();
+
 			/* Remove System dir Prefix which is app directory */
 			$errFile = (str_contains($errFile, approot()) ? str_replace(approot() . "/", "", $errFile) : $errFile);
+			$tracePathArr = array_map(
+				function($trace) {
+					return (str_contains($trace["file"], approot()) ?
+						str_replace(approot() . "/", "" , $trace['file'])
+						:
+						$trace["file"]
+					);
+				}, $Exception->getTrace());
 
 			$errLine = $Exception->getLine();
 
@@ -105,7 +123,8 @@ class globalErrorHandler {
 				"errLine" => $errLine,
 				"traceBlocksArr" => $traceBlockArr,
 				"syscompdir" => $this->systemCompDir,
-				"tracePathArr" => $Exception->getTrace()
+				"tracePathArr" => $tracePathArr,
+				"envArr" => $envArrBlock
 			]);
 			exit();
 

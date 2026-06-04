@@ -5,8 +5,10 @@ class globalErrorHandler {
 
 	public function __construct () {
 		$this->systemCompDir = \approot() . "/app/Helper/AppViews/";
-		set_error_handler([&$this, 'HandleError']);
-		set_exception_handler([&$this, 'HandleException']);
+		if (isset($_ENV['OWNWORK_ERROR_HANDLER']) && $_ENV['OWNWORK_ERROR_HANDLER']) {
+			set_error_handler([&$this, 'HandleError']);
+			set_exception_handler([&$this, 'HandleException']);
+		}
 	}
 
 	private function comp(string $compName, array $parameters = []) {
@@ -15,8 +17,15 @@ class globalErrorHandler {
 
 	public function HandleError ($Code, $Message, $File = null, $Line = 0, $Context = []) {
 		// echo "Working Error";
-		print_r($Message);
-		$this->comp("error_layout.php");
+		$errFile = (str_contains($File, approot()) ? str_replace(approot() . "/", "", $File) : $File);
+
+		$this->comp("error_layout.php", [
+			"errMsg" => $Message,
+			"errFile" => $errFile,
+			"errLine" => $Line,
+			"syscompdir" => $this->systemCompDir,
+			"envArr" => $_ENV
+		]);
 		exit;
 		// Handle error here.
 	}
@@ -49,7 +58,7 @@ class globalErrorHandler {
 		foreach($Exception->getTrace() as $trace) {
 			$traceContainer = "";
 			$fileContent = fopen($trace["file"], "r");
-			$traceContainer .= "<pre class='file_content overflow-auto hidden'>";
+			$traceContainer .= "<pre class='file_content p-2 overflow-auto hidden'>";
 			$i = 0;
 
 			while ($line = fgets($fileContent)) {
@@ -87,6 +96,31 @@ class globalErrorHandler {
 		return $envArr;
 	}
 
+	private function getErrorFileLines(string $errFile, int $errLine): string | bool {
+		if (file_exists($errFile)) {
+			$fileContent = fopen($errFile, "r");
+			$i = 0;
+			$outputArr = "";
+			$outputArr .= "<pre>";
+
+			while ($line = fgets($fileContent)) {
+				$line = out($line);
+				$i++;
+				if ($errLine >= $i - 4 && $errLine < $i+5) {
+					if ($errLine === $i) {
+						$outputArr .= "<span class='text-red-500/100'><strong><em>$i" . rtrim($line) . " <span class='text-gray-500/100'>" . out("<- ERROR") . "</span>\n" . "</em></strong></span>";
+					} else {
+						$outputArr .= "<span class=''>$i$line</span>";
+					}
+				}
+			}
+			$outputArr .= "</pre>";
+		} else {
+			throw new ErrorException("File $errFile not found");
+		}
+		return $outputArr;
+	}
+
 	public function HandleException($Exception) {
 		try {
 			http_response_code(500);
@@ -116,11 +150,13 @@ class globalErrorHandler {
 				}, $Exception->getTrace());
 
 			$errLine = $Exception->getLine();
+			$errLinesArray = $this->getErrorFileLines(approot() . "/" . $errFile, $errLine);
 
 			$this->comp("error_layout.php", [
 				"errMsg" => $Exception->getMessage(),
 				"errFile" => $errFile,
 				"errLine" => $errLine,
+				"errLinesArray" => $errLinesArray,
 				"traceBlocksArr" => $traceBlockArr,
 				"syscompdir" => $this->systemCompDir,
 				"tracePathArr" => $tracePathArr,
@@ -129,8 +165,8 @@ class globalErrorHandler {
 			exit();
 
 			// Handle exception here.
-		} catch (\Exception $err) {
-			echo $err;
+		} catch (\ErrorException $err) {
+			echo($err);
 		}
 	}
 };

@@ -17,7 +17,6 @@ for (let block of stackTraceBlock) {
 		let classList = event.target.classList;
 		let fileNameBlock = block.getElementsByClassName('fileNameBlock')[0];
 		let contents = block.getElementsByClassName('file_content')[0];
-        console.log(event.target)
 		if (isDescendant(fileNameBlock, event.target) || event.target === fileNameBlock) {
 		// if (event.target.classList.contains('fileNameBlock')) {
 			contents.classList.toggle('hidden')

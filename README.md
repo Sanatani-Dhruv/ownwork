@@ -34,10 +34,16 @@ ownwork
    │   │   └── UserController.php
    │   ├── Helper # This file includes Helper and Support Files which handles important functions like Routing, Viewing
    │   │   ├── AppViews # Views Required by OwnWork like Error Pages
-   │   │   │   ├── general-notfound-error.php
-   │   │   │   ├── styles
-   │   │   │   │   └── index.css
-   │   │   │   └── view-notfound-error.php
+   │   │   │   ├── error_layout.php
+   │   │   │   ├── general-notfound-error.php
+   │   │   │   ├── internal-server-error.php
+   │   │   │   ├── no-setup-done-error.php
+   │   │   │   ├── script
+   │   │   │   │   └── script.js
+   │   │   │   ├── stackTrace-block.php
+   │   │   │   ├── styles
+   │   │   │   │   └── index.css
+   │   │   │   └── view-notfound-error.php
    │   │   ├── ConsoleHelper.php # Pretty Printing for Console
    │   │   ├── Router
    │   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
@@ -62,7 +68,7 @@ ownwork
    │   ├── build # Will contain build file of Tailwind CSS
    │   ├── index.php # Entry Level File, Starting Point of App
    │   └── styles
-   │       └── tailwind.compiled.css # Compiled CSS File For Default Page
+   │       └── tailwind.default.css # Compiled CSS File For Default Page
    ├── resources
    │   ├── js
    │   ├── css
@@ -152,6 +158,20 @@ composer run dev
 
 ```bash
 composer run transpile
+```
+
+> if You have npm installed, all this process can be avoided
+
+- Run:
+
+```bash
+npm i
+```
+
+- After Successful installation message, whenever you want to run server, run the command:
+
+```bash
+npm run dev
 ```
 
 ### Documentation

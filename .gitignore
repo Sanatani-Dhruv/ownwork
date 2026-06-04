@@ -3,4 +3,5 @@ vendor
 storage/
 node_modules/
 public/build/
+!public/build/tailwind.default.css
 build/

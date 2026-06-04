@@ -5,8 +5,8 @@
     <title>Error<?=out((isset($errMsg) ? ": " . $errMsg : "Handled") )?> </title>
     <style>
 <?php
-  if(file_exists(approot() . "/public/build/output.css")):
-    require(approot() . "/public/build/output.css");
+  if(file_exists(approot() . "/public/styles/tailwind.default.css")):
+    require(approot() . "/public/styles/tailwind.default.css");
   endif;
 ?>
     </style>

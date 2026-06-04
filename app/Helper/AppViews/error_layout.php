@@ -15,7 +15,7 @@
 ?>
     </style>
   </head>
-  <body class="p-8 bg-gray-800/100 text-white">
+  <body class="md:p-8 p-3 bg-gray-800/100 text-white">
     <h1 class="text-3xl shadow-lg pt-2 pb-2 font-semibold text-center rounded m-4 ml-0 mr-0 bg-amber-600/100">
       OwnWork Error Handler
     </h1>
@@ -56,8 +56,8 @@
         <?php endif; ?>
         <h4 class="pt-4 pb-4 font-medium text-2xl underline">Basic App Infos</h4>
         <div class="border rounded pt-2 p-4 mt-4 md:ml-40 md:mr-40">
-          <div class="text-gray-500 text-xl"><code># [GENERAL INFORMATION]</code></div>
-          <div class="text-lg text-white-500/100 flex gap-4 items-end">
+          <div class="text-gray-500 text-lg"><code># [GENERAL INFORMATION]</code></div>
+            <div class="text-md text-white-500/100 flex gap-4 items-end overflow-auto">
             <span class="italic flex-1 whitespace-nowrap">
               App Directory:
             </span>
@@ -66,10 +66,10 @@
             </code>
           </div>
             <hr class="w-full text-gray-500 border"><br>
-          <div class="text-gray-500 text-xl"><code># [ENV_VARIABLES]</code></div>
+          <div class="text-gray-500 text-lg"><code># [ENV_VARIABLES]</code></div>
           <?php if(isset($envArr)): ?>
             <?php foreach($envArr as $key => $value): ?>
-            <div class="text-lg text-white-500/100 flex gap-4 items-end">
+            <div class="text-md text-white-500/100 flex gap-4 items-end overflow-auto">
               <span class="italic flex-1 whitespace-nowrap">
                 <?=out(trim($key))?>:
               </span>

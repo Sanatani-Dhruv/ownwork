@@ -33,9 +33,6 @@ class DotEnvironment {
                 $env_ex = preg_split('/(\s?)\=(\s?)/', $line_no_comment);
                 $env_name = trim($env_ex[0]);
                 $env_value = isset($env_ex[1]) ? trim($env_ex[1]) : "";
-                $env_value = str_replace("'", "", $env_value);
-                $env_value = str_replace("\"", "", $env_value);
-                $env_value = str_replace("`", "", $env_value);
                 $this->tmp_env[$env_name] = $env_value;
             }
             fclose($fopen);

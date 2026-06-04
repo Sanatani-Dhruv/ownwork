@@ -31,7 +31,7 @@ class Template {
 		$final = file_get_contents($filename);
 
 		/* include and require blocks Block */
-		$final = str_replace([ "@includeTemp(", "@includeTemp (" ], "<?php view(", $final);
+		$final = str_replace([ "@@includeTemp(", "@@includeTemp(" ], "<?php include(getTempTranspiled(", $final);
 		$final = str_replace([ "@include(", "@include (" ], "<?php include(approot().'/resources/views/'.", $final);
 		$final = str_replace([ "@includeRoot(", "@include (" ], "<?php include(approot(). '/'. ", $final);
 		$final = str_replace([ "@include_once(", "@include_once (" ], "<?php include_once(approot().'/resources/views/'.", $final);
@@ -44,6 +44,7 @@ class Template {
 		$final = str_replace("@endphp;", "?>", $final);
 
 		/* General Ending Sequences */
+		$final = str_replace(")@@", "));?>", $final);
 		$final = str_replace(")@", ");?>", $final);
 		$final = str_replace("):>", ") :", $final);
 		$final = str_replace("):", "):?>", $final);

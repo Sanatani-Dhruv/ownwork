@@ -21,8 +21,17 @@ class Bundler {
 		$environment = new Environment();
 		$environment->setenv();
 
+		// var_dump(getenv('OWNWORK_ERROR_HANDLER'));
+		// $doHandler = strtolower(getenv('OWNWORK_ERROR_HANDLER'));
+		// if($doHandler == "true" || $doHandler == "1") {
+		// 	require(__DIR__ . "/ErrorHandler/Handler.php");
+		// }
+
 		// Global Helper Functions exist in below file
 		require __DIR__ . '/HelperFunction.php';
+		//
+		// Error Handler Setup for Application
+		require(__DIR__ . "/ErrorHandler/Handler.php");
 	}
 
 	public function bundle() {

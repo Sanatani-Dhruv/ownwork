@@ -15,16 +15,16 @@
 ?>
     </style>
   </head>
-  <body class="md:p-8 p-3 bg-gray-800/100 text-white">
+  <body class="md:p-8 md:pb-4 pb-1 p-3 bg-gray-800/100 text-white">
     <h1 class="text-3xl shadow-lg pt-2 pb-2 font-semibold text-center rounded m-4 ml-0 mr-0 bg-amber-600/100">
       OwnWork Error Handler
     </h1>
 
     <?php if (isset($errMsg)): ?>
       <div class="border-1 p-4 pt-2 pb-2 rounded">
-        <h3 class="text-2xl font-semibold">
+        <h2 class="text-2xl font-semibold">
           Error Message:
-        </h3>
+        </h2>
         <div class="pl-2 pr-2 text-xl text-red-500/100"><?=out($errMsg)?></div>
         <?php if(isset($errFile)):?>
         <br>
@@ -38,9 +38,9 @@
 
 
         <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
-      <h3 class="md:text-2xl text-xl pt-4 pb-2 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
         <div class="rounded flex flex-col gap-4 pt-2 md:ml-30 md:mr-30">
+      <h3 class="md:text-2xl text-xl pt-2 pb-1 font-medium">Stack Trace:</h3>
           <?php foreach($tracePathArr as $trace): ?>
             <div class="stackTraceBlock p-3 border border-gray-50/30 rounded text-md">
               <?php comp("stackTrace-block.php", [
@@ -54,7 +54,7 @@
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
-      <h3 class="md:text-2xl text-xl pt-4 pb-2 font-medium">Application Related Information:</h3>
+      <h3 class="md:text-2xl text-xl pt-6 pb-1 font-medium md:ml-30 md:mr-30">Application Related Information:</h3>
         <div class="border rounded p-4 mt-4 md:ml-30 md:mr-30">
             <div class="md:text-lg text-md text-white-500/100 flex gap-4 items-end overflow-auto">
             <span class="italic flex-1 whitespace-nowrap">
@@ -80,7 +80,7 @@
             <?php endforeach; ?>
           <?php endif; ?>
         </div>
-        <div class="m-auto w-max p-4">
+        <div class="m-auto w-max p-4 pb-4">
           <a href="/">
             <button class="cursor-pointer border pt-2 pb-2 p-3 hover:text-black hover:bg-white border-white font-bold text-xl rounded hover:rounded-none transition">
               <code>

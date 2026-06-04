@@ -108,9 +108,9 @@ class globalErrorHandler {
 				$i++;
 				if ($errLine >= $i - 4 && $errLine < $i+5) {
 					if ($errLine === $i) {
-						$outputArr .= "<span class='text-red-500/100'><strong><em>$i" . rtrim($line) . " <span class='text-gray-500/100'>" . out("<- ERROR") . "</span>\n" . "</em></strong></span>";
+						$outputArr .= "<span class='text-red-500/100'><strong><em>$i " . rtrim($line) . " <span class='text-gray-500/100'>" . out("<- ERROR") . "</span>\n" . "</em></strong></span>";
 					} else {
-						$outputArr .= "<span class=''>$i$line</span>";
+						$outputArr .= "<span class=''>$i $line</span>";
 					}
 				}
 			}
@@ -122,52 +122,59 @@ class globalErrorHandler {
 	}
 
 	public function HandleException($Exception) {
-		try {
-			http_response_code(500);
-			$traceBlockArr = null;
-			// echo "!!Working Exception!!";
+		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV'])
+			try {
+				http_response_code(500);
+				$traceBlockArr = null;
+				// echo "!!Working Exception!!";
 
-			if ($Exception->getTrace()) {
-				$traceBlockArr = $this->printTracePath($Exception);
+				if ($Exception->getTrace()) {
+					$traceBlockArr = $this->printTracePath($Exception);
+				}
+				// echo "<pre>";
+				// print_r(get_class_methods($Exception));
+				// echo "</pre>";
+
+				$errFile = $this->getTempFileName($Exception->getFile());
+
+				$envArrBlock = $this->getEnvArrBlocks();
+
+				/* Remove System dir Prefix which is app directory */
+				$errFile = (str_contains($errFile, approot()) ? str_replace(approot() . "/", "", $errFile) : $errFile);
+				$tracePathArr = array_map(
+					function($trace) {
+						return (str_contains($trace["file"], approot()) ?
+							str_replace(approot() . "/", "" , $trace['file'])
+							:
+							$trace["file"]
+						);
+					}, $Exception->getTrace());
+
+				$errLine = $Exception->getLine();
+				$errLinesArray = $this->getErrorFileLines(approot() . "/" . $errFile, $errLine);
+
+				$this->comp("error_layout.php", [
+					"errMsg" => $Exception->getMessage(),
+					"errFile" => $errFile,
+					"errLine" => $errLine,
+					"errLinesArray" => $errLinesArray,
+					"traceBlocksArr" => $traceBlockArr,
+					"syscompdir" => $this->systemCompDir,
+					"tracePathArr" => $tracePathArr,
+					"envArr" => $envArrBlock
+				]);
+				exit();
+
+				// Handle exception here.
+			} catch (\ErrorException $err) {
+				echo($err);
+			} else {
+				if (file_exists(approot() . "/app/Helper/AppViews/internal-server-error.php")) {
+					require(approot() . "/app/Helper/AppViews/internal-server-error.php");
+				} else {
+					echo "500 Internal Server Error";
+				}
 			}
-			// echo "<pre>";
-			// print_r(get_class_methods($Exception));
-			// echo "</pre>";
-
-			$errFile = $this->getTempFileName($Exception->getFile());
-
-			$envArrBlock = $this->getEnvArrBlocks();
-
-			/* Remove System dir Prefix which is app directory */
-			$errFile = (str_contains($errFile, approot()) ? str_replace(approot() . "/", "", $errFile) : $errFile);
-			$tracePathArr = array_map(
-				function($trace) {
-					return (str_contains($trace["file"], approot()) ?
-						str_replace(approot() . "/", "" , $trace['file'])
-						:
-						$trace["file"]
-					);
-				}, $Exception->getTrace());
-
-			$errLine = $Exception->getLine();
-			$errLinesArray = $this->getErrorFileLines(approot() . "/" . $errFile, $errLine);
-
-			$this->comp("error_layout.php", [
-				"errMsg" => $Exception->getMessage(),
-				"errFile" => $errFile,
-				"errLine" => $errLine,
-				"errLinesArray" => $errLinesArray,
-				"traceBlocksArr" => $traceBlockArr,
-				"syscompdir" => $this->systemCompDir,
-				"tracePathArr" => $tracePathArr,
-				"envArr" => $envArrBlock
-			]);
-			exit();
-
-			// Handle exception here.
-		} catch (\ErrorException $err) {
-			echo($err);
-		}
 	}
 };
 

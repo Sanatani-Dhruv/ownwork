@@ -38,9 +38,9 @@
 
 
         <?php if (isset($traceBlocksArr,$tracePathArr)): ?>
-      <h3 class="text-xl mt-4 mb-4 font-medium">Stack Trace:</h3>
+      <h3 class="md:text-2xl text-xl pt-4 pb-2 font-medium">Stack Trace:</h3>
       <?php $i=0; ?>
-        <div class="flex flex-col gap-4">
+        <div class="rounded flex flex-col gap-4 pt-2 md:ml-30 md:mr-30">
           <?php foreach($tracePathArr as $trace): ?>
             <div class="stackTraceBlock p-3 border border-gray-50/30 rounded text-md">
               <?php comp("stackTrace-block.php", [
@@ -54,10 +54,9 @@
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
-        <h4 class="pt-4 pb-4 font-medium text-2xl underline">Basic App Infos</h4>
-        <div class="border rounded pt-2 p-4 mt-4 md:ml-40 md:mr-40">
-          <div class="text-gray-500 text-lg"><code># [GENERAL INFORMATION]</code></div>
-            <div class="text-md text-white-500/100 flex gap-4 items-end overflow-auto">
+      <h3 class="md:text-2xl text-xl pt-4 pb-2 font-medium">Application Related Information:</h3>
+        <div class="border rounded p-4 mt-4 md:ml-30 md:mr-30">
+            <div class="md:text-lg text-md text-white-500/100 flex gap-4 items-end overflow-auto">
             <span class="italic flex-1 whitespace-nowrap">
               App Directory:
             </span>
@@ -66,10 +65,10 @@
             </code>
           </div>
             <hr class="w-full text-gray-500 border"><br>
-          <div class="text-gray-500 text-lg"><code># [ENV_VARIABLES]</code></div>
+          <h3 class="text-gray-500 text-lg"><code># [ENV_VARIABLES]</code></h3>
           <?php if(isset($envArr)): ?>
             <?php foreach($envArr as $key => $value): ?>
-            <div class="text-md text-white-500/100 flex gap-4 items-end overflow-auto">
+            <div class="md:text-lg text-md text-white-500/100 flex gap-4 items-end overflow-auto">
               <span class="italic flex-1 whitespace-nowrap">
                 <?=out(trim($key))?>:
               </span>
@@ -83,7 +82,7 @@
         </div>
         <div class="m-auto w-max p-4">
           <a href="/">
-            <button class="cursor-pointer border pt-2 pb-2 p-3 bg-white text-black font-bold text-xl rounded hover:rounded-none transition">
+            <button class="cursor-pointer border pt-2 pb-2 p-3 hover:text-black hover:bg-white border-white font-bold text-xl rounded hover:rounded-none transition">
               <code>
                 Home Page
               </code>

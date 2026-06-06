@@ -4,7 +4,7 @@ class globalErrorHandler {
 	private string $systemCompDir;
 
 	public function __construct () {
-		$this->systemCompDir = \approot() . "/app/Helper/AppViews/";
+		$this->systemCompDir = (approot() . "/resources/appviews/");
 		if (isset($_ENV['OWNWORK_ERROR_HANDLER']) && $_ENV['OWNWORK_ERROR_HANDLER']) {
 			set_error_handler([&$this, 'HandleError']);
 			set_exception_handler([&$this, 'HandleException']);
@@ -169,8 +169,8 @@ class globalErrorHandler {
 			} catch (\ErrorException $err) {
 				echo($err);
 			} else {
-				if (file_exists(approot() . "/app/Helper/AppViews/internal-server-error.php")) {
-					require(approot() . "/app/Helper/AppViews/internal-server-error.php");
+				if (file_exists(approot() . "/resources/appviews/error_layout.php")) {
+					require(approot() . "/resources/appviews/error_layout.php");
 				} else {
 					echo "500 Internal Server Error";
 				}

@@ -33,17 +33,6 @@ ownwork
    │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
    │   ├── Helper # This file includes Helper and Support Files which handles important functions like Routing, Viewing
-   │   │   ├── AppViews # Views Required by OwnWork like Error Pages
-   │   │   │   ├── error_layout.php
-   │   │   │   ├── general-notfound-error.php
-   │   │   │   ├── internal-server-error.php
-   │   │   │   ├── no-setup-done-error.php
-   │   │   │   ├── script
-   │   │   │   │   └── script.js
-   │   │   │   ├── stackTrace-block.php
-   │   │   │   ├── styles
-   │   │   │   │   └── index.css
-   │   │   │   └── view-notfound-error.php
    │   │   ├── ConsoleHelper.php # Pretty Printing for Console
    │   │   ├── Router
    │   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
@@ -70,6 +59,14 @@ ownwork
    │   └── styles
    │       └── tailwind.default.css # Compiled CSS File For Default Page
    ├── resources
+   │   ├── appviews # Views Required by OwnWork like Error Pages
+   │   │   ├── error_layout.php
+   │   │   ├── no-info-error.php
+   │   │   ├── script
+   │   │   │   └── script.js
+   │   │   ├── stackTrace-block.php
+   │   │   └── styles
+   │   │       └── index.css
    │   ├── js
    │   ├── css
    │   │   └── tailwind.css # Default Tailwind Source File

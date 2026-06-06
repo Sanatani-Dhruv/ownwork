@@ -27,12 +27,11 @@ class View {
 		try {
 			$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails[$approot . "/resources/views/" . $tempName];
 			if (file_exists($compiledViewPath)) {
+				if (count($pairs)) extract($pairs);
 				if (!$givePath) {
-					extract($pairs);
 					require($compiledViewPath);
 					return;
 				} else {
-					extract($pairs);
 					return $compiledViewPath;
 				}
 			}
@@ -40,9 +39,10 @@ class View {
 				throw new \Exception("View Not Found");
 			}
 		} catch(\Exception $err) {
-			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-				$viewName = $tempName;
-				require(__DIR__ . "/../AppViews/view-notfound-error.php");
+			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+				$error_title = "View Not Found";
+				$error_message = out("View with name `$tempName` not Found.");
+				require(approot() . "/resources/appviews/no-info-error.php");
 				return;
 			} else {
 				echo "<pre>View Not Found</pre>";
@@ -66,8 +66,10 @@ class View {
 				return;
 			}
 		} else {
-			if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-				require(__DIR__ . "/../AppViews/view-notfound-error.php");
+			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+				$error_title = "View Not Found";
+				$error_message = out("View with name `$tempName` not Found.");
+				require(approot() . "/resources/appviews/no-info-error.php");
 				exit();
 			} else {
 				echo "<pre>View Not Found</pre>";

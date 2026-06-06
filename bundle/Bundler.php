@@ -9,8 +9,13 @@ class Bundler {
 		if (file_exists(__DIR__ . "/../.env") && file_exists(__DIR__ . "/../vendor/autoload.php")) {
 			require __DIR__ . '/../vendor/autoload.php';
 		} else {
-			if (file_exists(__DIR__ . "/../app/Helper/AppViews/no-setup-done-error.php"))
-				require __DIR__ . "/../app/Helper/AppViews/no-setup-done-error.php";
+			http_response_code(500);
+			if (file_exists(__DIR__ . "/../resources/appviews/no-info-error.php")) {
+				$error_title = htmlspecialchars("Setup Command Needed");
+				$error_message = htmlspecialchars("Run Setup Command First!");
+				$error_description = "Command:<br><code>composer run setup</code>";
+				require(__DIR__ . "/../resources/appviews/no-info-error.php");
+			}
 			else
 				echo "No Setup Command Ran!! Run <code>composer run setup</code>";
 			die();

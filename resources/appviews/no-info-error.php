@@ -1,13 +1,8 @@
-<?php
-// http_response_code(404);
-// die();
-// header("HTTP/1.0 404 Not Found");
-// $error = http_response_code(404)?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"/>
-    <title>View Not Found</title>
+    <title><?=($error_title)?></title>
     <style>
 <?php
 include(__DIR__ . "/styles/index.css");
@@ -16,10 +11,13 @@ include(__DIR__ . "/styles/index.css");
   </head>
   <body>
     <h1>
-      <code>
-        View with name `<?=out($viewName)?>` not Found.
-      </code>
+      <code> <?=($error_message)?> </code>
     </h1>
+    <?php if(isset($error_description)): ?>
+        <p style="font-size: x-large; font-family: sans-serif;text-align: center;">
+          <?=$error_description?>
+        </p>
+    <?php endif;?>
     <h2>
       <code>
         <a href="/">Home Page</a>
@@ -27,4 +25,3 @@ include(__DIR__ . "/styles/index.css");
     </h2>
   </body>
 </html>
-

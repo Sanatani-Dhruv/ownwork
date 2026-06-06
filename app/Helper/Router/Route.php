@@ -52,7 +52,7 @@ class Route {
 		// Get Length
 		// $lenOri = strlen($oriUrl);
 		// $lenBrow = strlen($browUrl);
-        //
+		//
 		// $browUrl = ($lenBrow > 1 && "/" == $browUrl[$lenBrow - 1]) ? rtrim($browUrl, "/") : $browUrl;
 
 		// echo "Original: $oriUrl<br>";
@@ -73,6 +73,7 @@ class Route {
 
 		if (is_array(self::$requests)) {
 			foreach(self::$requests as $request_uri => $action) {
+				$requestPath = "";
 				// echo $request_uri . "<br>";
 
 				$routeRegex = preg_replace_callback('/{\w+(:([^}]+))?}/', function ($matches) {
@@ -82,8 +83,24 @@ class Route {
 				// echo "\n\"$request_uri\" => \"$routeRegex\"\n\n";
 
 				$forThisRequest = false;
-				$requestPath = parse_url($_SERVER['REQUEST_URI'])['path'];
+				$requestPathArr = parse_url($_SERVER['REQUEST_URI']);
+				// echo "<pre>";
+				// var_dump( $requestPathArr );
+				// echo "</pre>";
 
+				if (!isset($requestPathArr['path'])) {
+					$quesMarkPosition = strpos($_SERVER['REQUEST_URI'], "?");
+
+					if (str_contains($_SERVER['REQUEST_URI'], "?")) {
+						$requestPath = trim($_SERVER['REQUEST_URI'], substr($_SERVER['REQUEST_URI'], $quesMarkPosition));
+					} else {
+						$requestPath = $_SERVER['REQUEST_URI'];
+					}
+				} else {
+					$requestPath = $requestPathArr['path'];
+				}
+
+				// echo out("|$requestPath|");
 				if (preg_match($routeRegex, $requestPath, $matches)) {
 					// echo "<pre>";
 					// print_r($matches);
@@ -146,8 +163,17 @@ class Route {
 							}
 						} else {
 							$viewName = $action;
-							if (file_exists(__DIR__ . "/../AppViews/view-notfound-error.php")) {
-								include(__DIR__ . "/../AppViews/view-notfound-error.php");
+							if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+								http_response_code(500);
+								if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
+									$error_title = "View Not Found";
+									$error_message = out("View with name `$viewName` not Found.");
+									require(approot() . "/resources/appviews/no-info-error.php");
+								} else {
+									$error_title = "500 Internal Server Error";
+									$error_message = $error_title;
+									require(approot() . "/resources/appviews/no-info-error.php");
+								}
 							} else {
 								echo "View Not Found";
 							}
@@ -164,11 +190,14 @@ class Route {
 
 	public function __destruct() {
 		if (!self::$hasMatch) {
-			// echo "No Match Found";
-			if (file_exists(__DIR__ . "/../AppViews/general-notfound-error.php")) {
-				include(__DIR__ . "/../AppViews/general-notfound-error.php");
+			http_response_code(404);
+			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+				$error_title = "View Not Found";
+				$error_message = out("View with name `$viewName` not Found.");
+				require(approot() . "/resources/appviews/no-info-error.php");
 			} else {
 				echo "404 Not Found";
+				return;
 			}
 		}
 	}

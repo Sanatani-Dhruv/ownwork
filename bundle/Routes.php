@@ -6,6 +6,6 @@ use App\Controller\UserController;
 
 $route = new Route();
 
-$route->get("/", "main.temp.php");
+$route->get"/", "ain.temp.php");
 
 $route->end();

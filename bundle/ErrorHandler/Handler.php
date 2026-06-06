@@ -122,7 +122,7 @@ class globalErrorHandler {
 	}
 
 	public function HandleException($Exception) {
-		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV'])
+		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
 			try {
 				http_response_code(500);
 				$traceBlockArr = null;
@@ -168,13 +168,18 @@ class globalErrorHandler {
 				// Handle exception here.
 			} catch (\ErrorException $err) {
 				echo($err);
-			} else {
-				if (file_exists(approot() . "/resources/appviews/error_layout.php")) {
-					require(approot() . "/resources/appviews/error_layout.php");
-				} else {
-					echo "500 Internal Server Error";
-				}
 			}
+		}
+		else {
+			http_response_code(500);
+			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+				$error_title = "500 Internal Server Error";
+				$error_message = $error_title;
+				require(approot() . "/resources/appviews/no-info-error.php");
+			} else {
+				echo "500 Internal Server Error";
+			}
+		}
 	}
 };
 

@@ -195,9 +195,10 @@ class Route {
 				$error_title = "View Not Found";
 				$error_message = out("View with name `$viewName` not Found.");
 				require(approot() . "/resources/appviews/no-info-error.php");
+				exit();
 			} else {
 				echo "404 Not Found";
-				return;
+				exit();
 			}
 		}
 	}

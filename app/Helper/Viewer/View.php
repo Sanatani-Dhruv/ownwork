@@ -43,11 +43,10 @@ class View {
 				$error_title = "View Not Found";
 				$error_message = out("View with name `$tempName` not Found.");
 				require(approot() . "/resources/appviews/no-info-error.php");
-				return;
 			} else {
 				echo "<pre>View Not Found</pre>";
-				return;
 			}
+			exit();
 		}
 	}
 
@@ -60,11 +59,10 @@ class View {
 			}
 			if (strstr($viewName, "temp.php")) {
 				self::includeTemp($viewName, false, $keyValue);
-				return;
 			} else {
 				require($viewLocation . $viewName);
-				return;
 			}
+			exit();
 		} else {
 			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
 				$error_title = "View Not Found";

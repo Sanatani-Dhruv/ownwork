@@ -191,13 +191,13 @@ class Route {
 	public function __destruct() {
 		if (!self::$hasMatch) {
 			http_response_code(404);
+			$error_title = "404 Not Found";
 			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
-				$error_title = "View Not Found";
-				$error_message = out("View with name `$viewName` not Found.");
+				$error_message = &$error_title;
 				require(approot() . "/resources/appviews/no-info-error.php");
 				exit();
 			} else {
-				echo "404 Not Found";
+				echo $error_title;
 				exit();
 			}
 		}

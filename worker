@@ -121,11 +121,12 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 		}
 
 		if ($parser->scanStorage()) {
+			$i++;
+			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
 			$parser->clearViewCache();
 			file_put_contents(approot() . "/storage/views.json", $viewJson);
 			$parser->compileFiles();
-			$i++;
-			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
+			$printer->print("Done!", 'red', '', true);
 		}
 	}
 }

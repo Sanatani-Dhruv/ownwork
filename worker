@@ -147,6 +147,11 @@ if ($firstArg && strtolower($firstArg) == "clear:viewcache") {
 	}
 }
 
+if ($firstArg && strtolower($firstArg) == "limit-reset") {
+	$validFirstArg = true;
+	$dirPath = approot() . "/storage/views/";
+}
+
 function compCreate($arrList, $component, $compName = null) {
 	global $argv;
 	global $printer;

@@ -2,13 +2,15 @@
 namespace Bundle;
 
 use Bundle\Environment\Environment;
+use Bundle\RateLimiter\Limiter;
 
 class Bundler {
 	function __construct() {
-		// require(__DIR__ . "/Routes.php");
+		// Look for .env and autoload.php file
 		if (file_exists(__DIR__ . "/../.env") && file_exists(__DIR__ . "/../vendor/autoload.php")) {
 			require __DIR__ . '/../vendor/autoload.php';
 		} else {
+			// Show Error Page
 			http_response_code(500);
 			if (file_exists(__DIR__ . "/../resources/appviews/no-info-error.php")) {
 				$error_title = htmlspecialchars("Setup Command Needed");
@@ -26,17 +28,17 @@ class Bundler {
 		$environment = new Environment();
 		$environment->setenv();
 
-		// var_dump(getenv('OWNWORK_ERROR_HANDLER'));
-		// $doHandler = strtolower(getenv('OWNWORK_ERROR_HANDLER'));
-		// if($doHandler == "true" || $doHandler == "1") {
-		// 	require(__DIR__ . "/ErrorHandler/Handler.php");
-		// }
-
 		// Global Helper Functions exist in below file
 		require __DIR__ . '/HelperFunction.php';
-		//
+
 		// Error Handler Setup for Application
 		require(__DIR__ . "/ErrorHandler/Handler.php");
+
+		// Error Handler Setup for Application
+		require(__DIR__ . "/RateLimiter/Limiter.php");
+		$limiter = new Limiter();
+		$limiter->setTimeLimit(60);
+		$limiter->status(1);
 	}
 
 	public function bundle() {

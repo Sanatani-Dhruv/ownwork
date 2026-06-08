@@ -28,7 +28,18 @@
           <h3 class="text-xl font-semibold">
             Error in File:<br>
           </h3>
-          <div class="pl-2 pr-2 text-lg text-red-500/100"><?=out($errFile)?></div>
+          <div class="pl-2 pr-2 text-lg text-red-500/100">
+            <?=out($errFile)?>
+          <?php if(isset($errFileCompiled) && $errFileCompiled != ""): ?>
+          </div>
+          <br>
+          <h3 class="text-xl font-semibold">
+            Actual Error thrown in File:<br>
+          </h3>
+          <div class="pl-2 pr-2 text-lg text-red-500/100">
+           <?=out($errFileCompiled)?>
+          </div>
+          <?php endif;?>
           <?php endif;?>
           <?php if(isset($errLine)):?>
           <br>

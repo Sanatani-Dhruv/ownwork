@@ -17,15 +17,26 @@ class globalErrorHandler {
 
 	public function HandleError ($Code, $Message, $File = null, $Line = 0, $Context = []) {
 		// echo "Working Error";
-		$errFile = (str_contains($File, approot()) ? str_replace(approot() . "/", "", $File) : $File);
+		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
+			$errFile = (str_contains($File, approot()) ? str_replace(approot() . "/", "", $File) : $File);
 
-		$this->comp("error_layout.php", [
-			"errMsg" => $Message,
-			"errFile" => $errFile,
-			"errLine" => $Line,
-			"syscompdir" => $this->systemCompDir,
-			"envArr" => $_ENV
-		]);
+			$this->comp("error_layout.php", [
+				"errMsg" => $Message,
+				"errFile" => $errFile,
+				"errLine" => $Line,
+				"syscompdir" => $this->systemCompDir,
+				"envArr" => $_ENV
+			]);
+		} else {
+			http_response_code(500);
+			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
+				$error_title = "500 Internal Server Error";
+				$error_message = $error_title;
+				require(approot() . "/resources/appviews/no-info-error.php");
+			} else {
+				echo "500 Internal Server Error";
+			}
+		}
 		exit;
 		// Handle error here.
 	}
@@ -123,8 +134,8 @@ class globalErrorHandler {
 
 	public function HandleException($Exception) {
 		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
+			http_response_code(500);
 			try {
-				http_response_code(500);
 				$traceBlockArr = null;
 				// echo "!!Working Exception!!";
 
@@ -136,6 +147,10 @@ class globalErrorHandler {
 				// echo "</pre>";
 
 				$errFile = $this->getTempFileName($Exception->getFile());
+				$errFileCompiled = "";
+				if ($errFile != $Exception->getFile()) {
+					$errFileCompiled = str_replace(approot() . "/", "", $Exception->getFile());
+				}
 
 				$envArrBlock = $this->getEnvArrBlocks();
 
@@ -153,9 +168,25 @@ class globalErrorHandler {
 				$errLine = $Exception->getLine();
 				$errLinesArray = $this->getErrorFileLines(approot() . "/" . $errFile, $errLine);
 
+				if (!file_exists(approot() . "/storage/logs")) {
+					if (!is_dir(approot() . "/storage/")) {
+						mkdir(approot() . "/storage/");
+					}
+				}
+				$error_log = "[" . date(DATE_RSS) . "] - MESSAGE: {$Exception->getMessage()} | FILE: {$Exception->getFile()} | LINE_NUMBER: $errLine |\nSTACK_TRACE:\n";
+				$i = 1;
+				foreach($Exception->getTrace() as $trace) {
+					$error_log .= "$i) {$trace['file']} : {$trace['line']}\n";
+					$i++;
+				}
+				$error_log .= "=================\n";
+				unset($i);
+				error_log($error_log, 3, approot() . "/storage/error.log");
+
 				$this->comp("error_layout.php", [
 					"errMsg" => $Exception->getMessage(),
 					"errFile" => $errFile,
+					"errFileCompiled" => $errFileCompiled,
 					"errLine" => $errLine,
 					"errLinesArray" => $errLinesArray,
 					"traceBlocksArr" => $traceBlockArr,

@@ -30,6 +30,9 @@ function help() {
 	echo " - Run the Temp View transpiler:\n";
 	echo " - Transpiled views will be stored in 'storage/views/' directory.\n";
 	echo " - View method will pick mapping for temp views from 'storage/views.json'.\n";
+	$printer->print("It's Optional Arguments are:\n", 'blue', '', true, false);
+	$printer->print("    > NUMBER - Provide number of times transpiler should run and then terminate [Used for production build]", 'green', '', true);
+	$printer->print("    > build - Clear View cache and build for production", 'green', '', true);
 	$printer->print("\nclear:viewcache", 'green', '', true, false);
 	echo " - Clear View Cache Stored in 'storage/views/' directory:\n";
 }
@@ -104,12 +107,41 @@ if ($firstArg && strtolower($firstArg) == "serve") {
 }
 
 if ($firstArg && strtolower($firstArg) == "transpile") {
+	$beginTime = microtime(true);
+	$count = -1;
 	$validFirstArg = true;
-	$printer->print("Waiting For View Files to Change!", "green", true, true);
+	$runAndEnd = false;
+	if (isset($argv[2]) && strtolower($argv[2]) == "build") {
+		$runAndEnd = true;
+	}
+
+	if (isset($argv[2]) && is_int(filter_var($argv[2], FILTER_VALIDATE_INT))) {
+		$arg_int = (int) $argv[2];
+		if ($arg_int > 0) {
+			$count = $arg_int;
+		}
+	}
 	$parser = new Template();
+
+	if ($runAndEnd) {
+		$parser->scanStorage();
+		$viewJson = json_encode($parser->giveCompiledViewArr());
+		file_put_contents(approot() . "/storage/views.json", $viewJson);
+		$parser->compileFiles();
+		$endTime = microtime(true);
+		$processTime = round($endTime - $beginTime, 5);
+		$printer->print("Transpiled Template Views Files in ", 'blue', '', false, false);
+		$printer->print("$processTime", 'blue', '', true, false);
+		$printer->print(" seconds", 'blue', '', false);
+		exit(0);
+	}
+
+	$printer->print("Waiting For View Files to Change!", "green", true, true);
 	$i = -1;
+
 	while (true) {
 		sleep(1);
+
 		$parser->scanStorage();
 		$viewJson = json_encode($parser->giveCompiledViewArr());
 
@@ -121,12 +153,17 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 		}
 
 		if ($parser->scanStorage()) {
-			$i++;
 			$printer->print("Files Changed! Retranspiling Views x$i", 'blue', '', true);
 			$parser->clearViewCache();
 			file_put_contents(approot() . "/storage/views.json", $viewJson);
 			$parser->compileFiles();
 			$printer->print("Done!", 'red', '', true);
+			$i++;
+		}
+
+		if ($count === $i) {
+			$printer->print("\nStopping Transpilation after $count operation!", 'red', '', true);
+			exit();
 		}
 	}
 }

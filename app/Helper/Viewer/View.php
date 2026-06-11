@@ -3,18 +3,34 @@ namespace App\Helper\Viewer;
 
 use App\Helper\Router\Route;
 
+/*! This Class handles calling views, should not be modified, unless you know what you do.*/
 class View {
 	private $uri;
 	private $viewLocation;
 
+
+	/*! By the way, this doesn't do anything, better use helper function view() */
 	function __construct() {
 		//
 	}
 
-	public function view($viewName, array $keyValue = []) {
+	/*! Object Oriented wrapper for static method instantView()
+	 * @param string $viewName viewname relative to approot() . '/resources/views/'
+	 * @param array $keyValue associative array to pass variables to pass to view file
+	 * 
+	 * @return void
+	 * */
+	public function view(string $viewName, array $keyValue = []): void {
 		$this::instantView($viewName, $keyValue);
 	}
 
+	/*! static function to either include template view or get it's transpiled file's path
+	 * @param string $tempName template viewname relative to approot() . '/resources/views/'
+	 * @param string $givePath wheter want path or include it at place (default: false)
+	 * @param array $pairs associative array to pass variables to template view file
+	 * 
+	 * @return void
+	 * */
 	public static function includeTemp(string $tempName, bool $givePath = false, array $pairs = []) {
 		$approot = approot();
 		$compiledViewStorageDir = $approot . "/storage/views/";
@@ -50,7 +66,13 @@ class View {
 		}
 	}
 
-	public static function instantView($viewName, array $keyValue = []) {
+	/*! static function called by Object Oriented Wrapper to call views can internally call includeTemp() method
+	 * @param string $viewName viewname relative to approot() . '/resources/views/'
+	 * @param array $keyValue associative array to pass variables to pass to view file
+	 * 
+	 * @return void
+	 * */
+	public static function instantView(string $viewName, array $keyValue = []) {
 		$viewLocation = __DIR__ . "/../../../resources/views/";
 
 		if (file_exists($viewLocation . $viewName)) {

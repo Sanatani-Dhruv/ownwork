@@ -1,16 +1,19 @@
 <?php
 namespace App\Helper\Router;
+
+/*! This Class handles Routing, should not be modified, unless you know what you do. */
 class Route {
-	public $request_uri;
-	public $method;
-	public $file;
-	static $requests;
+	/*! This Variable is an array which would be storing url and it's action in apassed in $Route->get or $Route->post methods where $Route is object of \App\Helper\Router\Route class */
+	static array $requests;
 	static $arguments;
 	static $hasMatch = false;
 	static $viewDirectory = __DIR__ . "/../../../resources/views/";
 	private $viewName_methodCall;
 	private $displayedView;
 
+	/*!
+	 * Constructor setting Initial Variables
+	 *  */
 	function __construct() {
 		global $requests;
 		if (!isset($_SERVER["PATH_INFO"])) {
@@ -19,7 +22,15 @@ class Route {
 		$this->displayedView = 0;
 	}
 
-	public function get(string $request_uri, $viewName_methodCall, array $arguments = []) {
+	/*!
+	 * Used to take action when a GET HTTP Request hits at $request_uri
+	 * @param string $request_uri User provided url or dynamic url string
+	 * @param string | function $viewName_methodCall Either view File name to display or else closure function
+	 * @param array $arguments Arguments to passed to view provided in $viewName_methodCall
+	 *
+	 * @return void
+	 *  */
+	public function get(string $request_uri, $viewName_methodCall, array $arguments = []): void {
 		if ($_SERVER['REQUEST_METHOD'] == "GET") {
 			self::$requests[$request_uri] = $viewName_methodCall;
 			$isAssociative = (array_keys($arguments) !== range(0, count($arguments) - 1));
@@ -29,6 +40,14 @@ class Route {
 		}
 	} 
 
+	/*!
+	 * Used to take action when a POST HTTP Request hits at $request_uri
+	 * @param string $request_uri User provided url or dynamic url string
+	 * @param string | function $viewName_methodCall Either view File name to display or else closure function
+	 * @param array $arguments Arguments to passed to view provided in $viewName_methodCall
+	 *
+	 * @return void
+	 *  */
 	public function post(string $request_uri, $viewName_methodCall, array $arguments = []) {
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			self::$requests[$request_uri] = $viewName_methodCall;
@@ -39,7 +58,15 @@ class Route {
 		}
 	}
 
-	public function redirect(string $oriUrl, string $redirect, bool $fullurl = false) {
+	/*!
+	 * Used to Redirect One URL to another
+	 * @param string $oriUrl Original Url 
+	 * @param string $redirect Url to redirect on
+	 * @param bool $fullurl whether to include query parameter or not
+	 *
+	 * @return void
+	 *  */
+	public function redirect(string $oriUrl, string $redirect, bool $fullurl = false): void {
 		// Remove whitespaces
 		$oriUrl = trim($oriUrl);
 		$redirect = trim($redirect);
@@ -65,7 +92,12 @@ class Route {
 		}
 	}
 
-	public function end() {
+	/*!
+	 * Actual Function which checks for actual requested Url and executes further by user defined way from $Route->get() and $Route->post()
+	 *
+	 * @return void
+	 *  */
+	public function end(): void {
 		// echo "<pre>";
 		// print_r($_SERVER);
 		// print_r(self::$requests);
@@ -188,6 +220,9 @@ class Route {
 		}
 	}
 
+	/*!
+	 * Destructor to call 404 Not Page Found if no Route Matches
+	 *  */
 	public function __destruct() {
 		if (!self::$hasMatch) {
 			http_response_code(404);

@@ -54,12 +54,13 @@ ownwork
    ├── package-lock.json
    ├── package.json
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
+   │   ├── .htaccess # Config file for Apache web server
    │   ├── build # Will contain build file of Tailwind CSS
-   │   ├── index.php # Entry Level File, Starting Point of App
+   │   ├── index.php # Entry level file, starting point of App
    │   └── styles
-   │       └── tailwind.default.css # Compiled CSS File For Default Page
+   │       └── tailwind.default.css # Compiled CSS file for default page
    ├── resources
-   │   ├── appviews # Views Required by OwnWork like Error Pages
+   │   ├── appviews # Views required by OwnWork like error pages
    │   │   ├── error_layout.php
    │   │   ├── no-info-error.php
    │   │   ├── script
@@ -69,17 +70,17 @@ ownwork
    │   │       └── index.css
    │   ├── js
    │   ├── css
-   │   │   └── tailwind.css # Default Tailwind Source File
+   │   │   └── tailwind.css # Default tailwind source file
    │   ├── template # Default Templates for Component's like controller, view, model
-   │   │   ├── Controller.php # Default Controller Template
-   │   │   ├── Model.php # Default Model Template
-   │   │   └── View.php # Default View Template
+   │   │   ├── Controller.php # Default Controller template
+   │   │   ├── Model.php # Default Model template
+   │   │   └── View.php # Default View template
    │   └── views # Your Views directory
    │       └── main.temp.php
    ├── storage
    │   ├── views # Compiled '.temp.php views'
-   │   └── views.json # Contains Mapping of template files to their compiled form
-   ├── vendor # Application Dependecies and autoloader directory
+   │   └── views.json # Contains mapping of template files to their compiled form
+   ├── vendor # Application dependecies and autoloader directory
    │   └── autoload.php # Include this to autoload files
    └── worker # Your Command Line Manager
 ```
@@ -125,10 +126,12 @@ DB_PASS=
 
 ### Usage
 
-1. Run The Server through `worker` script
+1. Run The Server through `worker` script or `composer` run-script
 
 ```bash
-php worker serve
+composer run dev
+# or 
+# php worker serve
 ```
 
 - Supposed Output:
@@ -141,31 +144,19 @@ Starting OwnWork server at port:8000...
 
 ```bash
 php worker transpile
-```
-
-> Or
-
-- Just Run Command
-
-```bash
-composer run dev
-```
-
-- Run the view template transpiler in another terminal
-
-```bash
-composer run transpile
+# or
+# composer run transpile
 ```
 
 > if You have npm installed, all this process can be avoided
 
-- Run:
+- Run below command to install dependencies:
 
 ```bash
 npm i
 ```
 
-- After Successful installation message, whenever you want to run server, run the command:
+- After Successful installation message, whenever you want to run server + transpiler + tailwind dev server, run the command:
 
 ```bash
 npm run dev
@@ -173,7 +164,7 @@ npm run dev
 
 ### Documentation
 
-> Abandoned Documentation for Now
+> Documentation is incomplete
 - Go through Documentation of OwnWork <a href="https://github.com/Sanatani-Dhruv/ownwork-doc" target="_blank">Here!</a>
 
 ### Recommended Packages
@@ -182,7 +173,6 @@ npm run dev
 - Recommendations are:
    - `delight-im/db`: For database interaction - [Github Link](https://github.com/delight-im/PHP-DB)
    - `phpunit/phpunit`: For testing - [Github Link](https://github.com/sebastianbergmann/phpunit)
-   - `illuminate/support`: For Illuminate Support like in Laravel
 
 ### License
 

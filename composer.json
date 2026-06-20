@@ -24,6 +24,7 @@
             "@php --server=localhost:8000 --docroot=public"
         ],
         "transpile": [
+            "Composer\\Config::disableProcessTimeout",
             "@php worker transpile"
         ]
     },

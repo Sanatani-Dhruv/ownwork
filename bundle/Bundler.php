@@ -24,7 +24,7 @@ class Bundler {
 		// Loading .env file from Root Directory
 		require __DIR__ .'/Environment/Environment.php';
 		$environment = new Environment();
-		$environment->setenv();
+		$errorLevel = $environment->setenv();
 
 		// var_dump(getenv('OWNWORK_ERROR_HANDLER'));
 		// $doHandler = strtolower(getenv('OWNWORK_ERROR_HANDLER'));
@@ -37,6 +37,8 @@ class Bundler {
 		//
 		// Error Handler Setup for Application
 		require(__DIR__ . "/ErrorHandler/Handler.php");
+
+		$handler = new globalErrorHandler($errorLevel);
 	}
 
 	public function bundle() {

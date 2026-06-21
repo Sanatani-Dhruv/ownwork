@@ -7,7 +7,7 @@ function approot() {
   return $loc;
 }
 
-function out($data) {
+function out(string $data) {
   return htmlspecialchars($data);
 }
 
@@ -20,7 +20,7 @@ function getTempTranspiled(string $string, bool $needPath = true, array $args = 
   return \App\Helper\Viewer\View::includeTemp($string, $needPath, $args);
 }
 
-function view($string, array $args = []) {
+function view(string $string, array $args = []) {
   \App\Helper\Viewer\View::instantView($string, $args);
 }
 

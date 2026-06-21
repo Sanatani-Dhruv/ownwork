@@ -13,11 +13,14 @@ class Environment {
 
     $dev_env = ($_ENV["DEV_ENV"] == 'true') ? true : false;
 
+    $errorLevel = E_ALL;
     if ($dev_env) {
+      $errorLevel = E_ALL ^ E_DEPRECATED;
       ini_set('display_errors', '1');
       ini_set('display_startup_errors', '1');
-      error_reporting(E_ALL);
+      error_reporting($errorLevel);
     }
+    return $errorLevel;
   }
 }
 

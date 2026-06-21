@@ -1,12 +1,14 @@
 <?php
 
+namespace Bundle;
+
 class globalErrorHandler {
 	private string $systemCompDir;
 
-	public function __construct () {
+	public function __construct (int $errorLevel) {
 		$this->systemCompDir = (approot() . "/resources/appviews/");
 		if (isset($_ENV['OWNWORK_ERROR_HANDLER']) && $_ENV['OWNWORK_ERROR_HANDLER']) {
-			set_error_handler([&$this, 'HandleError']);
+			set_error_handler([&$this, 'HandleError'], $errorLevel);
 			set_exception_handler([&$this, 'HandleException']);
 		}
 	}
@@ -17,6 +19,7 @@ class globalErrorHandler {
 
 	public function HandleError ($Code, $Message, $File = null, $Line = 0, $Context = []) {
 		// echo "Working Error";
+		error_reporting(E_ALL ^ E_DEPRECATED);
 		if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
 			$errFile = (str_contains($File, approot()) ? str_replace(approot() . "/", "", $File) : $File);
 
@@ -168,10 +171,11 @@ class globalErrorHandler {
 				$errLine = $Exception->getLine();
 				$errLinesArray = $this->getErrorFileLines(approot() . "/" . $errFile, $errLine);
 
-				if (!file_exists(approot() . "/storage/logs")) {
+				if (!file_exists(approot() . "/storage/error.log")) {
 					if (!is_dir(approot() . "/storage/")) {
 						mkdir(approot() . "/storage/");
 					}
+					touch(approot(). "/storage/error.log");
 				}
 				$error_log = "[" . date(DATE_RSS) . "] - MESSAGE: {$Exception->getMessage()} | FILE: {$Exception->getFile()} | LINE_NUMBER: $errLine |\nSTACK_TRACE:\n";
 				$i = 1;
@@ -213,5 +217,3 @@ class globalErrorHandler {
 		}
 	}
 };
-
-$handler = new globalErrorHandler();

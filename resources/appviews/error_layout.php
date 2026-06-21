@@ -37,7 +37,7 @@
             Actual Error thrown in File:<br>
           </h3>
           <div class="pl-2 pr-2 text-lg text-red-500/100">
-           <?=out($errFileCompiled)?>
+            <?=out($errFileCompiled)?>
           </div>
           <?php endif;?>
           <?php endif;?>
@@ -56,8 +56,8 @@
             <?=$errLinesArray?>
           </div>
         </div>
-        <?php endif; ?>
       </div>
+      <?php endif; ?>
       <?php endif;?>
 
 

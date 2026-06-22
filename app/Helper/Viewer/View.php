@@ -84,11 +84,10 @@ class View {
 			} else {
 				require($viewLocation . $viewName);
 			}
-			exit();
 		} else {
 			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
 				$error_title = "View Not Found";
-				$error_message = out("View with name `$tempName` not Found.");
+				$error_message = out("View with name `$viewName` not Found.");
 				require(approot() . "/resources/appviews/no-info-error.php");
 				exit();
 			} else {

@@ -52,6 +52,12 @@ function url(string $action) {
   }
 }
 
+function pre($content) {
+  echo "<pre>";
+  print_r($content);
+  echo "</pre>";
+}
+
 // Function for Getting Instance of Database class if exists - If Someone Uses recommended Package i provided in DB
 function get_db_instance() {
   if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDatabase.php")) {

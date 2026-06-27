@@ -17,7 +17,7 @@
     </h1>
 
     <?php if (isset($errMsg)): ?>
-      <div class="border-1 p-4 pt-2 pb-2 rounded flex flex-col lg:flex-row justify-between">
+      <div class="p-4 pt-2 pb-2 rounded flex flex-col lg:flex-row justify-between border">
         <div class="lg:w-1/2 flex-1">
           <h2 class="text-2xl font-semibold">
             Error Message:

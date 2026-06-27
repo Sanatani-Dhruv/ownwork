@@ -2,12 +2,12 @@
 namespace Coretex\Viewer;
 
 use Coretex\Router\Route;
+use Coretex\Exceptions\ViewNotFoundException;
 
 /*! This Class handles calling views, should not be modified, unless you know what you do.*/
 class View {
 	private $uri;
 	private $viewLocation;
-
 
 	/*! By the way, this doesn't do anything, better use helper function view() */
 	function __construct() {
@@ -40,29 +40,18 @@ class View {
 			throw new \ErrorException("views.json not found at " . dirname($compiledViewDetailPath));
 		}
 		$compiledViewDetails = json_decode(file_get_contents($compiledViewDetailPath), true);
-		try {
-			$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails[$approot . "/resources/views/" . $tempName];
-			if (file_exists($compiledViewPath)) {
-				if (count($pairs)) extract($pairs);
-				if (!$givePath) {
-					require($compiledViewPath);
-					return;
-				} else {
-					return $compiledViewPath;
-				}
-			}
-			else {
-				throw new \Exception("View Not Found");
-			}
-		} catch(\Exception $err) {
-			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
-				$error_title = "View Not Found";
-				$error_message = out("View with name `$tempName` not Found.");
-				require(approot() . "/resources/appviews/no-info-error.php");
+		$compiledViewPath = $compiledViewStorageDir . $compiledViewDetails[$approot . "/resources/views/" . $tempName];
+		if (file_exists($compiledViewPath)) {
+			if (count($pairs)) extract($pairs);
+			if (!$givePath) {
+				require($compiledViewPath);
+				return;
 			} else {
-				echo "<pre>View Not Found</pre>";
+				return $compiledViewPath;
 			}
-			exit();
+		} else {
+			$error_message = out("View with name `$tempName` not Found.");
+			throw new ViewNotFoundException($tempName, $error_message);
 		}
 	}
 
@@ -85,15 +74,8 @@ class View {
 				require($viewLocation . $viewName);
 			}
 		} else {
-			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
-				$error_title = "View Not Found";
-				$error_message = out("View with name `$viewName` not Found.");
-				require(approot() . "/resources/appviews/no-info-error.php");
-				exit();
-			} else {
-				echo "<pre>View Not Found</pre>";
-				exit();
-			}
+			$error_message = out("View with name `$viewName` not Found.");
+			throw new ViewNotFoundException($viewName, $error_message);
 		}
 	}
 }

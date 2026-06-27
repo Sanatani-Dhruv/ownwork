@@ -8,8 +8,7 @@ class Environment {
   # Path Compared to this directory
 
   public static function setenv() {
-    require __DIR__ . "/DotEnvironment.php";
-    $dotEnvironment = new DotEnvironment(__DIR__ . "/../../.env");
+    $dotEnvironment = new DotEnvironment(approot() . "/.env");
 
     $dev_env = ($_ENV["DEV_ENV"] == 'true') ? true : false;
 

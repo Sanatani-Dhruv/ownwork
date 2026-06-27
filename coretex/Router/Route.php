@@ -1,14 +1,19 @@
 <?php
 namespace Coretex\Router;
 
+use Coretex\Exceptions\PageNotFoundException;
+use Coretex\Router\RouteResolver;
+
 class Route {
 	private array $requests;
 	private bool $matchFound;
+	private RouteResolver $resolver;
 
 	public function __construct() {
 		// echo "--- Made Router ---<br>";
 		// echo "================<br>";
 		$this->requests = [];
+		$this->resolver = new RouteResolver();
 		$this->matchFound = false;
 	}
 
@@ -103,44 +108,10 @@ class Route {
 				$keyPair = [];
 			}
 			// pre($keyPair);
-			$this->onMatch($currentUrl, $handler, $keyPair);
+			$this->resolver->resolve($currentUrl, $handler, $keyPair);
 		} else {
 			throw new PageNotFoundException("404 Page Not Found");
 		}
 	}
 
-	private function onMatch(string $requestUrl, callable | array | string $handler, array $dynamicVariables = []) {
-		if (is_callable($handler)) {
-			// pre($dynamicVariables);
-			if (count($dynamicVariables)) {
-				$reflect = new \ReflectionFunction($handler);
-				$payload = [];
-				$needParameterCount = $reflect->getNumberofParameters();
-				$i = 0;
-				foreach($dynamicVariables as $key => $value) {
-					if (!($i++ < $needParameterCount)) {
-						break;
-					}
-					$payload[$key] = $value;
-				}
-				$handler(...$payload);
-			} else {
-				$handler();
-			}
-		} elseif (is_string($handler)) {
-			view($handler);
-		} elseif (is_array($handler)) {
-			try {
-				[ $className, $methodName, $passVariables] = $handler;
-				if (!isset($passVariables)) {
-					$passVariables = [];
-				}
-				$object = new $className();
-				// pre($dynamicVariables);
-				$object->{$methodName}($dynamicVariables, $passVariables);
-			} catch(\Exception $error) {
-				throw new $error;
-			}
-		}
-	}
 }

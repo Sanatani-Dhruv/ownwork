@@ -3,6 +3,8 @@ namespace Bundle;
 
 use Bundle\Environment\Environment;
 use Bundle\Handler\GlobalErrorHandler;
+use Coretex\Exceptions\PageNotFoundException;
+use Coretex\Exceptions\ViewNotFoundException;
 
 class Bundler {
 	function __construct() {
@@ -41,6 +43,9 @@ class Bundler {
 	public function bundle() {
 		try {
 			require_once(__DIR__ . "/Routes.php");
+		} catch (PageNotFoundException $err) {
+			http_response_code(404);
+			echo "404 Not Found";
 		} catch (Exception $err) {
 			echo $err;
 		}

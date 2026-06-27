@@ -1,5 +1,5 @@
 <?php
-namespace App\Helper;
+namespace Coretex;
 
 class ConsoleHelper {
     /*

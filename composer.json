@@ -7,7 +7,12 @@
     },
     "license": "MIT",
     "autoload": {
+        "files": [
+            "bundle/Helper.php"
+        ],
         "psr-4": {
+            "Bundle\\": "bundle/",
+            "Coretex\\": "coretex/",
             "App\\": "app/"
         }
     },

@@ -30,8 +30,8 @@
           </h3>
           <div class="pl-2 pr-2 text-lg text-red-500/100">
             <?=out($errFile)?>
-          <?php if(isset($errFileCompiled) && $errFileCompiled != ""): ?>
           </div>
+          <?php if(isset($errFileCompiled) && $errFileCompiled != ""): ?>
           <br>
           <h3 class="text-xl font-semibold">
             Actual Error thrown in File:<br>
@@ -47,8 +47,8 @@
             Error at Line number: <span class="pl-2 pr-2 text-lg text-red-500/100"><?=out($errLine)?></span><br>
           </h3>
           <br>
-          <?php endif;?>
         </div>
+        <?php endif;?>
         <!-- <hr class="text-gray-500 border"> -->
         <?php if(isset($errLinesArray)): ?>
         <div class="lg:w-1/2 flex-0">
@@ -56,8 +56,8 @@
             <?=$errLinesArray?>
           </div>
         </div>
+        <?php endif; ?>
       </div>
-      <?php endif; ?>
       <?php endif;?>
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace Bundle;
 
-use App\Helper\Router\Route;
+use Coretex\Router\Route;
 use App\Controller\UserController;
 
 $route = new Route();

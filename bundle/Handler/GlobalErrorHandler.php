@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle;
+namespace Bundle\Handler;
 
-class globalErrorHandler {
+class GlobalErrorHandler {
 	private string $systemCompDir;
 
 	public function __construct (int $errorLevel) {

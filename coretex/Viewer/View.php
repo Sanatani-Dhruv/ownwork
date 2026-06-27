@@ -1,7 +1,7 @@
 <?php
-namespace App\Helper\Viewer;
+namespace Coretex\Viewer;
 
-use App\Helper\Router\Route;
+use Coretex\Router\Route;
 
 /*! This Class handles calling views, should not be modified, unless you know what you do.*/
 class View {
@@ -73,7 +73,7 @@ class View {
 	 * @return void
 	 * */
 	public static function instantView(string $viewName, array $keyValue = []) {
-		$viewLocation = __DIR__ . "/../../../resources/views/";
+		$viewLocation = approot() . "/resources/views/";
 
 		if (file_exists($viewLocation . $viewName)) {
 			if (count($keyValue)) {

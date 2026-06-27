@@ -1,239 +1,145 @@
 <?php
-namespace App\Helper\Router;
+namespace Coretex\Router;
 
-/*! This Class handles Routing, should not be modified, unless you know what you do. */
 class Route {
-	/*! This Variable is an array which would be storing url and it's action in apassed in $Route->get or $Route->post methods where $Route is object of \App\Helper\Router\Route class */
-	static array $requests;
-	static $arguments;
-	static $hasMatch = false;
-	static $viewDirectory = __DIR__ . "/../../../resources/views/";
-	private $viewName_methodCall;
-	private $displayedView;
+	private array $requests;
+	private bool $matchFound;
 
-	/*!
-	 * Constructor setting Initial Variables
-	 *  */
-	function __construct() {
-		global $requests;
-		if (!isset($_SERVER["PATH_INFO"])) {
-			$_SERVER["PATH_INFO"] = "/";
-		}
-		$this->displayedView = 0;
+	public function __construct() {
+		// echo "--- Made Router ---<br>";
+		// echo "================<br>";
+		$this->requests = [];
+		$this->matchFound = false;
 	}
 
-	/*!
-	 * Used to take action when a GET HTTP Request hits at $request_uri
-	 * @param string $request_uri User provided url or dynamic url string
-	 * @param string | function $viewName_methodCall Either view File name to display or else closure function
-	 * @param array $arguments Arguments to passed to view provided in $viewName_methodCall
-	 *
-	 * @return void
-	 *  */
-	public function get(string $request_uri, $viewName_methodCall, array $arguments = []): void {
-		if ($_SERVER['REQUEST_METHOD'] == "GET") {
-			self::$requests[$request_uri] = $viewName_methodCall;
-			$isAssociative = (array_keys($arguments) !== range(0, count($arguments) - 1));
-			if ($isAssociative) {
-				self::$arguments[$request_uri] = $arguments;
+	public function get(string $url, callable | array | string $handler) {
+		$this->requests['GET'][$url] = $handler;
+		return $this->requests['GET'];
+	}
+
+	public function post(string $url, callable | array | string $handler) {
+		$this->requests['POST'][$url] = $handler;
+		return $this->requests['POST'];
+	}
+
+	public function put(string $url, callable | array | string $handler) {
+		$this->requests['PUT'][$url] = $handler;
+		return $this->requests['PUT'];
+	}
+
+	public function delete(string $url, callable | array | string $handler) {
+		return $this->requests['DELETE'];
+	}
+
+	public function patch(string $url, callable | array | string $handler) {
+		return $this->requests['DELETE'];
+	}
+
+	public function middleware(array $mapping = [], callable $handler = null): bool | int {
+		pre($mapping);
+		return 0;
+	}
+
+	public function end() {
+		// pre($this->requests);
+		$regex = '/{([\w\/]*)}/m';
+		$replaceRegex = '([\\w]{1,})';
+		$currentUrl = parse_url($_SERVER['REQUEST_URI']);
+		if (array_key_exists('path', $currentUrl)) {
+			$currentUrl = $currentUrl['path'];
+		}
+
+		// echo "Current Url: $currentUrl<br>";
+		$variableArray;
+		foreach($this->requests[$_SERVER['REQUEST_METHOD']] as $request => $handler) {
+			// echo "Request: ' $request '<br><br>";
+			if ($this->matchFound) break;
+			$normalMatch = true;
+			if (str_contains($request, '}')) {
+				$normalMatch = false;
+				preg_match_all($regex, $request, $dynamicVar);
+				array_shift($dynamicVar);
+				$dynamicVar = $dynamicVar[0];
+				// pre($dynamicVar);
+				$requestRegex = preg_replace($regex, $replaceRegex, $request);
+				$requestRegex = str_replace('/', '\/', $requestRegex);
+				$requestRegex = '/^' . $requestRegex . '$/';
+
+				// echo "Match Against This Regex: `$requestRegex`<br>";
 			}
-		}
-	} 
+			if (!$normalMatch) {
+				if (preg_match($requestRegex, $currentUrl)) {
+					preg_match_all($requestRegex, $currentUrl, $variableValues);
+					array_shift($variableValues);
+					// pre($variableValues);
 
-	/*!
-	 * Used to take action when a POST HTTP Request hits at $request_uri
-	 * @param string $request_uri User provided url or dynamic url string
-	 * @param string | function $viewName_methodCall Either view File name to display or else closure function
-	 * @param array $arguments Arguments to passed to view provided in $viewName_methodCall
-	 *
-	 * @return void
-	 *  */
-	public function post(string $request_uri, $viewName_methodCall, array $arguments = []) {
-		if ($_SERVER['REQUEST_METHOD'] == "POST") {
-			self::$requests[$request_uri] = $viewName_methodCall;
-			$isAssociative = (array_keys($arguments) !== range(0, count($arguments) - 1));
-			if ($isAssociative) {
-				self::$arguments[$request_uri] = $arguments;
-			}
-		}
-	}
-
-	/*!
-	 * Used to Redirect One URL to another
-	 * @param string $oriUrl Original Url 
-	 * @param string $redirect Url to redirect on
-	 * @param bool $fullurl whether to include query parameter or not
-	 *
-	 * @return void
-	 *  */
-	public function redirect(string $oriUrl, string $redirect, bool $fullurl = false): void {
-		// Remove whitespaces
-		$oriUrl = trim($oriUrl);
-		$redirect = trim($redirect);
-		if ($fullurl) {
-			$browUrl = trim($_SERVER["REQUEST_URI"]);
-		} else {
-			$browUrl = trim(parse_url($_REQUEST['REQUEST_URI'])['path']);
-		}
-
-		// Get Length
-		// $lenOri = strlen($oriUrl);
-		// $lenBrow = strlen($browUrl);
-		//
-		// $browUrl = ($lenBrow > 1 && "/" == $browUrl[$lenBrow - 1]) ? rtrim($browUrl, "/") : $browUrl;
-
-		// echo "Original: $oriUrl<br>";
-		// echo "Server: $browUrl<br>";
-		// echo "Redirect: $redirect<br>";
-		if ($oriUrl == $browUrl) {
-			self::$hasMatch = true;
-			header("Redirected: true");
-			header("Location: $redirect");
-		}
-	}
-
-	/*!
-	 * Actual Function which checks for actual requested Url and executes further by user defined way from $Route->get() and $Route->post()
-	 *
-	 * @return void
-	 *  */
-	public function end(): void {
-		// echo "<pre>";
-		// print_r($_SERVER);
-		// print_r(self::$requests);
-		// echo "</pre>";
-
-		if (is_array(self::$requests)) {
-			foreach(self::$requests as $request_uri => $action) {
-				$requestPath = "";
-				// echo $request_uri . "<br>";
-
-				$routeRegex = preg_replace_callback('/{\w+(:([^}]+))?}/', function ($matches) {
-					return isset($matches[1]) ? '(' . $matches[2] . ')' : '([a-zA-Z0-9_-]+)';
-				}, $request_uri);
-				$routeRegex = '@^' . $routeRegex . '$@';
-				// echo "\n\"$request_uri\" => \"$routeRegex\"\n\n";
-
-				$forThisRequest = false;
-				$requestPathArr = parse_url($_SERVER['REQUEST_URI']);
-				// echo "<pre>";
-				// var_dump( $requestPathArr );
-				// echo "</pre>";
-
-				if (!isset($requestPathArr['path'])) {
-					$quesMarkPosition = strpos($_SERVER['REQUEST_URI'], "?");
-
-					if (str_contains($_SERVER['REQUEST_URI'], "?")) {
-						$requestPath = trim($_SERVER['REQUEST_URI'], substr($_SERVER['REQUEST_URI'], $quesMarkPosition));
-					} else {
-						$requestPath = $_SERVER['REQUEST_URI'];
+					$i = 0;
+					$keyPair = [];
+					foreach($dynamicVar as $key) {
+						$keyPair[$key] = $variableValues[$i][0];
+						$i++;
 					}
-				} else {
-					$requestPath = $requestPathArr['path'];
+					// pre($keyPair);
+					// echo "Current Page: '$request'<br>";
+					$this->matchFound = true;
+					break;
 				}
-
-				// echo out("|$requestPath|");
-				if (preg_match($routeRegex, $requestPath, $matches)) {
-					// echo "<pre>";
-					// print_r($matches);
-					// echo "True for $matches[0]";
-
-					array_shift($matches);
-					$routeParamsValues = $matches;
-					$routeParamsNames = [];
-					if (preg_match_all('/{(\w+)(:[^}]+)?}/', $request_uri, $matches)) {
-						$routeParamsNames = $matches[1];
-						// For debugging parameter names
-						// print_r($routeParamsNames);
-						$routeParams = array_combine($routeParamsNames, $routeParamsValues);
-					}
-
-					$forThisRequest = true;
-					self::$hasMatch = true;
-					// echo "</pre>";
-				}
-
-				// $forThisRequest = ($request_uri == $_SERVER['PATH_INFO']) ? true : false;
-				if ($forThisRequest) {
-					if (is_array($action)) {
-						// print_r($action);
-
-						// Handle $action array's first element - Class Name
-						if (isset($action[0])) {
-							$actionClass = $action[0];
-							if (isset($routeParams)) {
-								$actionObject = new $action[0]($routeParams);
-							} else {
-								$actionObject = new $action[0]($routeParams = []);
-							}
-						}
-						// echo "<pre>";
-						// print_r($actionObject);
-						// echo "</pre>";
-
-						// Handle $action array's second & third element - Method Name & Method Args
-						if (isset($action[1])) {
-							$actionMethod = $action[1];
-							$actionArgsArray = (isset($action[2])) ? $action[2] : [];
-							$actionObject->{$actionMethod}(...$actionArgsArray);
-						} else {
-							// echo "";
-						}
-						// extract($actionArgsArray);
-						// echo $actionMethod;
-
-					} elseif (is_string($action)) {
-						// echo $action;
-						if (file_exists(self::$viewDirectory . $action)) {
-							if (isset(self::$arguments[$request_uri]) && count(self::$arguments[$request_uri])) {
-								extract(self::$arguments[$request_uri]);
-							}
-							if (strstr($action, "temp.php")) {
-								view($action);
-							} else {
-								require(self::$viewDirectory . $action);
-							}
-						} else {
-							$viewName = $action;
-							if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
-								http_response_code(500);
-								if (isset($_ENV['DEV_ENV']) && $_ENV['DEV_ENV']) {
-									$error_title = "View Not Found";
-									$error_message = out("View with name `$viewName` not Found.");
-									require(approot() . "/resources/appviews/no-info-error.php");
-								} else {
-									$error_title = "500 Internal Server Error";
-									$error_message = $error_title;
-									require(approot() . "/resources/appviews/no-info-error.php");
-								}
-							} else {
-								echo "View Not Found";
-							}
-						}
-					} elseif (is_callable($action)) {
-						$action();
-					}
-				}
-				// echo "<br>";
-
-			}
-		}
-	}
-
-	/*!
-	 * Destructor to call 404 Not Page Found if no Route Matches
-	 *  */
-	public function __destruct() {
-		if (!self::$hasMatch) {
-			http_response_code(404);
-			$error_title = "404 Not Found";
-			if (file_exists(approot() . "/resources/appviews/no-info-error.php")) {
-				$error_message = &$error_title;
-				require(approot() . "/resources/appviews/no-info-error.php");
-				exit();
 			} else {
-				echo $error_title;
-				exit();
+				if ($currentUrl === $request) {
+					$this->matchFound = true;
+					break;
+				}
+			}
+
+			// echo "Handler: ";
+			// pre($handler);
+			// echo "===========<br>";
+			// echo "===========<br>";
+		}
+
+		if ($this->matchFound) {
+			// echo "Matched Url: $currentUrl<br>";
+			if (!isset($keyPair)) {
+				$keyPair = [];
+			}
+			// pre($keyPair);
+			$this->onMatch($currentUrl, $handler, $keyPair);
+		} else {
+			throw new PageNotFoundException("404 Page Not Found");
+		}
+	}
+
+	private function onMatch(string $requestUrl, callable | array | string $handler, array $dynamicVariables = []) {
+		if (is_callable($handler)) {
+			// pre($dynamicVariables);
+			if (count($dynamicVariables)) {
+				$reflect = new \ReflectionFunction($handler);
+				$payload = [];
+				$needParameterCount = $reflect->getNumberofParameters();
+				$i = 0;
+				foreach($dynamicVariables as $key => $value) {
+					if (!($i++ < $needParameterCount)) {
+						break;
+					}
+					$payload[$key] = $value;
+				}
+				$handler(...$payload);
+			} else {
+				$handler();
+			}
+		} elseif (is_string($handler)) {
+			view($handler);
+		} elseif (is_array($handler)) {
+			try {
+				[ $className, $methodName, $passVariables] = $handler;
+				if (!isset($passVariables)) {
+					$passVariables = [];
+				}
+				$object = new $className();
+				// pre($dynamicVariables);
+				$object->{$methodName}($dynamicVariables, $passVariables);
+			} catch(\Exception $error) {
+				throw new $error;
 			}
 		}
 	}

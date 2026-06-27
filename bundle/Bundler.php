@@ -2,10 +2,10 @@
 namespace Bundle;
 
 use Bundle\Environment\Environment;
+use Bundle\Handler\GlobalErrorHandler;
 
 class Bundler {
 	function __construct() {
-		// require(__DIR__ . "/Routes.php");
 		if (file_exists(__DIR__ . "/../.env") && file_exists(__DIR__ . "/../vendor/autoload.php")) {
 			require __DIR__ . '/../vendor/autoload.php';
 		} else {
@@ -22,7 +22,6 @@ class Bundler {
 		}
 
 		// Loading .env file from Root Directory
-		require __DIR__ .'/Environment/Environment.php';
 		$environment = new Environment();
 		$errorLevel = $environment->setenv();
 
@@ -33,17 +32,15 @@ class Bundler {
 		// }
 
 		// Global Helper Functions exist in below file
-		require __DIR__ . '/HelperFunction.php';
 		//
 		// Error Handler Setup for Application
-		require(__DIR__ . "/ErrorHandler/Handler.php");
 
-		$handler = new globalErrorHandler($errorLevel);
+		$handler = new GlobalErrorHandler($errorLevel);
 	}
 
 	public function bundle() {
 		try {
-			require(__DIR__ . "/Routes.php");
+			require_once(__DIR__ . "/Routes.php");
 		} catch (Exception $err) {
 			echo $err;
 		}

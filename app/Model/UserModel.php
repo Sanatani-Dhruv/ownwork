@@ -1,7 +1,8 @@
 <?php
 namespace App\Model;
 
-use App\Viewer\View;
+use Coretex\Support\Request;
+use Coretex\Support\Response;
 
 class UserModel {
 	function __construct() {

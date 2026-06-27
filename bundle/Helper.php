@@ -7,6 +7,23 @@ function approot() {
   return $loc;
 }
 
+if (!function_exists("array_is_list")) {
+  function array_is_list(array $array): bool {
+    $i = -1;
+    foreach ($array as $k => $v) {
+      ++$i;
+      if ($k !== $i) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+function array_is_assoc(array $array): bool {
+  return !array_is_list($array);
+}
+
 function out(string $data) {
   return htmlspecialchars($data);
 }
@@ -53,7 +70,7 @@ function url(string $action) {
 }
 
 function pre($content) {
-  echo "<pre>";
+  echo "<pre style='font-size: 1.1rem;'>";
   print_r($content);
   echo "</pre>";
 }

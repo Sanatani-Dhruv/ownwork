@@ -7,24 +7,34 @@ class Request {
     private array $posts;
     private array $files;
     private array $requests;
+    private array $cookies;
 
     public function __construct() {
-        $this->posts = $_POST;
-        $this->gets = $_GET;
-        $this->requests = $_REQUEST;
-        $this->files = $_FILES;
+        $this->posts = &$_POST;
+        $this->gets = &$_GET;
+        $this->requests = &$_REQUEST;
+        $this->files = &$_FILES;
+        $this->cookies = &$_COOKIE;
     }
 
-    public function getAll() {
-        return $gets;
+    public function allGet() {
+        return $this->gets;
     }
 
-    public function postAll() {
-        return $posts;
+    public function allPost() {
+        return $this->posts;
     }
 
-    public function All() {
-        return $requests;
+    public function allCookie() {
+        return $this->cookies;
+    }
+
+    public function allFile() {
+        return $this->files;
+    }
+
+    public function all() {
+        return [ ...$this->requests, ...$this->cookies, ...$this->files ];
     }
 
     public function method(): string {
@@ -43,10 +53,14 @@ class Request {
         }
     }
 
-    public function exists(string $name) {
-        if (isset($_REQUEST[$name]) ){
+    public function exists(string $name, bool $noValue = false) {
+        if (isset($_REQUEST[$name])) {
+            if (!$_REQUEST[$name] && $noValue) {
+                return false;
+            }
             return true;
         }
+        return false;
     }
 
     public function getInput(string $method, string $var_name, int $type = FILTER_DEFAULT, bool $raw = false):string | array | null {

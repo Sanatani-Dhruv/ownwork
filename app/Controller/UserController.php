@@ -20,16 +20,16 @@ class UserController {
 	}
 
 	public function index() {
-		$request = $this->request;
-		$response = $this->response;
+		$request = &$this->request;
+		$response = &$this->response;
 
 		$arr = [
 			'key' => 'buzz',
 			'value' => 'wow',
 			'reasone' => 'none',
 		];
-		$response->setPayload("array", $arr);
 
+		$response->setPayload("array", $arr);
 		$response->dispatchJsonPayload(true);
 	}
 }

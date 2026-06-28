@@ -31,34 +31,24 @@
 ownwork
    ├── app
    │   ├── Controller # Your Controllers directory
-   │   │   └── UserController.php
-   │   ├── Helper # This file includes Helper and Support Files which handles important functions like Routing, Viewing
-   │   │   ├── ConsoleHelper.php # Pretty Printing for Console
-   │   │   ├── Router
-   │   │   │   └── Route.php # This File handles Routing, should not be modified, unless you know what you do.
-   │   │   ├── Templater
-   │   │   │   └── Template.php # Transpiler which transpiles .temp.php views to raw php files
-   │   │   └── Viewer
-   │   │       └── View.php # This File handles calling views, should not be modified, unless you know what you do.
+   │   │   └── UserController.php
    │   └── Model # Your Models directory
-   │       └── UserModel.php
-   ├── bundle # Files Which run by you in manual manner to handle certain things like env, helper function routes
+   │       └── UserModel.php
+   ├── bundle # Files Which run when starting ownwork, like loading dotenv, etc
    │   ├── Bundler.php # This File Bundles your App
-   │   ├── Environment # Directory Which Setups your Environment Settings
-   │   │   ├── DotEnvironment.php
-   │   │   └── Environment.php
-   │   ├── HelperFunction.php # Global Helper Functions are defined here
+   │   ├── Helper.php # Global Helper Functions are defined here
    │   └── Routes.php # Your Routes are defined here
    ├── composer.json
    ├── composer.lock
+   ├── node_modules
    ├── package-lock.json
    ├── package.json
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
    │   ├── .htaccess # Config file for Apache web server
    │   ├── build # Will contain build file of Tailwind CSS
    │   ├── index.php # Entry level file, starting point of App
-   │   └── styles
-   │       └── tailwind.default.css # Compiled CSS file for default page
+   │   └── styles
+   │       └── tailwind.default.css # Compiled CSS file for default page(don't delete this file)
    ├── resources
    │   ├── appviews # Views required by OwnWork like error pages
    │   │   ├── error_layout.php
@@ -68,17 +58,13 @@ ownwork
    │   │   ├── stackTrace-block.php
    │   │   └── styles
    │   │       └── index.css
-   │   ├── js
-   │   ├── css
+   │   ├── css
    │   │   └── tailwind.css # Default tailwind source file
    │   ├── template # Default Templates for Component's like controller, view, model
    │   │   ├── Controller.php # Default Controller template
    │   │   ├── Model.php # Default Model template
    │   │   └── View.php # Default View template
-   │   └── views # Your Views directory
-   │       └── main.temp.php
-   ├── storage
-   │   ├── views # Compiled '.temp.php views'
+   │   ├── views # Your Views directory
    │   └── views.json # Contains mapping of template files to their compiled form
    ├── vendor # Application dependecies and autoloader directory
    │   └── autoload.php # Include this to autoload files

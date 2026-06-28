@@ -1,8 +1,8 @@
 <?php
 namespace App\Model;
 
-use Coretex\Support\Request;
-use Coretex\Support\Response;
+use Dhruv125\Coretex\Support\Request;
+use Dhruv125\Coretex\Support\Response;
 
 class UserModel {
 	function __construct() {

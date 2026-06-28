@@ -3,8 +3,8 @@ namespace App\Controller;
 
 use App\Viewer\View;
 
-use Coretex\Support\Request;
-use Coretex\Support\Response;
+use Dhruv125\Coretex\Support\Request;
+use Dhruv125\Coretex\Support\Response;
 
 class DEFAULT_NAME {
 	private $args; // This will store Dynamic variables Extracted from url

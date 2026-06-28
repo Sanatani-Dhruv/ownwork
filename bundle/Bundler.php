@@ -1,10 +1,10 @@
 <?php
 namespace Bundle;
 
-use Bundle\Environment\Environment;
-use Bundle\Handler\GlobalErrorHandler;
-use Coretex\Exceptions\PageNotFoundException;
-use Coretex\Exceptions\ViewNotFoundException;
+use Dhruv125\Coretex\Environment\Environment;
+use Dhruv125\Coretex\Handler\GlobalErrorHandler;
+use Dhruv125\Coretex\Exceptions\PageNotFoundException;
+use Dhruv125\Coretex\Exceptions\ViewNotFoundException;
 
 class Bundler {
 	function __construct() {

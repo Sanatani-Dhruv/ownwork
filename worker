@@ -3,10 +3,10 @@
 
 global $argv;
 
-require __DIR__ . "/coretex/ConsoleHelper.php";
-require __DIR__ . "/bundle/Helper.php";
-require __DIR__ . "/coretex/Templater/Template.php";
-use Coretex\ConsoleHelper;
+require __DIR__ . "/vendor/autoload.php";
+
+use Dhruv125\Coretex\ConsoleHelper;
+use Dhruv125\Coretex\Templater\Template;
 
 $printer = new ConsoleHelper();
 

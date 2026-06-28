@@ -34,11 +34,11 @@ function env($data, bool $get = true, bool $specialChars = true) {
 }
 
 function getTempTranspiled(string $string, bool $needPath = true, array $args = []) {
-  return Coretex\Viewer\View::includeTemp($string, $needPath, $args);
+  return Dhruv125\Coretex\Viewer\View::includeTemp($string, $needPath, $args);
 }
 
 function view(string $string, array $args = []) {
-  Coretex\Viewer\View::instantView($string, $args);
+  return Dhruv125\Coretex\Viewer\View::instantView($string, $args);
 }
 
 // Call Component

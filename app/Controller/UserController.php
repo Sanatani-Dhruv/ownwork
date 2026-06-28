@@ -1,10 +1,10 @@
 <?php
 namespace App\Controller;
 
-use App\Viewer\View;
+use Dhruv125\Coretex\App\Viewer\View;
 
-use Coretex\Support\Request;
-use Coretex\Support\Response;
+use Dhruv125\Coretex\Support\Request;
+use Dhruv125\Coretex\Support\Response;
 
 class UserController {
 	private $args; // This will store Dynamic variables Extracted from url

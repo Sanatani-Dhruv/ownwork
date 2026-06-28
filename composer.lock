@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82dfc56e3a3ee925698dece8c7332fb2",
-    "packages": [],
+    "content-hash": "41849f7a70a88e2947387f57826c443a",
+    "packages": [
+        {
+            "name": "dhruv125/coretex",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sanatani-Dhruv/coretex.git",
+                "reference": "5055e4ce8651e7c7388f26f1055d44d5b25a7b4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sanatani-Dhruv/coretex/zipball/5055e4ce8651e7c7388f26f1055d44d5b25a7b4e",
+                "reference": "5055e4ce8651e7c7388f26f1055d44d5b25a7b4e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhruv125\\Coretex\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "dhruv125"
+                }
+            ],
+            "description": "Only core package you need to get started with ownwork framework.",
+            "support": {
+                "issues": "https://github.com/Sanatani-Dhruv/coretex/issues",
+                "source": "https://github.com/Sanatani-Dhruv/coretex/tree/v1.0.1"
+            },
+            "time": "2026-06-28T17:19:39+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

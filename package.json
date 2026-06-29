@@ -5,7 +5,7 @@
   },
   "scripts": {
     "dev": "npx concurrently --names=\"OwnWork,Tailwind,Transpiler\" --prefix-colors=\"blue,red,green\" \"php -S localhost:8000 --docroot='public/'\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --watch\" \"./worker transpile\"",
-    "build": "npx concurrently --names=\"Tailwind\" --prefix-colors=\"red\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --minify\""
+    "build": "npx concurrently --names=\"Tailwind,Transpiler\" --prefix-colors=\"red,green\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --minify\" \"php worker transpile build\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

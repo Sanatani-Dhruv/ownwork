@@ -12,6 +12,6 @@ $route->get("/id/{id}/{name}", [
 	UserController::class , 'index'
 ]);
 
-// $route->get("/welcome", "smain.temp.php");
+$route->get("/welcome", "smain.temp.php");
 
 $route->end();

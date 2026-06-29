@@ -125,9 +125,10 @@ if ($firstArg && strtolower($firstArg) == "transpile") {
 
 	if ($runAndEnd) {
 		$parser->scanStorage();
+		$parser->scanRes();
+		$parser->compileFiles();
 		$viewJson = json_encode($parser->giveCompiledViewArr());
 		file_put_contents(approot() . "/storage/views.json", $viewJson);
-		$parser->compileFiles();
 		$endTime = microtime(true);
 		$processTime = round($endTime - $beginTime, 5);
 		$printer->print("Transpiled Template Views Files in ", 'blue', '', false, false);

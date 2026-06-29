@@ -1,4 +1,4 @@
-<div class="fileNameBlock overflow-auto text-md p-2 cursor-pointer rounded text-black bg-green-500/100 flex shadow shadow-lg">
+<div class="fileNameBlock overflow-auto text-md p-2 cursor-pointer rounded text-black bg-green-500/100 shadow shadow-lg h-full flex justify-center items-center">
 	<div class="w-full">
 		<strong><?=$i?>) File name:</strong> <span class="font-medium text-white"><?=out($filePath);?></span>
 	</div>

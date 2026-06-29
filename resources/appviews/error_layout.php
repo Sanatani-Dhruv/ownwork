@@ -5,8 +5,8 @@
     <title>Error<?=out((isset($errMsg) ? ": " . $errMsg : "Handled") )?> </title>
     <style>
 <?php
-  if(file_exists(approot() . "/public/styles/tailwind.default.css")):
-    require(approot() . "/public/styles/tailwind.default.css");
+  if(file_exists(approot() . "/resources/appviews/styles/tailwind.errorpage.css")):
+    require(approot() . "/resources/appviews/styles/tailwind.errorpage.css");
   endif;
 ?>
     </style>
@@ -17,7 +17,7 @@
     </h1>
 
     <?php if (isset($errMsg)): ?>
-      <div class="p-4 pt-2 pb-2 rounded flex flex-col lg:flex-row justify-between border">
+      <div class="p-4 rounded flex flex-col lg:flex-row justify-between border">
         <div class="lg:w-1/2 flex-1">
           <h2 class="text-2xl font-semibold">
             Error Message:
@@ -52,7 +52,7 @@
         <!-- <hr class="text-gray-500 border"> -->
         <?php if(isset($errLinesArray)): ?>
         <div class="lg:w-1/2 flex-0">
-          <div class="stackTraceBlock p-4 border border-gray-50/30 rounded text-md overflow-auto">
+          <div class="stackTraceBlock p-4 border border-gray-50/30 rounded text-md overflow-auto h-full flex items-center">
             <?=$errLinesArray?>
           </div>
         </div>

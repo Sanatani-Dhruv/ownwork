@@ -5,9 +5,11 @@ use Dhruv125\Coretex\Environment\Environment;
 use Dhruv125\Coretex\Handler\GlobalErrorHandler;
 use Dhruv125\Coretex\Exceptions\PageNotFoundException;
 use Dhruv125\Coretex\Exceptions\ViewNotFoundException;
+use Dhruv125\Coretex\Pager;
 
 class Bundler {
-	function __construct() {
+	private $pager;
+	public function __construct() {
 		if (file_exists(__DIR__ . "/../.env") && file_exists(__DIR__ . "/../vendor/autoload.php")) {
 			require __DIR__ . '/../vendor/autoload.php';
 		} else {
@@ -23,19 +25,12 @@ class Bundler {
 			die();
 		}
 
+		// Initialize Error Displayer
+		$this->pager = new Pager();
+
 		// Loading .env file from Root Directory
 		$environment = new Environment();
 		$errorLevel = $environment->setenv();
-
-		// var_dump(getenv('OWNWORK_ERROR_HANDLER'));
-		// $doHandler = strtolower(getenv('OWNWORK_ERROR_HANDLER'));
-		// if($doHandler == "true" || $doHandler == "1") {
-		// 	require(__DIR__ . "/ErrorHandler/Handler.php");
-		// }
-
-		// Global Helper Functions exist in below file
-		//
-		// Error Handler Setup for Application
 
 		$handler = new GlobalErrorHandler($errorLevel);
 	}
@@ -45,9 +40,10 @@ class Bundler {
 			require_once(__DIR__ . "/Routes.php");
 		} catch (PageNotFoundException $err) {
 			http_response_code(404);
-			echo "404 Not Found";
-		} catch (Exception $err) {
-			echo $err;
+			$this->pager->notFoundPage();
+		} catch (ViewNotFoundException $err) {
+			http_response_code(500);
+			$this->pager->viewNotFoundPage($err->viewName);
 		}
 	}
 }

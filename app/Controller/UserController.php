@@ -23,13 +23,15 @@ class UserController {
 		$request = &$this->request;
 		$response = &$this->response;
 
-		$arr = [
-			'key' => 'buzz',
-			'value' => 'wow',
-			'reasone' => 'none',
-		];
+		$arr = [];
 
-		$response->setPayload("array", $arr);
+		$arr['id'] = filter_var($this->args['id'], FILTER_VALIDATE_INT);
+		$arr['name'] = filter_var($this->args['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+		$arr['apiKey'] = $request->getInput('get', 'apiKey');
+
+		/* Json Response for API Showcase */
+		$response->setPayload($arr);
 		$response->dispatchJsonPayload(true);
+		return;
 	}
 }

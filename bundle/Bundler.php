@@ -7,6 +7,8 @@ use Dhruv125\Coretex\Exceptions\PageNotFoundException;
 use Dhruv125\Coretex\Exceptions\ViewNotFoundException;
 use Dhruv125\Coretex\Pager;
 
+use App\Http\Kernel;
+
 class Bundler {
 	private $pager;
 	public function __construct() {
@@ -37,7 +39,8 @@ class Bundler {
 
 	public function bundle() {
 		try {
-			require_once(__DIR__ . "/Routes.php");
+			$kernel = new Kernel();
+			$kernel->handle();
 		} catch (PageNotFoundException $err) {
 			http_response_code(404);
 			$this->pager->notFoundPage();

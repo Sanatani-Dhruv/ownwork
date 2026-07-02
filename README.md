@@ -32,6 +32,8 @@ ownwork
    ├── app
    │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
+   │   ├── Http # Your Controllers directory
+   │   │   └── Kernel.php # Main module running your Organising Routes, Middlewares, responses, etc.
    │   └── Model # Your Models directory
    │       └── UserModel.php
    ├── bundle # Files Which run when starting ownwork, like loading dotenv, etc
@@ -67,7 +69,36 @@ ownwork
    │   ├── views # Your Views directory
    │   └── views.json # Contains mapping of template files to their compiled form
    ├── vendor # Application dependecies and autoloader directory
-   │   └── autoload.php # Include this to autoload files
+   │   ├── autoload.php # Include this to autoload files
+   │   ├── other_dependencies...
+   │   └── dhruv125
+   │         └── coretex # Main Coretex module, installed upon 'composer run setup'.
+   │           ├── composer.json
+   │           ├── composer.lock
+   │           └── src
+   │               ├── ConsoleHelper.php # Command Line Helper
+   │               ├── Environment # Setting Environment like Loading .env
+   │               │   ├── DotEnvironment.php
+   │               │   └── Environment.php
+   │               ├── Exceptions # Exceptions used by framework and coretex itself.
+   │               │   ├── InternalErrorException.php
+   │               │   ├── PageNotFoundException.php
+   │               │   ├── ViewJsonNotFoundException.php
+   │               │   └── ViewNotFoundException.php
+   │               ├── Handler
+   │               │   └── GlobalErrorHandler.php # If Error Goes unhandled, this handles it.
+   │               ├── Helper.php 
+   │               ├── Pager.php # Contain Methods to display error pages
+   │               ├── Router # Route Related Files
+   │               │   ├── Route.php
+   │               │   └── RouteResolver.php
+   │               ├── Support # Request, Response Objects
+   │               │   ├── Request.php
+   │               │   └── Response.php
+   │               ├── Templater # Templating Engine for '.temp.php' files
+   │               │   └── Template.php
+   │               └── Viewer # View related operations, like displaying and fetching transpiled views
+   │                   └── View.php
    └── worker # Your Command Line Manager
 ```
 

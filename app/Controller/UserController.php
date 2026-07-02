@@ -31,7 +31,7 @@ class UserController {
 		$arr['apiKey']  = (is_string($arr['apiKey']) && $arr['apiKey'] !== "") ? $arr['apiKey'] : null;
 
 		/* Json Response for API Showcase */
-		$response->setHeader('X-Api-Key', $arr['apiKey']);
+		$response->setHeader('X-Api-Key', $arr['apiKey'] ?? "");
 		$response->json($arr);
 		$response->dispatch();
 		return;

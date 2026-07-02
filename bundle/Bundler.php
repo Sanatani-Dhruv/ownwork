@@ -5,7 +5,6 @@ use Dhruv125\Coretex\Environment\Environment;
 use Dhruv125\Coretex\Handler\GlobalErrorHandler;
 use Dhruv125\Coretex\Exceptions\PageNotFoundException;
 use Dhruv125\Coretex\Exceptions\ViewNotFoundException;
-use Dhruv125\Coretex\Pager;
 
 use App\Http\Kernel;
 
@@ -27,9 +26,6 @@ class Bundler {
 			die();
 		}
 
-		// Initialize Error Displayer
-		$this->pager = new Pager();
-
 		// Loading .env file from Root Directory
 		$environment = new Environment();
 		$errorLevel = $environment->setenv();
@@ -38,15 +34,7 @@ class Bundler {
 	}
 
 	public function bundle() {
-		try {
-			$kernel = new Kernel();
-			$kernel->handle();
-		} catch (PageNotFoundException $err) {
-			http_response_code(404);
-			$this->pager->notFoundPage();
-		} catch (ViewNotFoundException $err) {
-			http_response_code(500);
-			$this->pager->viewNotFoundPage($err->viewName);
-		}
+		$kernel = new Kernel();
+		$kernel->handle();
 	}
 }

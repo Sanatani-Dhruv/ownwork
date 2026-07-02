@@ -4,9 +4,12 @@ namespace App\Http;
 
 use Dhruv125\Coretex\Router\Route;
 use Dhruv125\Coretex\Router\RouteResolver;
+use Dhruv125\Coretex\Pager;
 
 use Dhruv125\Coretex\Exceptions\InternalErrorException;
-# More PageNotFoundException ViewJsonNotFoundException ViewNotFoundException
+use Dhruv125\Coretex\Exceptions\PageNotFoundException;
+use Dhruv125\Coretex\Exceptions\ViewNotFoundException;
+use Dhruv125\Coretex\Exceptions\ViewsDotJsonNotFoundException;
 
 use Dhruv125\Coretex\Support\Request;
 use Dhruv125\Coretex\Support\Response;
@@ -22,18 +25,71 @@ class Kernel {
         $this->resolver = new RouteResolver();
         $this->request = new Request();
         $this->response = new Response();
+
+		// Initialize Error Displayer
+		$this->pager = new Pager();
+    }
+
+    private function runMiddlewares(array $middlewares, int $index, array $args, callable $dispatcher) {
+        if (!isset($middlewares[$index])) {
+            return $dispatcher();
+        }
+
+        $middleware = $middlewares[$index];
+
+        $middleware(
+            ...[
+                ...$args,
+                function() use ($middlewares, $index, $args, $dispatcher) {
+                    return $this->runMiddlewares($middlewares, $index + 1, $args, $dispatcher);
+                },
+            ]
+        );
     }
 
     public function handle() {
         try {
             $route = $this->route;
-            require_once(approot() . "/bundle/Routes.php");
-            $result = $route->end();
-            pre($result);
+            $resolver = $this->resolver;
 
-			// $route->runMiddleware($request, $handler, $keyPair);
-            //
-        } catch (Exception $err) {
+            /* Registering Routes */
+            require_once(approot() . "/bundle/Routes.php");
+            /* Getting Match for Url and it's handlers */
+            $result = $route->end();
+
+            /* Local Storage */
+            $middlewares = $result['middlewares'] ?? [];
+            $params = $result['params'] ?? [];
+
+            /* Middleware will run this if all middleware ran $next() method */
+            $dispatcher = function () use ($result, $resolver) {
+                $handler = $result['handler'] ?? null;
+                $params = $result['params'] ?? [];
+                if ($handler === null) {
+                    throw new PageNotFoundException("Page Not Found");
+                }
+                /* Calling Resolver after all */
+                return $resolver->resolve($handler, $params);
+            };
+
+            $finalResponse = $this->runMiddlewares($middlewares, 0, [
+                $this->request,
+                $this->response,
+                $params,
+            ],
+            $dispatcher);
+
+            if ($finalResponse) {
+                $this->response->setBody($finalResponse);
+                $this->response->dispatch();
+            }
+
+		} catch (PageNotFoundException $err) {
+			http_response_code(404);
+			$this->pager->notFoundPage();
+		} catch (ViewNotFoundException $err) {
+			http_response_code(500);
+			$this->pager->viewNotFoundPage($err->viewName);
         }
     }
 }

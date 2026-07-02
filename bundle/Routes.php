@@ -6,10 +6,16 @@ use App\Controller\UserController;
 
 $route->get("/", "main.temp.php");
 
+$route->middleware('get', '/', function($req, $res, $params, $next,) {
+	echo "Logging  for '{$req->currentUrl}'";
+	$next();
+});
+
+$route->middleware('get', '/', function($req, $res, $params, $next,) {
+	// $res;
+	$next();
+});
+
 $route->get("/id/{id}/{name}", [
 	UserController::class , 'index'
 ]);
-
-$route->middleware("get", "/id/{id}/{name}", function($currentUrl) {
-	// print_r($currentUrl);
-});

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "dhruv125/coretex",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sanatani-Dhruv/coretex.git",
-                "reference": "4b2384de39ac8e6a22f0693b69178703d71ed00a"
+                "reference": "d47b553a16699b1c8b49b9d631050203bd0404df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sanatani-Dhruv/coretex/zipball/4b2384de39ac8e6a22f0693b69178703d71ed00a",
-                "reference": "4b2384de39ac8e6a22f0693b69178703d71ed00a",
+                "url": "https://api.github.com/repos/Sanatani-Dhruv/coretex/zipball/d47b553a16699b1c8b49b9d631050203bd0404df",
+                "reference": "d47b553a16699b1c8b49b9d631050203bd0404df",
                 "shasum": ""
             },
             "type": "library",
@@ -38,9 +38,9 @@
             "description": "Only core package you need to get started with ownwork framework.",
             "support": {
                 "issues": "https://github.com/Sanatani-Dhruv/coretex/issues",
-                "source": "https://github.com/Sanatani-Dhruv/coretex/tree/v1.0.2"
+                "source": "https://github.com/Sanatani-Dhruv/coretex/tree/v1.0.3"
             },
-            "time": "2026-06-30T06:21:15+00:00"
+            "time": "2026-07-02T11:47:13+00:00"
         }
     ],
     "packages-dev": [],

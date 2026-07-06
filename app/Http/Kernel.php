@@ -19,6 +19,7 @@ class Kernel {
     private RouteResolver $resolver;
     private Request $request;
     private Response $response;
+    private Pager $pager;
 
     public function __construct() {
         $this->route = new Route();

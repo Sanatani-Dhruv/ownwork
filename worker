@@ -41,18 +41,21 @@ function help() {
 // echo "\n";
 $dirArray = [
 	'controller' => __DIR__ . "/app/Controller/",
+	'service' => __DIR__ . "/app/Service/",
 	'view' => __DIR__ . "/resources/views/",
 	'model' => __DIR__ . "/app/Model/"
 ];
 
 $baseDirArray = [
 	'controller' => "app/Controller/",
+	'service' => "app/Service/",
 	'view' => "resources/views/",
 	'model' => "app/Model/"
 ];
 
 $baseFileArray = [
 	'controller' => __DIR__ . "/resources/template/Controller.php",
+	'service' => __DIR__ . "/resources/template/Service.php",
 	'view' => __DIR__ . "/resources/template/View.php",
 	'model' => __DIR__ . "/resources/template/Model.php"
 ];
@@ -64,7 +67,7 @@ $validFirstArg = false;
 
 foreach ($dirArray as $key => $value) {
 	if (!is_dir($value)) {
-		mkdir($value, 0664);
+		mkdir($value, 0755);
 	}
 }
 
@@ -74,12 +77,9 @@ if ($firstArg && $firstArg == "make") {
 		$dirName = strtolower($argv[2]);
 		switch ($dirName) {
 		case 'controller':
-			compCreate($array_list, $dirName);
-			break;
 		case 'model':
-			compCreate($array_list, $dirName);
-			break;
 		case 'view':
+		case 'service':
 			compCreate($array_list, $dirName);
 			break;
 		default:

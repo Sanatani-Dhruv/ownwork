@@ -87,7 +87,7 @@ ownwork
    │               │   └── ViewNotFoundException.php
    │               ├── Handler
    │               │   └── GlobalErrorHandler.php # If Error Goes unhandled, this handles it.
-   │               ├── Helper.php 
+   │               ├── Helper.php
    │               ├── Pager.php # Contain Methods to display error pages
    │               ├── Router # Route Related Files
    │               │   ├── Route.php

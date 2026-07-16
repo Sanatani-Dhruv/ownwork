@@ -38,7 +38,7 @@ class Kernel {
 
         $middleware = $middlewares[$index];
 
-        $middleware(
+        return $middleware(
             ...[
                 ...$args,
                 function() use ($middlewares, $index, $args, $dispatcher) {
@@ -66,7 +66,7 @@ class Kernel {
             $dispatcher = function () use ($result, $resolver) {
                 $handler = $result['handler'] ?? null;
                 $params = $result['params'] ?? [];
-                $currentRoute = $result['currentRoute'] ?? "/";
+                $currentRoute = $result['currentRoute'] ?? null;
                 if ($handler === null) {
                     throw new PageNotFoundException("Page Not Found");
                 }
@@ -95,9 +95,13 @@ class Kernel {
             ],
             $dispatcher);
 
-            if ($finalResponse) {
+            if (is_string($finalResponse)) {
                 $this->response->setBody($finalResponse);
                 $this->response->dispatch();
+            }
+
+            if (is_object($finalResponse) && get_class($finalResponse) === Response::class) {
+                $finalResponse->dispatch();
             }
 
 		} catch (PageNotFoundException $err) {

@@ -6,10 +6,13 @@ use App\Controller\UserController;
 
 $route->get("/", "main.temp.php");
 
-// $route->middleware('get', '/', function($req, $res, $params, $next,) {
-// $res;
-// 	$next();
-// });
+$route->globalMiddleware(function($request, $response, $currentRoute, $params, $next) {
+	$next();
+});
+
+$route->globalMiddleware(function($request, $response, $currentRoute, $params, $next) {
+	$next();
+});
 
 $route->get("/id/{id}/{name}", [
 	UserController::class , 'index'

@@ -66,16 +66,31 @@ class Kernel {
             $dispatcher = function () use ($result, $resolver) {
                 $handler = $result['handler'] ?? null;
                 $params = $result['params'] ?? [];
+                $currentRoute = $result['currentRoute'] ?? "/";
                 if ($handler === null) {
                     throw new PageNotFoundException("Page Not Found");
                 }
                 /* Calling Resolver after all */
-                return $resolver->resolve($handler, $params);
+                return $resolver->resolve($handler, $currentRoute, $params);
             };
+
+            $globalMiddleware = array_reverse($this->route->getGlobalMiddleware());
+
+            foreach($globalMiddleware as $middleware) {
+                if (array_key_exists('class', $middleware)) {
+                    [ 'class' => $className, 'method' => $methodName, 'params' => $params ] = $middleware;
+                    $middlewareObject =  new $className();
+                    $handler = $middlewareObject->{$methodName};
+                } else {
+                    [ 'handler' => $handler, 'params' => $params ] = $middleware;
+                }
+                array_unshift($middlewares, $handler);
+            }
 
             $finalResponse = $this->runMiddlewares($middlewares, 0, [
                 $this->request,
                 $this->response,
+                $result['currentRoute'] ?? null,
                 $params,
             ],
             $dispatcher);

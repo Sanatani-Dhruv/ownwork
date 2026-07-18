@@ -80,7 +80,7 @@ class Kernel {
                 if (array_key_exists('class', $middleware)) {
                     [ 'class' => $className, 'method' => $methodName, 'params' => $params ] = $middleware;
                     $middlewareObject =  new $className();
-                    $handler = $middlewareObject->{$methodName};
+                    $handler = [$middlewareObject, $methodName];
                 } else {
                     [ 'handler' => $handler, 'params' => $params ] = $middleware;
                 }

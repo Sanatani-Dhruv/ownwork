@@ -17,3 +17,7 @@ $route->globalMiddleware(function($request, $response, $currentRoute, $params, $
 $route->get("/id/{id}/{name}", [
 	UserController::class , 'index'
 ]);
+
+$route->globalMiddleware([
+	\App\Middleware\RateLimiter::class, 'handle'
+]);

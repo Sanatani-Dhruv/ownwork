@@ -21,6 +21,8 @@ function help() {
 	$printer->print("make", 'green', '', true, false);
 	echo " - Making Components, it's arguments:\n";
 	$printer->print("    > controller - Make Controller File", 'green', '', true);
+	$printer->print("    > middleware - Make Middleware Class File", 'green', '', true);
+	$printer->print("    > service - Make Service Class File", 'green', '', true);
 	$printer->print("    > model - Make Model File", 'green', '', true);
 	$printer->print("    > view - Make View File", 'green', '', true);
 	$printer->print("\nserve", 'green', '', true, false);
@@ -41,6 +43,7 @@ function help() {
 // echo "\n";
 $dirArray = [
 	'controller' => __DIR__ . "/app/Controller/",
+	'middleware' => __DIR__ . "/app/Middleware/",
 	'service' => __DIR__ . "/app/Service/",
 	'view' => __DIR__ . "/resources/views/",
 	'model' => __DIR__ . "/app/Model/"
@@ -48,6 +51,7 @@ $dirArray = [
 
 $baseDirArray = [
 	'controller' => "app/Controller/",
+	'middleware' => "app/Middleware/",
 	'service' => "app/Service/",
 	'view' => "resources/views/",
 	'model' => "app/Model/"
@@ -55,6 +59,7 @@ $baseDirArray = [
 
 $baseFileArray = [
 	'controller' => __DIR__ . "/resources/template/Controller.php",
+	'middleware' => __DIR__ . "/resources/template/Middleware.php",
 	'service' => __DIR__ . "/resources/template/Service.php",
 	'view' => __DIR__ . "/resources/template/View.php",
 	'model' => __DIR__ . "/resources/template/Model.php"
@@ -77,6 +82,7 @@ if ($firstArg && $firstArg == "make") {
 		$dirName = strtolower($argv[2]);
 		switch ($dirName) {
 		case 'controller':
+		case 'middleware':
 		case 'model':
 		case 'view':
 		case 'service':

@@ -33,7 +33,7 @@ class Kernel {
 
     private function runMiddlewares(array $middlewares, int $index, array $args, callable $dispatcher) {
         if (!isset($middlewares[$index])) {
-            return $dispatcher();
+            return $dispatcher(...$args);
         }
 
         $middleware = $middlewares[$index];
@@ -41,7 +41,7 @@ class Kernel {
         return $middleware(
             ...[
                 ...$args,
-                function() use ($middlewares, $index, $args, $dispatcher) {
+                function() use ($middlewares, $index, &$args, $dispatcher) {
                     return $this->runMiddlewares($middlewares, $index + 1, $args, $dispatcher);
                 },
             ]
@@ -63,15 +63,15 @@ class Kernel {
             $params = $result['params'] ?? [];
 
             /* Middleware will run this if all middleware ran $next() method */
-            $dispatcher = function () use ($result, $resolver) {
+            $dispatcher = function ($request, $response, $currentRoute, $params) use ($result, $resolver) {
                 $handler = $result['handler'] ?? null;
-                $params = $result['params'] ?? [];
                 $currentRoute = $result['currentRoute'] ?? null;
+                $dynamicParams = $result['params'] ?? [];
                 if ($handler === null) {
                     throw new PageNotFoundException("Page Not Found");
                 }
                 /* Calling Resolver after all */
-                return $resolver->resolve($handler, $currentRoute, $params);
+                return $resolver->resolve($handler, $request, $response, $currentRoute, $dynamicParams);
             };
 
             $globalMiddleware = array_reverse($this->route->getGlobalMiddleware());
@@ -79,8 +79,7 @@ class Kernel {
             foreach($globalMiddleware as $middleware) {
                 if (array_key_exists('class', $middleware)) {
                     [ 'class' => $className, 'method' => $methodName, 'params' => $params ] = $middleware;
-                    $middlewareObject =  new $className();
-                    $handler = [$middlewareObject, $methodName];
+                    $handler = [$className, $methodName];
                 } else {
                     [ 'handler' => $handler, 'params' => $params ] = $middleware;
                 }

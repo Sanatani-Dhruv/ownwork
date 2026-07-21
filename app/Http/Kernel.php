@@ -60,37 +60,36 @@ class Kernel {
 
             /* Local Storage */
             $middlewares = $result['middlewares'] ?? [];
-            $params = $result['params'] ?? [];
+            $dynamicParams = $result['params'] ?? [];
 
             /* Middleware will run this if all middleware ran $next() method */
-            $dispatcher = function ($request, $response, $currentRoute, $params) use ($result, $resolver) {
+            $dispatcher = function ($request, $response) use ($result, $resolver) {
                 $handler = $result['handler'] ?? null;
-                $currentRoute = $result['currentRoute'] ?? null;
                 $dynamicParams = $result['params'] ?? [];
                 if ($handler === null) {
                     throw new PageNotFoundException("Page Not Found");
                 }
                 /* Calling Resolver after all */
-                return $resolver->resolve($handler, $request, $response, $currentRoute, $dynamicParams);
+                return $resolver->resolve($handler, $request, $response);
             };
 
             $globalMiddleware = array_reverse($this->route->getGlobalMiddleware());
 
             foreach($globalMiddleware as $middleware) {
                 if (array_key_exists('class', $middleware)) {
-                    [ 'class' => $className, 'method' => $methodName, 'params' => $params ] = $middleware;
+                    [ 'class' => $className, 'method' => $methodName ] = $middleware;
                     $handler = [$className, $methodName];
                 } else {
-                    [ 'handler' => $handler, 'params' => $params ] = $middleware;
+                    [ 'handler' => $handler ] = $middleware;
                 }
                 array_unshift($middlewares, $handler);
             }
+            $this->request->setAttribute('currentRoute', $result['currentRoute'] ?? '/');
+            $this->request->setAttribute('dynamicParams', $dynamicParams);
 
             $finalResponse = $this->runMiddlewares($middlewares, 0, [
                 $this->request,
                 $this->response,
-                $result['currentRoute'] ?? null,
-                $params,
             ],
             $dispatcher);
 

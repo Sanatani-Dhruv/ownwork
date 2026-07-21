@@ -6,11 +6,11 @@ use App\Controller\UserController;
 
 $route->get("/", "main.temp.php");
 
-$route->globalMiddleware(function($request, $response, $currentRoute, $params, $next) {
+$route->globalMiddleware(function($request, $response, $next) {
 	$next();
 });
 
-$route->globalMiddleware(function($request, $response, $currentRoute, $params, $next) {
+$route->globalMiddleware(function($request, $response, $next) {
 	$next();
 });
 

@@ -12,7 +12,7 @@ class DEFAULT_NAME {
 		// Default Service
 	}
 
-	public function index(Request $request = new Request(), Response $response = new Response()) {
+	public static function index(Request $request, Response $response) {
 
 	}
 }

@@ -7,11 +7,11 @@ use App\Controller\UserController;
 $route->get("/", "main.temp.php");
 
 $route->globalMiddleware(function($request, $response, $next) {
-	$next();
+	return $next();
 });
 
 $route->globalMiddleware(function($request, $response, $next) {
-	$next();
+	return $next();
 });
 
 $route->get("/id/{id}/{name}", [

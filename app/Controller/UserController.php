@@ -12,16 +12,12 @@ class UserController {
 	private Request $request;
 	private Response $response;
 
-	function __construct($dv) {
-		$this->args = $dv;
-		$this->request = new Request();
-		$this->response = new Response();
+	function __construct() {
 		// Default Controller
 	}
 
-	public function index() {
-		$request = &$this->request;
-		$response = &$this->response;
+	public function index(Request $request, Response $response) {
+		$this->args = $request->getAttribute('dynamicParams');
 
 		$arr = [];
 
@@ -33,7 +29,6 @@ class UserController {
 		/* Json Response for API Showcase */
 		$response->setHeader('X-Api-Key', $arr['apiKey'] ?? "");
 		$response->json($arr);
-		$response->dispatch();
-		return;
+		return $response;
 	}
 }

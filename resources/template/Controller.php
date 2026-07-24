@@ -14,13 +14,10 @@ class DEFAULT_NAME {
 
 	function __construct($dv) {
 		$this->args = $dv;
-		$this->request = new Request();
-		$this->response = new Response();
 		// Default Controller
 	}
 
-	public function index() {
-		$request = &$this->request;
-		$response = &$this->response;
+	public function index(Request $request, Response $response) {
+
 	}
 }

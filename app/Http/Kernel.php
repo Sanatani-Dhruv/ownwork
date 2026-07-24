@@ -22,10 +22,10 @@ class Kernel {
     private Pager $pager;
 
     public function __construct() {
-        $this->route = new Route();
-        $this->resolver = new RouteResolver();
         $this->request = new Request();
         $this->response = new Response();
+        $this->route = new Route($this->request, $this->response);
+        $this->resolver = new RouteResolver();
 
 		// Initialize Error Displayer
 		$this->pager = new Pager();

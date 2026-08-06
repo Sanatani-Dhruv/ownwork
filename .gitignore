@@ -4,5 +4,7 @@ doc
 storage/
 node_modules/
 public/build/
+public/dist/
+*doc/
 !public/build/tailwind.default.css
 build/

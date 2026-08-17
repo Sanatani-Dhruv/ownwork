@@ -4,15 +4,10 @@
     "tailwindcss": "^4.2.2"
   },
   "scripts": {
-    "dev": "npx concurrently --names=\"OwnWork,Tailwind,Transpiler,EsBuild\" --prefix-colors=\"blue,red,green,cyan\" \"php -S localhost:8000 --docroot='public/'\" \"npm run tw:dev\" \"./worker transpile\" \"npm run watch\"",
-    "tw:dev": "tailwindcss -i ./resources/css/tailwind.css -o ./public/build/output.css --watch",
-    "watch": "esbuild --watch resources/js/app.js --bundle --outfile=public/dist/app.js",
-    "js:build": "esbuild  resources/js/app.js --bundle --minify --outfile=public/dist/app.js",
-    "tw:build": "npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --minify",
-    "build": "npx concurrently --names=\"Tailwind,Transpiler,EsBuild\" --prefix-colors=\"red,green\" \"npm run tw:build\" \"php worker transpile build\" \"npm run js:build\""
+    "dev": "npx concurrently --names=\"OwnWork,Tailwind,Transpiler\" --prefix-colors=\"blue,red,green\" \"php -S localhost:8000 --docroot='public/'\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --watch\" \"./worker transpile\"",
+    "build": "npx concurrently --names=\"Tailwind,Transpiler\" --prefix-colors=\"red,green\" \"npx @tailwindcss/cli -i ./resources/css/tailwind.css -o ./public/build/output.css --minify\" \"php worker transpile build\""
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "esbuild": "^0.28.1"
+    "concurrently": "^9.2.1"
   }
 }

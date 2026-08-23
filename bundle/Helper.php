@@ -28,8 +28,7 @@ function out(string $data) {
   return htmlspecialchars($data);
 }
 
-function env($data, bool $get = true, bool $specialChars = true) {
-  $data = ($specialChars) ? htmlspecialchars($data) : $data;
+function env($data, bool $get = true) {
   return ($get) ? getenv($data) : putenv($data);
 }
 
@@ -59,9 +58,19 @@ function comp(string $name, array $args = [], string $dir = "") {
 }
 
 function url(string $action) {
-  $_SERVER['PATH_INFO'] = (!isset($_SERVER['PATH_INFO']) ? '/' : $_SERVER['PATH_INFO']);
   if ($action == 'get') {
-    return $_SERVER['PATH_INFO'];
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    return $path;
+  }
+
+  if ($action == 'rootBase') {
+    if(true) {
+      $proto = 'https';
+    } else {
+      $proto = 'http';
+    }
+    $path = $proto . "://" . $_SERVER['HTTP_HOST'];
+    return $path;
   }
 
   if ($action == 'getFull') {
@@ -79,7 +88,7 @@ function pre($content) {
 function get_db_instance() {
   if (file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDataSource.php") && file_exists(__DIR__ . "/../vendor/delight-im/db/src/PdoDatabase.php")) {
     if (env("DB_DRIVER") == "sql") {
-      $dataSource = new \Delight\Db\PdoDataSource(PDO_SQLITE); // see "Available drivers for database systems" below
+      $dataSource = new \Delight\Db\PdoDataSource('mysql'); // see "Available drivers for database systems" below
       $dataSource->setHostname(env('DB_HOST'));
       $dataSource->setPort(3306);
       $dataSource->setDatabaseName(env('DB_NAME'));
@@ -107,4 +116,40 @@ function get_db_instance() {
       return $DB;
     }
   }
+}
+
+function clean(string $value) {
+  return (trim($value) != "" ? trim($value) : null);
+}
+
+function isArrElemEmpty(array $arr): bool {
+  foreach($arr as $value) {
+    if (!$value) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function separateEmptyElements(array $arr): array {
+  $emptyArr = array();
+  $fullArr = array();
+  foreach($arr as $key => $value) {
+    if (!$value) {
+      $emptyArr[] = $key;
+    } else {
+      $fullArr[$key] = $value;
+    }
+  }
+  return [$fullArr, $emptyArr];
+}
+
+function printArr(array $arr) {
+  echo "<pre>";
+  print_r($arr);
+  echo "</pre>";
+}
+
+function isUrl(string $url, string $action = 'get') {
+  return url($action) === $url;
 }

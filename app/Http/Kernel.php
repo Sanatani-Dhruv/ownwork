@@ -86,7 +86,9 @@ class Kernel {
 				}
 				array_unshift($middlewares, $handler);
 			}
+
 			$this->request->setAttribute('currentRoute', $result['currentRoute'] ?? '/');
+			$this->request->setAttribute('routesArray', $result['routesArray'] ?? null);
 			$this->request->setAttribute('dynamicParams', $dynamicParams);
 
 			$finalResponse = $this->runMiddlewares($middlewares, 0, [

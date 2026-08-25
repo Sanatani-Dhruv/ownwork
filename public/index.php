@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+declare(strict_types = 1);
+
 ob_start();
 use Bundle\Bundler;
 

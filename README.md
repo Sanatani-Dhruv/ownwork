@@ -32,10 +32,12 @@ ownwork
    ├── app
    │   ├── Controller # Your Controllers directory
    │   │   └── UserController.php
-   │   ├── Http # Your Controllers directory
-   │   │   └── Kernel.php # Main module running your Organising Routes, Middlewares, responses, etc.
-   │   └── Model # Your Models directory
-   │       └── UserModel.php
+   │   ├── Http # Main application logic containing directory
+   │   │   └── Kernel.php # Main module which is organising your Routes, Middlewares, responses, etc.
+   │   ├── Middleware # User defined middlewares directory
+   │   ├── Model # User defined Models directory
+   │   │   └── UserModel.php
+   │   └── Service # User defined services directory
    ├── bundle # Files Which run when starting ownwork, like loading dotenv, etc
    │   ├── Bundler.php # This File Bundles your App
    │   ├── Helper.php # Global Helper Functions are defined here
@@ -47,7 +49,7 @@ ownwork
    ├── package.json
    ├── public # This Directory will be exposed to User Side, Static Assets should be placed in it
    │   ├── .htaccess # Config file for Apache web server
-   │   ├── build # Will contain build file of Tailwind CSS
+   │   ├── build # Will contain build files
    │   ├── index.php # Entry level file, starting point of App
    │   └── styles
    │       └── tailwind.default.css # Compiled CSS file for default page(don't delete this file)
@@ -61,10 +63,14 @@ ownwork
    │   │   └── styles
    │   │       └── index.css
    │   ├── css
-   │   │   └── tailwind.css # Default tailwind source file
+   │   │   └── tailwind.css # Default tailwind source file (optional)
+   │   ├── js
+   │   │   └── app.js # Default JS File for esbuild library (optional)
    │   ├── template # Default Templates for Component's like controller, view, model
    │   │   ├── Controller.php # Default Controller template
+   │   │   ├── Middleware.php # Default Middleware template
    │   │   ├── Model.php # Default Model template
+   │   │   ├── Service.php # Default Service template
    │   │   └── View.php # Default View template
    │   ├── views # Your Views directory
    │   └── views.json # Contains mapping of template files to their compiled form

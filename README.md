@@ -187,8 +187,7 @@ npm run dev
 
 ### Documentation
 
-> Documentation is incomplete
-- Go through Documentation of OwnWork <a href="https://github.com/Sanatani-Dhruv/ownwork-doc" target="_blank">Here!</a>
+- Go through documentation of OwnWork <a href="https://ownwork-site.pages.dev" target="_blank">Here!</a>
 
 ### Recommended Packages
 

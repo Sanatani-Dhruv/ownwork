@@ -187,7 +187,7 @@ npm run dev
 
 ### Documentation
 
-- Go through documentation of OwnWork <a href="https://ownwork-site.pages.dev" target="_blank">Here!</a>
+- Go through documentation of OwnWork [Here!](https://ownwork-site.pages.dev)
 
 ### Recommended Packages
 
